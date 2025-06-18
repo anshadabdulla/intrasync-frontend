@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from '../api/axios';
+import { jwtDecode } from 'jwt-decode';
+import { getEmployeeById } from '../api/employeeService';
 import '../assets/styles/loginForm.css';
 import illustration from '../assets/images/illustrations.png';
 
@@ -14,12 +15,10 @@ const HomePageForm = () => {
                 const token = localStorage.getItem('token');
                 if (!token) return navigate('/');
 
-                const payload = JSON.parse(atob(token.split('.')[1]));
+                const payload = jwtDecode(token);
                 const userId = payload.userId;
 
-                const res = await axios.get(`/getEmployeeById/${userId}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
+                const res = await getEmployeeById(userId);
 
                 if (res.data.status) {
                     setEmployee(res.data.data);
@@ -41,10 +40,31 @@ const HomePageForm = () => {
                 </div>
                 <div className="login-container">
                     <div className="login-form">
-                        <h2 className="login-title">Welcome, {employee?.name || 'Employee'}!</h2>
-                        <p className="login-subtitle">Employee No: {employee?.employee_no}</p>
-                        <p style={{ textAlign: 'center', marginTop: '20px', color: '#4b5563' }}>Email: {employee?.email}</p>
-                        <button className="login-button" onClick={() => { localStorage.removeItem('token'); navigate('/'); }} style={{ marginTop: '30px' }}>Logout</button>
+                        <h2 className="login-title">
+                            Welcome, {employee?.name || 'Employee'}!
+                        </h2>
+                        <p className="login-subtitle">
+                            Employee No: {employee?.employee_no}
+                        </p>
+                        <p
+                            style={{
+                                textAlign: 'center',
+                                marginTop: '20px',
+                                color: '#4b5563'
+                            }}
+                        >
+                            Email: {employee?.email}
+                        </p>
+                        <button
+                            className="login-button"
+                            onClick={() => {
+                                localStorage.removeItem('token');
+                                navigate('/');
+                            }}
+                            style={{ marginTop: '30px' }}
+                        >
+                            Logout
+                        </button>
                         <p className="login-footer">Powered by Your Company</p>
                     </div>
                 </div>
