@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { login } from '../api/authService';
+import '../assets/styles/loginForm.css';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
@@ -28,29 +29,35 @@ const LoginForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ maxWidth: 400, margin: 'auto', padding: 20 }}>
-            <h2>Login</h2>
-            <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                style={{ display: 'block', width: '100%', marginBottom: 10 }}
-            />
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                style={{ display: 'block', width: '100%', marginBottom: 10 }}
-            />
-            <button type="submit" style={{ width: '100%' }}>
-                Login
-            </button>
-            {message && <p style={{ color: success ? 'green' : 'red' }}>{message}</p>}
-        </form>
+        <div className="login-container">
+            <form onSubmit={handleSubmit} className="login-form">
+                <h2 className="login-title">Welcome Back</h2>
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="login-input"
+                />
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="login-input"
+                />
+                <button type="submit" className="login-button">
+                    Login
+                </button>
+                {message && (
+                    <p className="login-message" style={{ color: success ? 'green' : 'red' }}>
+                        {message}
+                    </p>
+                )}
+            </form>
+        </div>
     );
 };
 
