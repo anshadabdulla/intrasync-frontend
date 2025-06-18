@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { login } from '../api/authService';
 import '../assets/styles/loginForm.css';
 import illustration from '../assets/images/illustrations.png';
@@ -8,6 +9,8 @@ const LoginForm = () => {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [success, setSuccess] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -60,7 +63,7 @@ const LoginForm = () => {
                             <button
                                 type="button"
                                 className="link-button"
-                                onClick={() => alert('Forgot Password logic here')}
+                                onClick={() => navigate('/forgot-password')}
                             >
                                 Forgot Password?
                             </button>
