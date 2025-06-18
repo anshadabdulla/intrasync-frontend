@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { forgotPassword } from '../api/authService';
+import { useNavigate } from 'react-router-dom';
 import '../assets/styles/forgotPasswordForm.css';
 import illustration from '../assets/images/illustrations.png';
 
@@ -7,6 +8,7 @@ const ForgotPasswordForm = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [success, setSuccess] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -45,6 +47,13 @@ const ForgotPasswordForm = () => {
                         />
                         <button type="submit" className="forgot-button">
                             Send Reset Link
+                        </button>
+                        <button
+                            type="button"
+                            className="back-button"
+                            onClick={() => navigate('/')}
+                        >
+                            &larr; Back to Login
                         </button>
                         <p className="forgot-message" style={{ color: success ? 'green' : 'red' }}>
                             {message}
