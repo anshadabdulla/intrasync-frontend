@@ -22,6 +22,9 @@ const LoginForm = () => {
                 localStorage.setItem('token', res.data.token);
                 setSuccess(true);
                 setMessage('Login successful!');
+                setTimeout(() => {
+                    navigate('/home');
+                }, 1000);
             } else {
                 setMessage(res.data.errors?.[0] || 'Login failed.');
             }
@@ -60,11 +63,7 @@ const LoginForm = () => {
                             <label>
                                 <input type="checkbox" /> Remember me
                             </label>
-                            <button
-                                type="button"
-                                className="link-button"
-                                onClick={() => navigate('/forgot-password')}
-                            >
+                            <button type="button" className="link-button" onClick={() => navigate('/forgot-password')}>
                                 Forgot Password?
                             </button>
                         </div>
