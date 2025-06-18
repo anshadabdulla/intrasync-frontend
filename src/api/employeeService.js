@@ -8,3 +8,12 @@ export const getEmployeeById = async (id) => {
         }
     });
 };
+
+export const logout = async () => {
+    const token = localStorage.getItem('token');
+    return axios.post('/logout', {}, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+};

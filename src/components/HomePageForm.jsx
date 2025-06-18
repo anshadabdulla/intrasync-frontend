@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import { getEmployeeById } from '../api/employeeService';
+import { getEmployeeById, logout } from '../api/employeeService';
 import '../assets/styles/loginForm.css';
 import illustration from '../assets/images/illustrations.png';
 
@@ -40,12 +40,8 @@ const HomePageForm = () => {
                 </div>
                 <div className="login-container">
                     <div className="login-form">
-                        <h2 className="login-title">
-                            Welcome, {employee?.name || 'Employee'}!
-                        </h2>
-                        <p className="login-subtitle">
-                            Employee No: {employee?.employee_no}
-                        </p>
+                        <h2 className="login-title">Welcome, {employee?.name || 'Employee'}!</h2>
+                        <p className="login-subtitle">Employee No: {employee?.employee_no}</p>
                         <p
                             style={{
                                 textAlign: 'center',
@@ -57,9 +53,15 @@ const HomePageForm = () => {
                         </p>
                         <button
                             className="login-button"
-                            onClick={() => {
-                                localStorage.removeItem('token');
-                                navigate('/');
+                            onClick={async () => {
+                                try {
+                                    await logout();
+                                } catch (err) {
+                                    console.error('Logout failed:', err);
+                                } finally {
+                                    localStorage.removeItem('token');
+                                    navigate('/');
+                                }
                             }}
                             style={{ marginTop: '30px' }}
                         >
