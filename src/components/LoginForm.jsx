@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from '../api/axios';
+import { login } from '../api/authService';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
@@ -13,7 +13,7 @@ const LoginForm = () => {
         setSuccess(false);
 
         try {
-            const res = await axios.post('/login', { email, password });
+            const res = await login(email, password);
 
             if (res.data.status) {
                 localStorage.setItem('token', res.data.token);
