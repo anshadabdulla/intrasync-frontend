@@ -48,11 +48,7 @@ const ForgotPasswordForm = () => {
                         <button type="submit" className="forgot-button">
                             Send Reset Link
                         </button>
-                        <button
-                            type="button"
-                            className="back-button"
-                            onClick={() => navigate('/')}
-                        >
+                        <button type="button" className="back-button" onClick={() => navigate('/')}>
                             &larr; Back to Login
                         </button>
                         <p className="forgot-message" style={{ color: success ? 'green' : 'red' }}>
