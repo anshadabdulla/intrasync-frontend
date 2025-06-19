@@ -4,7 +4,6 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
     const [open, setOpen] = useState(false);
     const menuRef = useRef();
 
-    // Close dropdown on outside click
     useEffect(() => {
         const handleClick = (e) => {
             if (menuRef.current && !menuRef.current.contains(e.target)) setOpen(false);
@@ -13,6 +12,25 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
         return () => document.removeEventListener('mousedown', handleClick);
     }, []);
 
+    const renderAvatar = () =>
+        employee?.photoUrl && employee.photoUrl.trim() !== '' ? (
+            <img
+                src={employee.photoUrl}
+                alt="Profile"
+                style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: '50%',
+                    objectFit: 'cover',
+                    background: '#f3f6fa',
+                    border: '2px solid #e0e7ef',
+                    marginRight: 8
+                }}
+            />
+        ) : (
+            <span style={{ fontSize: 28, marginRight: 8 }}>👤</span>
+        );
+
     return (
         <div className="dashboard-header">
             <div className="welcome-msg">
@@ -20,16 +38,12 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
                 <p>{employee?.designation ? employee.designation : ''}</p>
             </div>
             <div className="nav-actions">
-                {/* Example nav buttons, adjust as needed */}
                 <button className="nav-btn active">Dashboard</button>
                 <button className="nav-btn">Welcome</button>
                 <button className="nav-btn">Calendar</button>
-                {/* Profile Dropdown */}
                 <div className="profile-menu" ref={menuRef}>
                     <button className="profile-btn" onClick={() => setOpen((v) => !v)}>
-                        <span className="profile-avatar">
-                            <i className="fa fa-user-circle" style={{ fontSize: 28 }} />
-                        </span>
+                        <span className="profile-avatar">{renderAvatar()}</span>
                         <span className="profile-name">
                             {employee?.name}
                             <span className="profile-role">{employee?.designation}</span>
@@ -44,7 +58,7 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
                                     onResetPassword();
                                 }}
                             >
-                                <i className="fa fa-key" /> Reset Password
+                                Reset Password
                             </button>
                             <button
                                 onClick={() => {
@@ -52,7 +66,7 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
                                     onLogout();
                                 }}
                             >
-                                <i className="fa fa-sign-out" /> Logout
+                                Logout
                             </button>
                         </div>
                     )}
