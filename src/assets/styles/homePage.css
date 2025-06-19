@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
-/* CSS Variables for easy theming */
 :root {
     --primary-bg: #003c78;
     --primary-bg-light: #174e8c;
@@ -9,7 +8,6 @@
     --secondary-bg: #f4f6fc;
     --dashboard-bg: #f9fafb;
     --card-gradient: linear-gradient(135deg, #e0f2fe, #ffffff);
-    --card-hover-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     --sidebar-width: 80px;
     --sidebar-width-open: 240px;
     --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -19,6 +17,8 @@
     --btn-bg-hover: #0f766e;
     --logout-bg: #ef4444;
     --logout-bg-hover: #dc2626;
+    --gap: 24px;
+    --gap-sm: 14px;
 }
 
 body {
@@ -32,12 +32,13 @@ body {
 .layout-container {
     display: flex;
     min-height: 100vh;
+    background: var(--secondary-bg);
 }
 
-/* Sidebar Styling */
+/* Sidebar */
 .sidebar {
     width: var(--sidebar-width);
-    background-color: var(--primary-bg);
+    background: var(--primary-bg);
     color: #fff;
     min-height: 100vh;
     transition: width var(--transition);
@@ -47,6 +48,7 @@ body {
     flex-direction: column;
     align-items: center;
     z-index: 100;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.04);
 }
 
 .sidebar.open {
@@ -57,7 +59,7 @@ body {
 .sidebar-logo {
     font-size: 26px;
     font-weight: bold;
-    padding: 20px;
+    padding: 24px 0 12px 0;
     width: 100%;
     text-align: center;
     letter-spacing: 1px;
@@ -65,15 +67,15 @@ body {
 
 .sidebar-toggle {
     position: absolute;
-    top: 20px;
+    top: 24px;
     right: -15px;
-    background-color: #fff;
+    background: #fff;
     color: #333;
     border-radius: 50%;
     padding: 4px 6px;
     border: none;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
     transition: transform var(--transition);
     z-index: 10;
@@ -89,29 +91,29 @@ body {
 .sidebar-item {
     display: flex;
     align-items: center;
-    padding: 12px 20px;
+    padding: 14px 24px;
     cursor: pointer;
     color: #cbd5e1;
     transition: background-color 0.2s, color 0.2s;
-    font-size: 14px;
+    font-size: 15px;
     white-space: nowrap;
     border-left: 3px solid transparent;
+    gap: var(--gap-sm);
 }
 
 .sidebar-item:hover,
 .sidebar-item.active {
-    background-color: var(--primary-bg-light);
+    background: var(--primary-bg-light);
     border-left: 3px solid var(--primary-accent);
     color: #fff;
 }
 
 .sidebar-icon {
-    margin-right: 14px;
-    font-size: 18px;
-    display: inline-flex;
+    font-size: 20px;
+    width: 28px;
+    display: flex;
     justify-content: center;
     align-items: center;
-    width: 24px;
 }
 
 .sidebar-text {
@@ -123,46 +125,50 @@ body {
     opacity: 1;
 }
 
+/* Dashboard */
 .dashboard-container {
     flex: 1;
-    padding: 40px 30px;
-    background-color: var(--dashboard-bg);
+    padding: 48px 40px;
+    background: var(--dashboard-bg);
     transition: margin-left var(--transition);
     min-width: 0;
     display: flex;
     flex-direction: column;
+    gap: var(--gap);
 }
 
 .dashboard-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: var(--gap);
+    gap: var(--gap);
     flex-wrap: wrap;
-    gap: 16px;
 }
 
 .welcome-msg h2 {
     margin: 0;
-    font-size: 26px;
+    font-size: 28px;
     color: #111827;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 .welcome-msg p {
-    margin: 6px 0 0;
+    margin: 8px 0 0;
     color: #6b7280;
-    font-size: 15px;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .nav-actions {
     display: flex;
-    gap: 12px;
+    gap: var(--gap-sm);
 }
 
 .nav-btn {
-    padding: 10px 20px;
-    background-color: #e0e7ff;
+    padding: 10px 24px;
+    background: #e0e7ff;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -170,20 +176,21 @@ body {
     color: #3730a3;
     transition: background var(--transition), color var(--transition), box-shadow var(--transition);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    font-size: 15px;
 }
 
 .nav-btn.active,
 .nav-btn:hover {
-    background-color: #4338ca;
+    background: #4338ca;
     color: #fff;
-    box-shadow: 0 4px 12px rgba(67, 56, 202, 0.3);
+    box-shadow: 0 4px 12px rgba(67, 56, 202, 0.18);
 }
 
 .cards-summary {
     display: flex;
-    gap: 20px;
+    gap: var(--gap);
     flex-wrap: wrap;
-    margin-bottom: 35px;
+    margin-bottom: var(--gap);
 }
 
 .card {
@@ -191,37 +198,42 @@ body {
     min-width: 220px;
     background: var(--card-gradient);
     border-radius: var(--border-radius);
-    padding: 25px;
+    padding: 28px 32px;
     box-shadow: var(--box-shadow);
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: 600;
     color: #1d4ed8;
-    font-size: 15px;
+    font-size: 16px;
     transition: transform var(--transition), box-shadow var(--transition);
+    gap: 12px;
 }
 
 .card:hover {
     transform: scale(1.03);
-    box-shadow: var(--card-hover-shadow);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.13);
 }
 
 .card span {
-    font-size: 20px;
+    font-size: 22px;
     color: #0f172a;
+    font-weight: 700;
 }
 
+/* Employee Info */
 .employee-info {
     display: flex;
     background: #fff;
     border-radius: var(--border-radius);
-    padding: 30px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    margin-bottom: 40px;
+    padding: 36px 32px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09);
+    margin-bottom: var(--gap);
     flex-wrap: wrap;
     position: relative;
     overflow: hidden;
+    gap: var(--gap);
+    align-items: flex-start;
 }
 
 .employee-info::after {
@@ -242,21 +254,21 @@ body {
     background: linear-gradient(135deg, #cbd5e1, #e2e8f0);
     border: 4px solid #e0e7ff;
     border-radius: 50%;
-    margin-right: 30px;
-    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 48px;
+    font-size: 54px;
     color: #4b5563;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.09);
+    margin-right: 32px;
+    flex-shrink: 0;
 }
 
 .info-columns {
     display: flex;
     flex: 1;
     flex-wrap: wrap;
-    gap: 30px;
+    gap: var(--gap);
 }
 
 .info-left,
@@ -265,60 +277,65 @@ body {
     min-width: 260px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
 }
 
 .info-item {
-    font-size: 15px;
+    font-size: 16px;
     color: #374151;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .button-group {
-    margin-top: 15px;
+    margin-top: 18px;
     display: flex;
-    gap: 10px;
+    gap: 12px;
 }
 
 .btn {
-    padding: 10px 18px;
-    background-color: var(--btn-bg);
+    padding: 10px 22px;
+    background: var(--btn-bg);
     color: #fff;
     border: none;
     border-radius: 8px;
     font-weight: 500;
     cursor: pointer;
     transition: background var(--transition), box-shadow var(--transition), transform 0.2s;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.09);
+    font-size: 15px;
 }
 
 .btn:hover,
 .btn:focus,
 .btn:active {
-    background-color: var(--btn-bg-hover);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    transform: scale(1.02);
+    background: var(--btn-bg-hover);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.13);
+    transform: scale(1.03);
     outline: none;
 }
 
+/* Attendance Section */
 .bottom-section {
     display: flex;
-    gap: 25px;
+    gap: var(--gap);
     flex-wrap: wrap;
-    margin-bottom: 25px;
+    margin-bottom: var(--gap);
 }
 
 .attendance-box {
     flex: 1;
     background: #fff;
     border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+    padding: 28px 24px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.07);
     min-width: 260px;
     font-size: 15px;
     color: var(--primary-text);
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .attendance-box::before {
@@ -329,21 +346,23 @@ body {
     bottom: 0;
     left: 0;
     background: radial-gradient(circle at top left, #dbeafe 20%, transparent 70%);
-    opacity: 0.2;
+    opacity: 0.18;
 }
 
 .attendance-box h4 {
     margin: 0 0 10px;
-    font-size: 16px;
+    font-size: 17px;
     color: #111827;
+    font-weight: 600;
 }
 
 .attendance-box p {
     margin: 0;
-    font-size: 14px;
+    font-size: 15px;
     color: #4b5563;
 }
 
+/* Logout */
 .logout-section {
     display: flex;
     justify-content: flex-end;
@@ -351,23 +370,24 @@ body {
 }
 
 .logout-btn {
-    background-color: var(--logout-bg);
+    background: var(--logout-bg);
     color: #fff;
-    padding: 12px 24px;
+    padding: 12px 28px;
     border: none;
     border-radius: 10px;
     font-weight: 500;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 16px;
     transition: background var(--transition), transform 0.2s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.09);
 }
 
 .logout-btn:hover {
-    background-color: var(--logout-bg-hover);
-    transform: translateY(-2px);
+    background: var(--logout-bg-hover);
+    transform: translateY(-2px) scale(1.03);
 }
 
+/* Responsive Design */
 @media (max-width: 1024px) {
     .dashboard-header {
         flex-direction: column;
@@ -376,38 +396,46 @@ body {
     }
     .info-columns {
         flex-direction: column;
+        gap: 18px;
     }
     .cards-summary,
     .bottom-section {
         flex-direction: column;
+        gap: 18px;
     }
     .employee-info {
         flex-direction: column;
         align-items: center;
-        padding: 35px 25px;
+        padding: 32px 18px;
+        gap: 18px;
     }
     .profile-pic {
-        margin-bottom: 20px;
+        margin-bottom: 18px;
         margin-right: 0;
     }
 }
 
 @media (max-width: 600px) {
     .dashboard-container {
-        padding: 20px 5px;
+        padding: 18px 4px;
+        gap: 14px;
     }
     .employee-info,
     .attendance-box {
-        padding: 18px;
+        padding: 14px;
     }
     .nav-btn,
     .btn,
     .logout-btn {
-        padding: 12px 14px;
-        font-size: 15px;
+        padding: 10px 12px;
+        font-size: 14px;
     }
     .info-item,
     .attendance-box p {
         font-size: 14px;
+    }
+    .sidebar-logo {
+        font-size: 20px;
+        padding: 16px 0 8px 0;
     }
 }
