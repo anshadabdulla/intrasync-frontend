@@ -44,8 +44,8 @@ const LoginForm = () => {
                         <h2 className="login-title">Welcome Back</h2>
                         <p className="login-subtitle">Sign in to continue</p>
                         <input
-                            type="email"
-                            placeholder="Email"
+                            type="text"
+                            placeholder="Email or Username"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
