@@ -3,8 +3,8 @@ import React from 'react';
 const EmployeeInfo = ({ employee }) => (
     <div className="employee-info">
         <div className="profile-pic-wrapper">
-            {employee?.photoUrl && employee.photoUrl.trim() !== '' ? (
-                <img src={employee.photoUrl} alt="Profile" className="profile-pic-img" />
+            {employee?.photo && employee.photo.trim() !== '' ? (
+                <img src={employee.photo} alt="Profile" className="profile-pic-img" />
             ) : (
                 <div className="profile-pic-default">
                     <span style={{ fontSize: 48 }}>👤</span>
