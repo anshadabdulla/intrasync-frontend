@@ -9,7 +9,6 @@ import DashboardHeader from './DashboardHeader';
 import CardsSummary from './CardsSummary';
 import EmployeeInfo from './EmployeeInfo';
 import AttendanceSection from './AttendanceSection';
-import LogoutSection from './LogoutSection';
 import ResetPassword from './ResetPassword';
 
 const HomePageForm = () => {
@@ -55,16 +54,14 @@ const HomePageForm = () => {
         <div className="layout-container">
             <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
             <div className={`dashboard-container ${isSidebarOpen ? 'shrink' : ''}`}>
-                <DashboardHeader employee={employee} />
+                <DashboardHeader
+                    employee={employee}
+                    onResetPassword={() => setShowReset(true)}
+                    onLogout={handleLogout}
+                />
                 <CardsSummary />
                 <EmployeeInfo employee={employee} />
                 <AttendanceSection />
-                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: 24 }}>
-                    <button className="btn" onClick={() => setShowReset(true)}>
-                        Reset Password
-                    </button>
-                    <LogoutSection onLogout={handleLogout} />
-                </div>
             </div>
             {showReset && (
                 <div className="modal-overlay" onClick={() => setShowReset(false)}>
