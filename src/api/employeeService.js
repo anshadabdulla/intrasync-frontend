@@ -11,9 +11,22 @@ export const getEmployeeById = async (id) => {
 
 export const logout = async () => {
     const token = localStorage.getItem('token');
-    return axios.post('/logout', {}, {
-        headers: {
-            Authorization: `Bearer ${token}`
+    return axios.post(
+        '/logout',
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         }
-    });
+    );
+};
+
+export const resetPassword = async (currentPassword, newPassword) => {
+    const token = localStorage.getItem('token');
+    return axios.post(
+        '/resetPassword',
+        { currentPassword, newPassword },
+        { headers: { Authorization: `Bearer ${token}` } }
+    );
 };

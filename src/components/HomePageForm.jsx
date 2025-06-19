@@ -10,10 +10,12 @@ import CardsSummary from './CardsSummary';
 import EmployeeInfo from './EmployeeInfo';
 import AttendanceSection from './AttendanceSection';
 import LogoutSection from './LogoutSection';
+import ResetPassword from './ResetPassword';
 
 const HomePageForm = () => {
     const [employee, setEmployee] = useState(null);
     const [isSidebarOpen, setSidebarOpen] = useState(false);
+    const [showReset, setShowReset] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -57,8 +59,27 @@ const HomePageForm = () => {
                 <CardsSummary />
                 <EmployeeInfo employee={employee} />
                 <AttendanceSection />
-                <LogoutSection onLogout={handleLogout} />
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: 24 }}>
+                    <button className="btn" onClick={() => setShowReset(true)}>
+                        Reset Password
+                    </button>
+                    <LogoutSection onLogout={handleLogout} />
+                </div>
             </div>
+            {showReset && (
+                <div className="modal-overlay" onClick={() => setShowReset(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <ResetPassword />
+                        <button
+                            className="btn"
+                            style={{ marginTop: 16, background: '#ef4444' }}
+                            onClick={() => setShowReset(false)}
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
