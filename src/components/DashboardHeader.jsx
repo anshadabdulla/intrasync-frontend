@@ -13,9 +13,9 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
     }, []);
 
     const renderAvatar = () =>
-        employee?.photoUrl && employee.photoUrl.trim() !== '' ? (
+        employee?.photo && employee.photo.trim() !== '' ? (
             <img
-                src={employee.photoUrl}
+                src={employee.photo}
                 alt="Profile"
                 style={{
                     width: 32,
