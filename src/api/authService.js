@@ -5,5 +5,5 @@ export const login = async (email, password) => {
 };
 
 export const forgotPassword = async (email) => {
-    return axios.post('/forgotPassword', { email });
+    return axios.post('/forgot-Password', { email });
 };

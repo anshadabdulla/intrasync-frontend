@@ -2,7 +2,7 @@ import axios from './axios';
 
 export const getEmployeeById = async (id) => {
     const token = localStorage.getItem('token');
-    return axios.get(`/getEmployeeById/${id}`, {
+    return axios.get(`/employee/${id}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -25,7 +25,7 @@ export const logout = async () => {
 export const resetPassword = async (currentPassword, newPassword) => {
     const token = localStorage.getItem('token');
     return axios.post(
-        '/resetPassword',
+        '/reset-Password',
         { currentPassword, newPassword },
         { headers: { Authorization: `Bearer ${token}` } }
     );
