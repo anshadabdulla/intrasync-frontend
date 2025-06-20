@@ -5,17 +5,21 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
     const menuRef = useRef();
 
     useEffect(() => {
-        const handleClick = (e) => {
-            if (menuRef.current && !menuRef.current.contains(e.target)) setOpen(false);
+        const handleClickOutside = (e) => {
+            if (menuRef.current && !menuRef.current.contains(e.target)) {
+                setOpen(false);
+            }
         };
-        document.addEventListener('mousedown', handleClick);
-        return () => document.removeEventListener('mousedown', handleClick);
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const renderAvatar = () =>
-        employee?.photo && employee.photo.trim() !== '' ? (
+    const renderAvatar = () => {
+        const photoDoc = employee?.documents?.find((doc) => doc.type === 'photo' && doc.file?.trim());
+
+        return photoDoc ? (
             <img
-                src={employee.photo}
+                src={photoDoc.file}
                 alt="Profile"
                 style={{
                     width: 32,
@@ -30,19 +34,22 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
         ) : (
             <span style={{ fontSize: 28, marginRight: 8 }}>👤</span>
         );
+    };
 
     return (
         <div className="dashboard-header">
             <div className="welcome-msg">
                 <h2>Welcome, {employee?.name}</h2>
-                <p>{employee?.designation ? employee.designation : ''}</p>
+                <p>{employee?.designation || ''}</p>
             </div>
+
             <div className="nav-actions">
                 <button className="nav-btn active">Dashboard</button>
                 <button className="nav-btn">Welcome</button>
                 <button className="nav-btn">Calendar</button>
+
                 <div className="profile-menu" ref={menuRef}>
-                    <button className="profile-btn" onClick={() => setOpen((v) => !v)}>
+                    <button className="profile-btn" onClick={() => setOpen(!open)}>
                         <span className="profile-avatar">{renderAvatar()}</span>
                         <span className="profile-name">
                             {employee?.name}
@@ -50,6 +57,7 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
                         </span>
                         <i className="fa fa-chevron-down" style={{ marginLeft: 8 }} />
                     </button>
+
                     {open && (
                         <div className="profile-dropdown">
                             <button
