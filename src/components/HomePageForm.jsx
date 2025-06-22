@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { getEmployeeById, logout } from '../api/employeeService';
@@ -16,6 +16,7 @@ const HomePageForm = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [showReset, setShowReset] = useState(false);
     const navigate = useNavigate();
+    const layoutRef = useRef();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,10 +49,31 @@ const HomePageForm = () => {
         }
     };
 
-    const toggleSidebar = () => setSidebarOpen((prev) => !prev);
+    const toggleSidebar = () => {
+        setSidebarOpen((prev) => !prev);
+    };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            const sidebarEl = document.querySelector('.sidebar');
+            if (
+                isSidebarOpen &&
+                sidebarEl &&
+                !sidebarEl.contains(event.target) &&
+                !event.target.closest('.sidebar-toggle')
+            ) {
+                setSidebarOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isSidebarOpen]);
 
     return (
-        <div className="layout-container">
+        <div className="layout-container" ref={layoutRef}>
             <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
             <div className={`dashboard-container ${isSidebarOpen ? 'shrink' : ''}`}>
                 <DashboardHeader
