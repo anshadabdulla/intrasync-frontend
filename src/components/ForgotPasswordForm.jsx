@@ -54,7 +54,7 @@ const ForgotPasswordForm = () => {
                         <p className="forgot-message" style={{ color: success ? 'green' : 'red' }}>
                             {message}
                         </p>
-                        <p className="forgot-footer">Powered by Your Company</p>
+                        <p className="forgot-footer"> Powered by Intrasync </p>
                     </form>
                 </div>
             </div>

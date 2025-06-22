@@ -76,7 +76,7 @@ const LoginForm = () => {
                         >
                             {message || ' '}
                         </p>
-                        <p className="login-footer">Powered by Your Company</p>
+                        <p className="login-footer"> Powered by Intrasync </p>
                     </form>
                 </div>
             </div>
