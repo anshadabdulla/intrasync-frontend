@@ -10,10 +10,6 @@ const CardsSummary = () => (
             <div>
                 <div className="text-lg font-bold text-black flex items-center gap-1">
                     <span className="num-total">61</span>
-                    <span className="num-green">| 55</span>
-                    <span className="num-blue-dark">| 6</span>
-                    <span className="num-amber">| 14</span>
-                    <span className="num-blue-light">| 16</span>
                 </div>
                 <div className="text-gray-700">Employees</div>
             </div>
