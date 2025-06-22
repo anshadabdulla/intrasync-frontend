@@ -57,6 +57,7 @@ body {
 /* -----------------------------------
    Sidebar
 ----------------------------------- */
+
 .sidebar {
     width: var(--sidebar-width);
     background-color: var(--primary-bg);
@@ -114,6 +115,7 @@ body {
     transition: background 0.2s ease, color 0.2s ease;
     position: relative;
     color: #e2e8f0;
+    background-color: transparent;
 }
 
 .sidebar-item:hover {
@@ -129,14 +131,14 @@ body {
 .icon-wrapper {
     width: 40px;
     height: 40px;
-    border-radius: 8px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: transparent;
-    color: #ffffff;
+    background-color: #e5ecfb; /* soft blue */
+    color: #003c78;
     font-size: 1rem;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 .sidebar-item.active .icon-wrapper {
@@ -147,7 +149,16 @@ body {
 .label-wrapper {
     flex: 1;
     font-size: 0.95rem;
-    color: inherit;
+    color: #ffffff;
+    background-color: transparent;
+    border-radius: 6px;
+    padding: 4px 6px;
+    transition: color 0.3s ease, background 0.3s ease;
+}
+
+.sidebar-item.active .label-wrapper {
+    background-color: #ffffff;
+    color: var(--primary-bg);
 }
 
 .sidebar:not(.open) .label-wrapper {
@@ -173,6 +184,17 @@ body {
 .sidebar:not(.open) .icon-wrapper[title]:hover::after {
     opacity: 1;
     transform: translateX(0);
+}
+
+.sidebar-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: var(--primary-accent);
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
 }
 
 /* -----------------------------------
