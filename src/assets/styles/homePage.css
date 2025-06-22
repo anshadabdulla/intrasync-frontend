@@ -58,8 +58,6 @@ body {
    Sidebar
 ----------------------------------- */
 
-/* Sidebar CSS - Blue icon surface + white label surface, both full height */
-
 .sidebar {
     width: var(--sidebar-width);
     background-color: var(--primary-bg);
