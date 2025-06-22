@@ -58,9 +58,6 @@ body {
    Sidebar
 ----------------------------------- */
 
-/* -----------------------------------
-   Sidebar
------------------------------------ */
 .sidebar {
     width: var(--sidebar-width);
     background-color: var(--primary-bg);
@@ -189,7 +186,6 @@ body {
     border-bottom-left-radius: 4px;
 }
 
-/* Tooltip for collapsed sidebar */
 .sidebar:not(.open) .icon-wrapper[title]::after {
     content: attr(title);
     position: absolute;
