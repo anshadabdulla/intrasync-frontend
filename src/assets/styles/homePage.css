@@ -147,7 +147,6 @@ body {
 .label-wrapper {
     background-color: #ffffff;
     color: var(--primary-bg);
-    height: 100%;
     padding: 0 16px;
     display: flex;
     align-items: center;
