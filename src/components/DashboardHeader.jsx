@@ -1,13 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
+import Calendar from 'react-calendar';
+import '../assets/styles/homePage.css';
 
 const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
     const [open, setOpen] = useState(false);
+    const [showCalendar, setShowCalendar] = useState(false);
     const menuRef = useRef();
+    const calendarRef = useRef();
 
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (menuRef.current && !menuRef.current.contains(e.target)) {
                 setOpen(false);
+            }
+            if (calendarRef.current && !calendarRef.current.contains(e.target)) {
+                setShowCalendar(false);
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
@@ -46,7 +53,27 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
             <div className="nav-actions">
                 <button className="nav-btn active">Dashboard</button>
                 <button className="nav-btn">Welcome</button>
-                <button className="nav-btn">Calendar</button>
+                <button className="nav-btn" onClick={() => setShowCalendar(!showCalendar)}>
+                    Calendar
+                </button>
+
+                {showCalendar && (
+                    <div
+                        ref={calendarRef}
+                        style={{
+                            position: 'absolute',
+                            top: 60,
+                            right: 20,
+                            zIndex: 1000,
+                            background: 'white',
+                            boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
+                            borderRadius: 8,
+                            padding: 16
+                        }}
+                    >
+                        <Calendar defaultValue={new Date()} />
+                    </div>
+                )}
 
                 <div className="profile-menu" ref={menuRef}>
                     <button className="profile-btn" onClick={() => setOpen(!open)}>
