@@ -148,33 +148,36 @@ body {
 }
 
 .loader-dots {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    width: 60px;
+    width: 64px;
     height: 18px;
+    gap: 8px;
+    color: inherit;
 }
+
+.loader-dots span,
 .loader-dots::before,
-.loader-dots::after,
-.loader-dots span {
+.loader-dots::after {
     content: '';
-    display: inline-block;
-    position: absolute;
+    display: block;
     width: 10px;
     height: 10px;
-    background-color: currentColor;
     border-radius: 50%;
+    background-color: currentColor;
     animation: dotsBounce 0.6s infinite ease-in-out both;
 }
+
 .loader-dots::before {
-    left: 0;
-    animation-delay: -0.2s;
+    animation-delay: -0.3s;
 }
 .loader-dots span {
-    left: 25px;
-    animation-delay: -0.1s;
+    animation-delay: -0.15s;
 }
 .loader-dots::after {
-    left: 50px;
+    animation-delay: 0s;
 }
 
 @keyframes dotsBounce {
@@ -182,34 +185,33 @@ body {
     80%,
     100% {
         transform: scale(0);
+        opacity: 0.4;
     }
     40% {
         transform: scale(1);
+        opacity: 1;
     }
 }
 
 .screen-loader {
     position: fixed;
     inset: 0;
-    background-color: white;
     z-index: 9999;
+    background-color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
+    animation: fadeIn 0.3s ease-in-out;
+    color: #2563eb;
+    transition: opacity 0.3s ease;
 }
 
-.spinner-lg {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #d1d5db;
-    border-top: 5px solid #2563eb;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-}
-
-@keyframes spin {
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
     to {
-        transform: rotate(360deg);
+        opacity: 1;
     }
 }
 
