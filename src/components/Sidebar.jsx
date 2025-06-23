@@ -6,10 +6,10 @@ const menuItems = [
     { icon: 'fa-chart-line', label: 'Dashboard', to: '/dashboard' },
     { icon: 'fa-users', label: 'Employees', to: '/employees' },
     { icon: 'fa-calendar-check', label: 'Daily Updates', to: '/daily-updates' },
-    { icon: 'fa-calendar-day', label: 'Events', to: '/events' },
+    { icon: 'fa-calendar-alt', label: 'Events', to: '/events' },
     { icon: 'fa-user-slash', label: 'Resignation', to: '/resignation' },
-    { icon: 'fa-ticket-alt', label: 'Tickets', to: '/tickets' },
-    { icon: 'fa-file-contract', label: 'Company Policy', to: '/company-policy' }
+    { icon: 'fa-headset', label: 'Tickets', to: '/tickets' },
+    { icon: 'fa-gavel', label: 'Company Policy', to: '/company-policy' }
 ];
 
 const Sidebar = () => {
