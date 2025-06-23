@@ -154,6 +154,63 @@ body {
     border-left: 3px solid var(--primary-accent);
 }
 
+.screen-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-in-out;
+    color: #2563eb;
+    transition: opacity 0.3s ease;
+}
+
+.loader-dots {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 18px;
+    gap: 8px;
+}
+
+.loader-dots span,
+.loader-dots::before,
+.loader-dots::after {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: currentColor;
+    animation: dotsBounce 0.6s infinite ease-in-out both;
+}
+
+.loader-dots::before {
+    animation-delay: -0.3s;
+}
+.loader-dots span {
+    animation-delay: -0.15s;
+}
+.loader-dots::after {
+    animation-delay: 0s;
+}
+
+@keyframes dotsBounce {
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+        opacity: 0.4;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
 /* -----------------------------------
    Dashboard Content
 ----------------------------------- */

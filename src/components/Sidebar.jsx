@@ -14,6 +14,7 @@ const menuItems = [
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [showScreenLoader, setShowScreenLoader] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -26,40 +27,56 @@ const Sidebar = () => {
     };
 
     const handleNavigate = (path) => {
-        navigate(path);
+        if (location.pathname !== path) {
+            setShowScreenLoader(true);
+            setTimeout(() => {
+                navigate(path);
+                setShowScreenLoader(false);
+            }, 1000);
+        }
     };
 
     return (
-        <div className="sidebar-container">
-            <div className="sidebar-icon-panel">
-                <div className="icon-toggle" onClick={toggleSidebar}>
-                    <i className="fa-solid fa-bars" />
+        <>
+            {showScreenLoader && (
+                <div className="screen-loader">
+                    <div className="loader-dots screen">
+                        <span></span>
+                    </div>
                 </div>
-                <div className="icon-menu">
+            )}
+
+            <div className="sidebar-container">
+                <div className="sidebar-icon-panel">
+                    <div className="icon-toggle" onClick={toggleSidebar}>
+                        <i className="fa-solid fa-bars" />
+                    </div>
+                    <div className="icon-menu">
+                        {menuItems.map((item) => (
+                            <div
+                                key={item.label}
+                                className={`icon-item ${location.pathname === item.to ? 'active' : ''}`}
+                                onClick={handleIconClick}
+                                title={item.label}
+                            >
+                                <i className={`fa-solid ${item.icon}`} />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className={`sidebar-label-panel ${isOpen ? 'open' : ''}`}>
                     {menuItems.map((item) => (
                         <div
                             key={item.label}
-                            className={`icon-item ${location.pathname === item.to ? 'active' : ''}`}
-                            onClick={handleIconClick}
-                            title={item.label}
+                            className={`label-item ${location.pathname === item.to ? 'active' : ''}`}
+                            onClick={() => handleNavigate(item.to)}
                         >
-                            <i className={`fa-solid ${item.icon}`} />
+                            {item.label}
                         </div>
                     ))}
                 </div>
             </div>
-            <div className={`sidebar-label-panel ${isOpen ? 'open' : ''}`}>
-                {menuItems.map((item) => (
-                    <div
-                        key={item.label}
-                        className={`label-item ${location.pathname === item.to ? 'active' : ''}`}
-                        onClick={() => handleNavigate(item.to)}
-                    >
-                        {item.label}
-                    </div>
-                ))}
-            </div>
-        </div>
+        </>
     );
 };
 
