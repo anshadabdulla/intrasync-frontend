@@ -6,11 +6,13 @@ import { getEmployeeById, logout } from '../api/employeeService';
 import Sidebar from '../components/Sidebar';
 import DashboardHeader from '../components/DashboardHeader';
 import EmployeeListForm from '../components/EmployeeListForm';
+import ResetPassword from '../components/ResetPassword';
 import '../assets/styles/homePage.css';
 
 const EmployeeListPage = () => {
     const [employee, setEmployee] = useState(null);
     const [isSidebarOpen, setSidebarOpen] = useState(false);
+    const [showReset, setShowReset] = useState(false);
     const navigate = useNavigate();
     const layoutRef = useRef();
 
@@ -72,9 +74,28 @@ const EmployeeListPage = () => {
         <div className="layout-container" ref={layoutRef}>
             <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
             <div className={`dashboard-container ${isSidebarOpen ? 'shrink' : ''}`}>
-                <DashboardHeader employee={employee} onLogout={handleLogout} />
+                <DashboardHeader
+                    employee={employee}
+                    onLogout={handleLogout}
+                    onResetPassword={() => setShowReset(true)} 
+                />
                 <EmployeeListForm />
             </div>
+
+            {showReset && (
+                <div className="modal-overlay" onClick={() => setShowReset(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <ResetPassword />
+                        <button
+                            className="btn"
+                            style={{ marginTop: 16, background: '#ef4444' }}
+                            onClick={() => setShowReset(false)}
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
