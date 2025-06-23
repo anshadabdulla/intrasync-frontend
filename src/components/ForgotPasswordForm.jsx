@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { forgotPassword } from '../api/authService';
 import { useNavigate } from 'react-router-dom';
-import '../assets/styles/forgotPasswordForm.css';
+import '../assets/styles/loginForm.css';
 import illustration from '../assets/images/illustrations.png';
+import logo from '../assets/images/logo.png';
 
 const ForgotPasswordForm = () => {
     const [email, setEmail] = useState('');
@@ -28,33 +29,40 @@ const ForgotPasswordForm = () => {
     };
 
     return (
-        <div className="forgot-wrapper">
-            <div className="forgot-box">
-                <div className="forgot-illustration">
-                    <img src={illustration} alt="Forgot" />
+        <div className="login-wrapper">
+            <div className="login-box">
+                <div className="login-illustration">
+                    <img src={illustration} alt="Forgot Password Illustration" />
                 </div>
-                <div className="forgot-container">
-                    <form onSubmit={handleSubmit} className="forgot-form">
-                        <h2 className="forgot-title">Forgot Password</h2>
-                        <p className="forgot-subtitle">Enter your email to reset password</p>
+                <div className="login-container">
+                    <form onSubmit={handleSubmit} className="login-form">
+                        <img src={logo} alt="Company Logo" className="company-logo" />
+                        <h2 className="login-title">Forgot Password</h2>
+                        <p className="login-subtitle">Enter your email to receive reset instructions</p>
                         <input
                             type="email"
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            className="forgot-input"
+                            className="login-input"
                         />
-                        <button type="submit" className="forgot-button">
-                            Send Reset Link
-                        </button>
-                        <button type="button" className="back-button" onClick={() => navigate('/')}>
+                        <button type="submit" className="login-button">Send Reset Link</button>
+                        <button
+                            type="button"
+                            className="link-button"
+                            onClick={() => navigate('/')}
+                            style={{ marginTop: '8px' }}
+                        >
                             &larr; Back to Login
                         </button>
-                        <p className="forgot-message" style={{ color: success ? 'green' : 'red' }}>
+                        <p
+                            className={`login-message ${message ? 'visible' : ''}`}
+                            style={{ color: success ? 'green' : 'red' }}
+                        >
                             {message}
                         </p>
-                        <p className="forgot-footer"> Powered by Intrasync </p>
+                        <p className="login-footer">Powered by Intrasync</p>
                     </form>
                 </div>
             </div>
