@@ -60,6 +60,14 @@ body {
     flex-direction: column;
 }
 
+.company-logo {
+    display: block;
+    margin: 0 auto 24px auto;
+    max-width: 140px;
+    height: auto;
+    object-fit: contain;
+}
+
 .login-title {
     font-size: 26px;
     font-weight: 600;

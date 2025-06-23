@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../api/authService';
 import '../assets/styles/loginForm.css';
 import illustration from '../assets/images/illustrations.png';
+import logo from '../assets/images/logo.png';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
@@ -60,6 +61,7 @@ const LoginForm = () => {
                     </div>
                     <div className="login-container">
                         <form onSubmit={handleSubmit} className="login-form">
+                            <img src={logo} alt="Company Logo" className="company-logo" />
                             <h2 className="login-title">Welcome Back</h2>
                             <p className="login-subtitle">Sign in to continue</p>
                             <input
