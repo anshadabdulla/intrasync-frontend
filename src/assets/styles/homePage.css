@@ -23,7 +23,7 @@
     --gap: 28px;
     --gap-sm: 16px;
     --focus-outline: 2px solid #facc15;
-    --icon-bg: #003c78;
+    --icon-bg: var(--primary-bg);
     --label-bg: #ffffff;
     --label-text: #1f2937;
     --highlight: #fbbf24;
@@ -58,157 +58,114 @@ body {
    Sidebar
 ----------------------------------- */
 
-.sidebar {
+.sidebar-container {
+    display: flex;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+/* --- Icon Panel (Left) --- */
+.sidebar-icon-panel {
     width: var(--sidebar-width);
-    background-color: var(--primary-bg);
+    background-color: var(--icon-bg);
     color: var(--text);
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    padding-top: 12px;
-    transition: width var(--transition);
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.04);
-    overflow: hidden;
-    position: relative;
-    z-index: 10;
-}
-
-.sidebar.open {
-    width: var(--sidebar-width-open);
-}
-
-.sidebar-logo {
-    display: flex;
     align-items: center;
-    padding: 16px 20px;
-    background-color: var(--primary-bg);
-    width: 100%;
-    color: #fff;
+    padding-top: 16px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
 }
 
-.logo-text {
-    margin-left: 12px;
-    font-weight: 600;
-    font-size: 1.05rem;
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    will-change: opacity, transform;
-}
-
-.sidebar-menu {
-    margin-top: 20px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.sidebar-item {
-    display: flex;
-    align-items: center;
-    height: 44px;
-    border-radius: 8px;
+.icon-toggle {
     cursor: pointer;
-    position: relative;
-    background-color: var(--primary-bg);
-    overflow: hidden;
-    width: 100%;
-    transition: background-color 0.2s ease-in-out;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    transition: color var(--transition);
 }
 
-.sidebar-item:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-.sidebar-item.active {
-    background-color: var(--primary-bg);
-    font-weight: 600;
-}
-
-.icon-wrapper {
-    width: 60px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--primary-bg);
-    color: #ffffff;
-    font-size: 1.2rem;
-    flex-shrink: 0;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-    position: relative;
-}
-
-.sidebar-item.active .icon-wrapper {
+.icon-toggle:hover {
     color: var(--primary-accent);
 }
 
-.label-wrapper {
-    background-color: #ffffff;
-    color: var(--primary-bg);
-    padding: 0 16px;
+.icon-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.icon-item {
+    width: 100%;
+    height: 44px;
     display: flex;
     align-items: center;
-    white-space: nowrap;
-    overflow: hidden;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-    max-width: 0;
-    opacity: 0;
-    transform: translateX(-100%);
-    transition: max-width 0.3s ease-in-out, opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    visibility: hidden;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.2s ease;
+    color: #ffffff;
 }
 
-.sidebar.open .label-wrapper {
-    max-width: 180px;
-    opacity: 1;
-    transform: translateX(0);
-    visibility: visible;
+.icon-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-.sidebar-item.active .label-wrapper {
-    background-color: #ffffff;
-    color: var(--primary-bg);
-    font-weight: 600;
+.icon-item.active {
+    color: var(--primary-accent);
 }
 
-.sidebar-item.active::before {
+.icon-item.active::before {
     content: '';
     position: absolute;
     left: 0;
     width: 4px;
     height: 100%;
     background-color: var(--primary-accent);
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
+    border-radius: 0 2px 2px 0;
 }
 
-.sidebar:not(.open) .icon-wrapper[title]::after {
-    content: attr(title);
-    position: absolute;
-    left: 70px;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 0.75rem;
+/* --- Label Panel (Right) --- */
+.sidebar-label-panel {
+    width: 0;
+    overflow: hidden;
+    background-color: var(--label-bg);
+    color: var(--label-text);
+    padding-top: 76px;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.04);
+    transition: width var(--transition);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-label-panel.open {
+    width: 180px;
+}
+
+.label-item {
+    height: 44px;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    cursor: pointer;
     white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateX(-10px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    z-index: 1000;
+    transition: background 0.2s ease;
 }
 
-.sidebar:not(.open) .icon-wrapper[title]:hover::after {
-    opacity: 1;
-    transform: translateX(0);
+.label-item:hover {
+    background-color: var(--secondary-bg);
+}
+
+.label-item.active {
+    background-color: #eef2ff;
+    font-weight: 600;
+    border-left: 3px solid var(--primary-accent);
 }
 
 /* -----------------------------------
-   Dashboard Header & Navigation
+   Dashboard Content
 ----------------------------------- */
 .dashboard-container {
     flex: 1;
@@ -233,7 +190,7 @@ body {
 .welcome-msg h2 {
     margin: 0;
     font-size: 32px;
-    color: #003c78;
+    color: var(--primary-bg);
     font-weight: 800;
     letter-spacing: 0.5px;
 }
@@ -245,6 +202,9 @@ body {
     font-weight: 400;
 }
 
+/* -----------------------------------
+   Button Styling
+----------------------------------- */
 .nav-actions {
     display: flex;
     gap: var(--gap-sm);
@@ -258,13 +218,15 @@ body {
     cursor: pointer;
     font-weight: 600;
     color: #3730a3;
+    font-size: 16px;
     transition: background var(--transition), color var(--transition), box-shadow var(--transition);
     box-shadow: 0 2px 8px rgba(0, 60, 120, 0.08);
-    font-size: 16px;
 }
+
 .nav-btn:focus {
     outline: var(--focus-outline);
 }
+
 .nav-btn.active,
 .nav-btn:hover {
     background: #4338ca;

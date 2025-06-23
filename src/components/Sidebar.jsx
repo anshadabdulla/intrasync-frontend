@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../assets/styles/homePage.css';
 
@@ -13,38 +13,53 @@ const menuItems = [
     { icon: 'fa-user-check', label: 'Access', to: '/access' }
 ];
 
-const Sidebar = ({ isOpen, toggleSidebar }) => {
+const Sidebar = () => {
+    const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
 
-    const handleToggle = (e) => {
-        e.preventDefault();
-        toggleSidebar();
+    const toggleSidebar = () => {
+        setIsOpen(!isOpen);
     };
 
-    const handleNavigate = (e, to) => {
-        e.stopPropagation();
-        navigate(to);
+    const handleIconClick = () => {
+        setIsOpen(!isOpen); // toggle open/close
+    };
+
+    const handleNavigate = (path) => {
+        navigate(path);
     };
 
     return (
-        <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-            <div className="sidebar-logo">
-                <i className="fa-solid fa-bars" onClick={handleToggle} style={{ cursor: 'pointer' }} />
-                {isOpen && <span className="logo-text"> Intrasync </span>}
-            </div>
-
-            <div className="sidebar-menu">
-                {menuItems.map((item) => (
-                    <div key={item.label} className={`sidebar-item ${location.pathname === item.to ? 'active' : ''}`}>
-                        <div className="icon-wrapper" title={item.label} onClick={handleToggle}>
+        <div className="sidebar-container">
+            {/* Fixed Icon Panel */}
+            <div className="sidebar-icon-panel">
+                <div className="icon-toggle" onClick={toggleSidebar}>
+                    <i className="fa-solid fa-bars" />
+                </div>
+                <div className="icon-menu">
+                    {menuItems.map((item) => (
+                        <div
+                            key={item.label}
+                            className={`icon-item ${location.pathname === item.to ? 'active' : ''}`}
+                            onClick={handleIconClick}
+                            title={item.label}
+                        >
                             <i className={`fa-solid ${item.icon}`} />
                         </div>
-                        {isOpen && (
-                            <div className="label-wrapper" onClick={(e) => handleNavigate(e, item.to)}>
-                                {item.label}
-                            </div>
-                        )}
+                    ))}
+                </div>
+            </div>
+
+            {/* Sliding Label Panel */}
+            <div className={`sidebar-label-panel ${isOpen ? 'open' : ''}`}>
+                {menuItems.map((item) => (
+                    <div
+                        key={item.label}
+                        className={`label-item ${location.pathname === item.to ? 'active' : ''}`}
+                        onClick={() => handleNavigate(item.to)}
+                    >
+                        {item.label}
                     </div>
                 ))}
             </div>
