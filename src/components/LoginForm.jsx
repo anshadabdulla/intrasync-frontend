@@ -61,9 +61,11 @@ const LoginForm = () => {
                     </div>
                     <div className="login-container">
                         <form onSubmit={handleSubmit} className="login-form">
-                            <img src={logo} alt="Company Logo" className="company-logo" />
-                            <h2 className="login-title">Welcome Back</h2>
-                            <p className="login-subtitle">Sign in to continue</p>
+                            <div className="login-header">
+                                <img src={logo} alt="Company Logo" className="company-logo" />
+                                <h2 className="login-title">Welcome Back</h2>
+                                <p className="login-subtitle">Sign in to continue</p>
+                            </div>
                             <input
                                 type="text"
                                 placeholder="Email or Username"
