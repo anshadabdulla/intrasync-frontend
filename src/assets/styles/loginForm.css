@@ -90,6 +90,7 @@ body {
     text-align: center;
     line-height: 1.2;
 }
+
 .login-subtitle {
     font-size: 16px;
     color: #6b7280;
@@ -174,7 +175,6 @@ body {
     transform: translateX(10px);
 }
 
-/* Loader styles */
 .loader-dots {
     display: inline-flex;
     align-items: center;
@@ -221,29 +221,6 @@ body {
     }
 }
 
-.screen-loader {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background-color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: fadeIn 0.3s ease-in-out;
-    color: #2563eb;
-    transition: opacity 0.3s ease;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-/* Responsive adjustments */
 @media (max-width: 1024px) {
     .login-box {
         flex-direction: column;

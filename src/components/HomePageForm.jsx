@@ -44,12 +44,16 @@ const HomePageForm = () => {
 
     const handleLogout = async () => {
         try {
+            setShowScreenLoader(true);
             await logout();
+            localStorage.removeItem('token');
+
+            setTimeout(() => {
+                navigate('/');
+            }, 800);
         } catch (err) {
             console.error('Logout failed:', err);
-        } finally {
-            localStorage.removeItem('token');
-            navigate('/');
+            setShowScreenLoader(false);
         }
     };
 
