@@ -117,16 +117,6 @@ body {
     color: var(--primary-accent);
 }
 
-.icon-item.active::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background-color: var(--primary-accent);
-    border-radius: 0 2px 2px 0;
-}
-
 .sidebar-label-panel {
     width: 0;
     overflow: hidden;
