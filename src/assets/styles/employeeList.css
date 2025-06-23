@@ -1,0 +1,80 @@
+.employee-list-container {
+    padding: 30px;
+    font-family: 'Inter', sans-serif;
+    background: #f9fafb;
+    color: #1f2937;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.filter-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.filter-row input,
+.filter-row select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    min-width: 160px;
+    font-size: 14px;
+}
+
+.search-btn,
+.reset-btn,
+.add-btn {
+    padding: 8px 16px;
+    border: none;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.search-btn {
+    background-color: #1d4ed8;
+    color: white;
+}
+
+.reset-btn {
+    background-color: white;
+    color: #1d4ed8;
+    border: 1px solid #1d4ed8;
+}
+
+.add-btn {
+    background-color: #fbbf24;
+    color: black;
+    margin-left: auto;
+}
+
+.employee-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}
+
+.employee-table th,
+.employee-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 14px;
+}
+
+.employee-table thead {
+    background-color: #f3f4f6;
+    font-weight: 600;
+}
+
+.employee-table tbody tr:hover {
+    background-color: #f9fafb;
+}
