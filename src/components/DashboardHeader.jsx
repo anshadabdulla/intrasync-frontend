@@ -16,7 +16,7 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
     if (pathname === '/home') {
         headingText = `Welcome, ${employee?.name}`;
     } else if (pathname === '/employe-list') {
-        headingText = 'Employees';
+        headingText = 'Intrasync ';
     }
 
     useEffect(() => {
