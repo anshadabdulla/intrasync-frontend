@@ -23,7 +23,7 @@ const Sidebar = () => {
     };
 
     const handleIconClick = () => {
-        setIsOpen(!isOpen); // toggle open/close
+        setIsOpen(!isOpen);
     };
 
     const handleNavigate = (path) => {
@@ -32,7 +32,6 @@ const Sidebar = () => {
 
     return (
         <div className="sidebar-container">
-            {/* Fixed Icon Panel */}
             <div className="sidebar-icon-panel">
                 <div className="icon-toggle" onClick={toggleSidebar}>
                     <i className="fa-solid fa-bars" />
@@ -50,8 +49,6 @@ const Sidebar = () => {
                     ))}
                 </div>
             </div>
-
-            {/* Sliding Label Panel */}
             <div className={`sidebar-label-panel ${isOpen ? 'open' : ''}`}>
                 {menuItems.map((item) => (
                     <div
