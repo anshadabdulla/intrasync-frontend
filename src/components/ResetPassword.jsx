@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { resetPassword } from '../api/employeeService';
 
 const ResetPassword = () => {
@@ -8,6 +9,8 @@ const ResetPassword = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -32,9 +35,9 @@ const ResetPassword = () => {
             const res = await resetPassword(currentPassword, newPassword);
             if (res.data.status) {
                 setMessage('Password changed successfully.');
-                setCurrentPassword('');
-                setNewPassword('');
-                setConfirmPassword('');
+                setTimeout(() => {
+                    navigate('/');
+                }, 1500);
             } else {
                 setError(res.data.data || 'Failed to reset password.');
             }
