@@ -1,6 +1,12 @@
+/* -----------------------------------
+   Employee Dashboard Styles
+----------------------------------- */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
 .employee-container {
     padding: 32px 48px;
-    background: #f4f6fc;
+    background-color: #f4f6fc;
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
     box-sizing: border-box;
@@ -17,19 +23,20 @@
     font-size: 24px;
     font-weight: 700;
     color: #1f2937;
+    margin: 0;
 }
 
 .add-btn {
     background-color: #facc15;
     color: #111827;
     padding: 10px 20px;
-    font-weight: 600;
     font-size: 14px;
+    font-weight: 600;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-    transition: background 0.2s ease;
+    transition: background-color 0.2s ease;
 }
 
 .add-btn:hover {
@@ -38,33 +45,38 @@
 
 .filters {
     display: flex;
-    gap: 12px;
     flex-wrap: wrap;
+    gap: 12px;
     margin-bottom: 20px;
 }
 
 .filters input,
 .filters select {
     padding: 10px 12px;
+    font-size: 14px;
+    background-color: #ffffff;
     border: 1px solid #d1d5db;
     border-radius: 8px;
-    background: #ffffff;
-    font-size: 14px;
     min-width: 160px;
     outline: none;
-    transition: border 0.2s ease;
+    transition: border-color 0.2s ease;
+}
+
+.filters input::placeholder {
+    color: #9ca3af;
 }
 
 .filters input:focus,
 .filters select:focus {
     border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
 
 .search-btn,
 .reset-btn {
     padding: 10px 20px;
-    font-weight: 600;
     font-size: 14px;
+    font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -72,7 +84,7 @@
 
 .search-btn {
     background-color: #2563eb;
-    color: white;
+    color: #ffffff;
     border: none;
 }
 
@@ -81,7 +93,7 @@
 }
 
 .reset-btn {
-    background-color: white;
+    background-color: #ffffff;
     color: #2563eb;
     border: 1px solid #2563eb;
 }
@@ -93,16 +105,17 @@
 .employee-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: white;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    background-color: #ffffff;
     border-radius: 12px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
     overflow: hidden;
 }
 
 .employee-table thead {
     background-color: #f9fafb;
-    font-weight: 600;
     color: #374151;
+    font-weight: 600;
+    text-transform: uppercase;
 }
 
 .employee-table th,
@@ -120,9 +133,46 @@
 }
 
 .employee-table tbody tr:hover {
-    background-color: #f3f4f6;
+    background-color: #e5e7eb;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.employee-table tbody tr:nth-child(even) {
+    background-color: #f9fafb;
 }
 
 .employee-table tbody tr:last-child td {
     border-bottom: none;
+}
+
+.employee-table input[type='checkbox'] {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .employee-container {
+        padding: 24px 20px;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .filters {
+        flex-direction: column;
+    }
+
+    .search-btn,
+    .reset-btn {
+        width: 100%;
+    }
+
+    .employee-table th,
+    .employee-table td {
+        padding: 12px;
+    }
 }

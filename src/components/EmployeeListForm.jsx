@@ -13,7 +13,7 @@ const employees = [
     },
     {
         id: 'ZT2074',
-        name: 'Mr anshad abdulla...',
+        name: 'Mr. Anshad Abdulla',
         gender: 'Male',
         designation: '',
         department: '',
@@ -22,7 +22,7 @@ const employees = [
     },
     {
         id: 'ZT2073',
-        name: 'Mr anshad muruda',
+        name: 'Mr. Anshad Muruda',
         gender: 'Male',
         designation: '',
         department: '',
@@ -32,7 +32,7 @@ const employees = [
     {
         id: 'ZT2072',
         name: 'Ms. Ammu A Joy',
-        gender: 'Male',
+        gender: 'Female',
         designation: 'Entry Level',
         department: 'Vision 2030',
         mobile: '09447346913',
@@ -53,29 +53,29 @@ const EmployeeList = () => {
     return (
         <div className="employee-container">
             <div className="header">
-                <h2>Employees</h2>
-                <button className="add-btn">+ Add New</button>
+                <h2>Employee Directory</h2>
+                <button className="add-btn">+ Add Employee</button>
             </div>
 
             <div className="filters">
-                <input placeholder="Name/Email/EMP ID" />
+                <input placeholder="Search by Name / Email / ID" />
                 <select>
-                    <option>Designation</option>
+                    <option>Select Designation</option>
                 </select>
                 <select>
-                    <option>Department</option>
+                    <option>Select Department</option>
                 </select>
                 <select>
-                    <option>Gender</option>
+                    <option>Select Gender</option>
                 </select>
                 <select>
-                    <option>Reporting To</option>
+                    <option>Reporting Manager</option>
                 </select>
                 <select>
-                    <option>Status</option>
+                    <option>Employment Status</option>
                 </select>
                 <select>
-                    <option>Select Category</option>
+                    <option>Category</option>
                 </select>
                 <button className="search-btn">Search</button>
                 <button className="reset-btn">Reset</button>
@@ -85,7 +85,7 @@ const EmployeeList = () => {
                 <thead>
                     <tr>
                         <th>
-                            <input type="checkbox" />
+                            <input type="checkbox" aria-label="Select all" />
                         </th>
                         <th>SL.NO</th>
                         <th>Employee ID</th>
@@ -93,24 +93,24 @@ const EmployeeList = () => {
                         <th>Gender</th>
                         <th>Designation</th>
                         <th>Department</th>
-                        <th>Mobile Number</th>
-                        <th>Reporting to</th>
+                        <th>Mobile</th>
+                        <th>Reporting To</th>
                     </tr>
                 </thead>
                 <tbody>
                     {employees.map((emp, index) => (
                         <tr key={emp.id}>
                             <td>
-                                <input type="checkbox" />
+                                <input type="checkbox" aria-label={`Select ${emp.name}`} />
                             </td>
                             <td>{index + 1}</td>
                             <td>{emp.id}</td>
                             <td>{emp.name}</td>
                             <td>{emp.gender}</td>
-                            <td>{emp.designation}</td>
-                            <td>{emp.department}</td>
+                            <td>{emp.designation || '-'}</td>
+                            <td>{emp.department || '-'}</td>
                             <td>{emp.mobile}</td>
-                            <td>{emp.reporting}</td>
+                            <td>{emp.reporting || '-'}</td>
                         </tr>
                     ))}
                 </tbody>
