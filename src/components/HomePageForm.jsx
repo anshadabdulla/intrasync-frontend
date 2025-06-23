@@ -31,6 +31,8 @@ const HomePageForm = () => {
 
                 if (res.data.status) {
                     setEmployee(res.data.data);
+                } else {
+                    throw new Error('Failed to fetch employee');
                 }
             } catch (err) {
                 console.error(err);
@@ -39,6 +41,7 @@ const HomePageForm = () => {
                 setTimeout(() => setShowScreenLoader(false), 800);
             }
         };
+
         fetchData();
     }, [navigate]);
 
@@ -47,10 +50,7 @@ const HomePageForm = () => {
             setShowScreenLoader(true);
             await logout();
             localStorage.removeItem('token');
-
-            setTimeout(() => {
-                navigate('/');
-            }, 800);
+            setTimeout(() => navigate('/'), 800);
         } catch (err) {
             console.error('Logout failed:', err);
             setShowScreenLoader(false);
@@ -80,45 +80,45 @@ const HomePageForm = () => {
         };
     }, [isSidebarOpen]);
 
+    if (showScreenLoader) {
+        return (
+            <div className="screen-loader">
+                <div className="loader-dots screen">
+                    <span></span>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <>
-            {showScreenLoader && (
-                <div className="screen-loader">
-                    <div className="loader-dots screen">
-                        <span></span>
+        <div className="layout-container" ref={layoutRef}>
+            <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+            <div className={`dashboard-container ${isSidebarOpen ? 'shrink' : ''}`}>
+                <DashboardHeader
+                    employee={employee}
+                    onResetPassword={() => setShowReset(true)}
+                    onLogout={handleLogout}
+                />
+                <CardsSummary />
+                <EmployeeInfo employee={employee} />
+                <AttendanceSection />
+            </div>
+
+            {showReset && (
+                <div className="modal-overlay" onClick={() => setShowReset(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <ResetPassword />
+                        <button
+                            className="btn"
+                            style={{ marginTop: 16, background: '#ef4444' }}
+                            onClick={() => setShowReset(false)}
+                        >
+                            Close
+                        </button>
                     </div>
                 </div>
             )}
-
-            <div className="layout-container" ref={layoutRef}>
-                <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-                <div className={`dashboard-container ${isSidebarOpen ? 'shrink' : ''}`}>
-                    <DashboardHeader
-                        employee={employee}
-                        onResetPassword={() => setShowReset(true)}
-                        onLogout={handleLogout}
-                    />
-                    <CardsSummary />
-                    <EmployeeInfo employee={employee} />
-                    <AttendanceSection />
-                </div>
-
-                {showReset && (
-                    <div className="modal-overlay" onClick={() => setShowReset(false)}>
-                        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                            <ResetPassword />
-                            <button
-                                className="btn"
-                                style={{ marginTop: 16, background: '#ef4444' }}
-                                onClick={() => setShowReset(false)}
-                            >
-                                Close
-                            </button>
-                        </div>
-                    </div>
-                )}
-            </div>
-        </>
+        </div>
     );
 };
 
