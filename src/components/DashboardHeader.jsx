@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import '../assets/styles/homePage.css';
 
@@ -7,6 +8,16 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
     const [showCalendar, setShowCalendar] = useState(false);
     const menuRef = useRef();
     const calendarRef = useRef();
+
+    const location = useLocation();
+    const pathname = location.pathname;
+
+    let headingText = '';
+    if (pathname === '/home') {
+        headingText = `Welcome, ${employee?.name}`;
+    } else if (pathname === '/employe-list') {
+        headingText = 'Employees';
+    }
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -46,7 +57,7 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
     return (
         <div className="dashboard-header">
             <div className="welcome-msg">
-                <h2>Welcome, {employee?.name}</h2>
+                {headingText && <h2>{headingText}</h2>}
                 <p>{employee?.designation || ''}</p>
             </div>
 
