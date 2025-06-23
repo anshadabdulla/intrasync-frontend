@@ -29,7 +29,6 @@ const LoginForm = () => {
                 localStorage.setItem('token', res.data.token);
                 setSuccess(true);
                 setMessage('Login successful!');
-
                 setShowScreenLoader(true);
                 setTimeout(() => {
                     navigate('/home', { replace: true });
@@ -48,7 +47,9 @@ const LoginForm = () => {
         <>
             {showScreenLoader && (
                 <div className="screen-loader">
-                    <div className="spinner-lg"></div>
+                    <div className="loader-dots screen">
+                        <span></span>
+                    </div>
                 </div>
             )}
 
