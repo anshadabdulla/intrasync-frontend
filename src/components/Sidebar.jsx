@@ -27,13 +27,16 @@ const Sidebar = () => {
     };
 
     const handleNavigate = (path) => {
-        if (location.pathname !== path) {
+        if (location.pathname === path) return;
+
+        if (path !== '/home') {
             setShowScreenLoader(true);
-            setTimeout(() => {
-                navigate(path);
-                setShowScreenLoader(false);
-            }, 1000);
         }
+
+        setTimeout(() => {
+            navigate(path);
+            setShowScreenLoader(false);
+        }, 1000);
     };
 
     return (

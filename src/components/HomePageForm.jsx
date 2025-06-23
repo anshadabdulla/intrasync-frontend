@@ -15,12 +15,14 @@ const HomePageForm = () => {
     const [employee, setEmployee] = useState(null);
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [showReset, setShowReset] = useState(false);
+    const [showScreenLoader, setShowScreenLoader] = useState(true);
     const navigate = useNavigate();
     const layoutRef = useRef();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setShowScreenLoader(true);
                 const token = localStorage.getItem('token');
                 if (!token) return navigate('/');
 
@@ -33,6 +35,8 @@ const HomePageForm = () => {
             } catch (err) {
                 console.error(err);
                 navigate('/');
+            } finally {
+                setTimeout(() => setShowScreenLoader(false), 800);
             }
         };
         fetchData();
@@ -73,33 +77,44 @@ const HomePageForm = () => {
     }, [isSidebarOpen]);
 
     return (
-        <div className="layout-container" ref={layoutRef}>
-            <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-            <div className={`dashboard-container ${isSidebarOpen ? 'shrink' : ''}`}>
-                <DashboardHeader
-                    employee={employee}
-                    onResetPassword={() => setShowReset(true)}
-                    onLogout={handleLogout}
-                />
-                <CardsSummary />
-                <EmployeeInfo employee={employee} />
-                <AttendanceSection />
-            </div>
-            {showReset && (
-                <div className="modal-overlay" onClick={() => setShowReset(false)}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <ResetPassword />
-                        <button
-                            className="btn"
-                            style={{ marginTop: 16, background: '#ef4444' }}
-                            onClick={() => setShowReset(false)}
-                        >
-                            Close
-                        </button>
+        <>
+            {showScreenLoader && (
+                <div className="screen-loader">
+                    <div className="loader-dots screen">
+                        <span></span>
                     </div>
                 </div>
             )}
-        </div>
+
+            <div className="layout-container" ref={layoutRef}>
+                <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+                <div className={`dashboard-container ${isSidebarOpen ? 'shrink' : ''}`}>
+                    <DashboardHeader
+                        employee={employee}
+                        onResetPassword={() => setShowReset(true)}
+                        onLogout={handleLogout}
+                    />
+                    <CardsSummary />
+                    <EmployeeInfo employee={employee} />
+                    <AttendanceSection />
+                </div>
+
+                {showReset && (
+                    <div className="modal-overlay" onClick={() => setShowReset(false)}>
+                        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                            <ResetPassword />
+                            <button
+                                className="btn"
+                                style={{ marginTop: 16, background: '#ef4444' }}
+                                onClick={() => setShowReset(false)}
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </>
     );
 };
 
