@@ -35,8 +35,9 @@ const ResetPassword = () => {
             const res = await resetPassword(currentPassword, newPassword);
             if (res.data.status) {
                 setMessage('Password changed successfully.');
+                localStorage.removeItem('token');
                 setTimeout(() => {
-                    navigate('/');
+                    navigate('/', { replace: true });
                 }, 1500);
             } else {
                 setError(res.data.data || 'Failed to reset password.');
