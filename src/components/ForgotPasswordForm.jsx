@@ -9,12 +9,15 @@ const ForgotPasswordForm = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [success, setSuccess] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage('');
         setSuccess(false);
+        setIsLoading(true);
+
         try {
             const res = await forgotPassword(email);
             if (res.data.status) {
@@ -25,6 +28,8 @@ const ForgotPasswordForm = () => {
             }
         } catch (err) {
             setMessage(err.response?.data?.data || 'Server error.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -48,14 +53,22 @@ const ForgotPasswordForm = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             required
                             className="login-input"
+                            disabled={isLoading}
                         />
-                        <button type="submit" className="login-button">
-                            Send Reset Link
+                        <button type="submit" className="login-button" disabled={isLoading}>
+                            {isLoading ? (
+                                <span className="loader-dots">
+                                    <span></span>
+                                </span>
+                            ) : (
+                                'Send Reset Link'
+                            )}
                         </button>
                         <button
                             type="button"
                             className="link-button"
                             onClick={() => navigate('/')}
+                            disabled={isLoading}
                             style={{ marginTop: '8px' }}
                         >
                             &larr; Back to Login
