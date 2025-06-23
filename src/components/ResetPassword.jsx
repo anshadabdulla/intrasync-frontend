@@ -9,6 +9,7 @@ const ResetPassword = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [showScreenLoader, setShowScreenLoader] = useState(false);
 
     const navigate = useNavigate();
 
@@ -36,9 +37,10 @@ const ResetPassword = () => {
             if (res.data.status) {
                 setMessage('Password changed successfully.');
                 localStorage.removeItem('token');
+                setShowScreenLoader(true);
                 setTimeout(() => {
                     navigate('/', { replace: true });
-                }, 1500);
+                }, 1200);
             } else {
                 setError(res.data.data || 'Failed to reset password.');
             }
@@ -50,43 +52,53 @@ const ResetPassword = () => {
     };
 
     return (
-        <div className="reset-password-container">
-            <h2>Reset Password</h2>
-            <form className="reset-password-form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Current Password</label>
-                    <input
-                        type="password"
-                        value={currentPassword}
-                        onChange={(e) => setCurrentPassword(e.target.value)}
-                        required
-                    />
+        <>
+            {showScreenLoader && (
+                <div className="screen-loader">
+                    <div className="loader-dots screen">
+                        <span></span>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label>New Password</label>
-                    <input
-                        type="password"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Confirm New Password</label>
-                    <input
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                {error && <div className="form-error">{error}</div>}
-                {message && <div className="form-success">{message}</div>}
-                <button className="btn" type="submit" disabled={loading}>
-                    {loading ? 'Resetting...' : 'Reset Password'}
-                </button>
-            </form>
-        </div>
+            )}
+
+            <div className="reset-password-container">
+                <h2>Reset Password</h2>
+                <form className="reset-password-form" onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label>Current Password</label>
+                        <input
+                            type="password"
+                            value={currentPassword}
+                            onChange={(e) => setCurrentPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>New Password</label>
+                        <input
+                            type="password"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Confirm New Password</label>
+                        <input
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    {error && <div className="form-error">{error}</div>}
+                    {message && <div className="form-success">{message}</div>}
+                    <button className="btn" type="submit" disabled={loading}>
+                        {loading ? 'Resetting...' : 'Reset Password'}
+                    </button>
+                </form>
+            </div>
+        </>
     );
 };
 
