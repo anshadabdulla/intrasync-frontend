@@ -76,6 +76,7 @@ body {
     align-items: center;
     padding-top: 16px;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+    gap: 11px;
 }
 
 .icon-toggle {
@@ -136,6 +137,7 @@ body {
     transition: width var(--transition);
     display: flex;
     flex-direction: column;
+    gap: 10px;
 }
 
 .sidebar-label-panel.open {
