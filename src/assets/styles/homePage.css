@@ -589,48 +589,30 @@ body {
 }
 
 /* -----------------------------------
-   Logout & Reset Password
+   Logout & Reset Password Combined
 ----------------------------------- */
-.logout-section {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 36px;
-}
-.logout-btn {
-    background: var(--logout-bg);
-    color: #fff;
-    padding: 14px 32px;
-    border: none;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 17px;
-    transition: background var(--transition), transform 0.2s;
-    box-shadow: 0 6px 16px rgba(0, 60, 120, 0.09);
-}
-.logout-btn:focus {
-    outline: var(--focus-outline);
-}
-.logout-btn:hover {
-    background: var(--logout-bg-hover);
-    transform: translateY(-2px) scale(1.04);
-}
-.reset-password-container {
-    max-width: 420px;
+
+.account-actions-container {
+    max-width: 520px;
     margin: 48px auto;
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 8px 32px rgba(0, 60, 120, 0.08);
     padding: 40px 32px;
     border: 1px solid #e0e7ff;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
 }
-.reset-password-container h2 {
-    margin-bottom: 28px;
+
+.account-actions-container h2 {
+    margin-bottom: 16px;
     font-size: 24px;
     color: #003c78;
     text-align: center;
     font-weight: 800;
 }
+
 .reset-password-form .form-group {
     margin-bottom: 22px;
     display: flex;
@@ -656,19 +638,49 @@ body {
     border-color: #003c78;
     background: #fff;
 }
-.form-error {
-    color: #ef4444;
-    margin-bottom: 14px;
+
+.form-error,
+.form-success {
     font-size: 16px;
     text-align: center;
     font-weight: 600;
+    margin-bottom: 14px;
+}
+.form-error {
+    color: #ef4444;
 }
 .form-success {
     color: #14b8a6;
-    margin-bottom: 14px;
-    font-size: 16px;
-    text-align: center;
+}
+
+.account-buttons {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.logout-btn,
+.reset-btn {
+    background: var(--logout-bg);
+    color: #fff;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 12px;
     font-weight: 600;
+    cursor: pointer;
+    font-size: 17px;
+    transition: background var(--transition), transform 0.2s;
+    box-shadow: 0 6px 16px rgba(0, 60, 120, 0.09);
+}
+.logout-btn:focus,
+.reset-btn:focus {
+    outline: var(--focus-outline);
+}
+.logout-btn:hover,
+.reset-btn:hover {
+    background: var(--logout-bg-hover);
+    transform: translateY(-2px) scale(1.04);
 }
 
 /* -----------------------------------
