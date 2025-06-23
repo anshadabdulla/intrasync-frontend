@@ -67,7 +67,6 @@ body {
     z-index: 100;
 }
 
-/* --- Icon Panel (Left) --- */
 .sidebar-icon-panel {
     width: var(--sidebar-width);
     background-color: var(--icon-bg);
@@ -127,7 +126,6 @@ body {
     border-radius: 0 2px 2px 0;
 }
 
-/* --- Label Panel (Right) --- */
 .sidebar-label-panel {
     width: 0;
     overflow: hidden;
