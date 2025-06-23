@@ -1,78 +1,88 @@
-.employee-list-container {
-    padding: 30px;
+.employee-container {
+    padding: 24px 40px;
+    background: #f4f6fc;
+    min-height: 100vh;
     font-family: 'Inter', sans-serif;
-    background: #f9fafb;
-    color: #1f2937;
 }
 
-h2 {
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
 }
 
-.filter-row {
+.header h2 {
+    font-size: 22px;
+}
+
+.add-btn {
+    background: #facc15;
+    color: black;
+    padding: 8px 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.filters {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
     margin-bottom: 20px;
-    align-items: center;
 }
 
-.filter-row input,
-.filter-row select {
+.filters input,
+.filters select {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 6px;
     min-width: 160px;
     font-size: 14px;
+    background: white;
 }
 
 .search-btn,
-.reset-btn,
-.add-btn {
+.reset-btn {
     padding: 8px 16px;
-    border: none;
     font-weight: 600;
     border-radius: 6px;
-    cursor: pointer;
     font-size: 14px;
+    cursor: pointer;
 }
 
 .search-btn {
-    background-color: #1d4ed8;
+    background-color: #2563eb;
     color: white;
+    border: none;
 }
 
 .reset-btn {
-    background-color: white;
-    color: #1d4ed8;
-    border: 1px solid #1d4ed8;
-}
-
-.add-btn {
-    background-color: #fbbf24;
-    color: black;
-    margin-left: auto;
+    background: white;
+    color: #2563eb;
+    border: 1px solid #2563eb;
 }
 
 .employee-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: white;
+    background: white;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
 }
 
 .employee-table th,
 .employee-table td {
-    padding: 12px 14px;
-    border-bottom: 1px solid #e5e7eb;
+    padding: 12px;
     font-size: 14px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .employee-table thead {
-    background-color: #f3f4f6;
-    font-weight: 600;
+    background: #f3f4f6;
 }
 
 .employee-table tbody tr:hover {

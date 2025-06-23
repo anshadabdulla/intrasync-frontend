@@ -13,7 +13,7 @@ const employees = [
     },
     {
         id: 'ZT2074',
-        name: 'Mr anshad abdulla',
+        name: 'Mr anshad abdulla...',
         gender: 'Male',
         designation: '',
         department: '',
@@ -51,10 +51,13 @@ const employees = [
 
 const EmployeeList = () => {
     return (
-        <div className="employee-list-container">
-            <h2>Employees</h2>
+        <div className="employee-container">
+            <div className="header">
+                <h2>Employees</h2>
+                <button className="add-btn">+ Add New</button>
+            </div>
 
-            <div className="filter-row">
+            <div className="filters">
                 <input placeholder="Name/Email/EMP ID" />
                 <select>
                     <option>Designation</option>
@@ -76,7 +79,6 @@ const EmployeeList = () => {
                 </select>
                 <button className="search-btn">Search</button>
                 <button className="reset-btn">Reset</button>
-                <button className="add-btn">+ Add New</button>
             </div>
 
             <table className="employee-table">
