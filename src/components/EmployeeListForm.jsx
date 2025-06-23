@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './../assets/styles/employeeList.css';
 
 const employees = [
@@ -50,6 +50,24 @@ const employees = [
 ];
 
 const EmployeeList = () => {
+    const [search, setSearch] = useState('');
+    const [designation, setDesignation] = useState('');
+    const [department, setDepartment] = useState('');
+    const [gender, setGender] = useState('');
+    const [reporting, setReporting] = useState('');
+    const [status, setStatus] = useState('');
+    const [category, setCategory] = useState('');
+
+    const handleReset = () => {
+        setSearch('');
+        setDesignation('');
+        setDepartment('');
+        setGender('');
+        setReporting('');
+        setStatus('');
+        setCategory('');
+    };
+
     return (
         <div className="employee-container">
             <div className="header">
@@ -58,27 +76,35 @@ const EmployeeList = () => {
             </div>
 
             <div className="filters">
-                <input placeholder="Search by Name / Email / ID" />
-                <select>
-                    <option>Select Designation</option>
+                <input
+                    type="text"
+                    placeholder="Search by Name / Email / ID"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+                <select value={designation} onChange={(e) => setDesignation(e.target.value)}>
+                    <option value="">Select Designation</option>
                 </select>
-                <select>
-                    <option>Select Department</option>
+                <select value={department} onChange={(e) => setDepartment(e.target.value)}>
+                    <option value="">Select Department</option>
                 </select>
-                <select>
-                    <option>Select Gender</option>
+                <select value={gender} onChange={(e) => setGender(e.target.value)}>
+                    <option value="">Select Gender</option>
                 </select>
-                <select>
-                    <option>Reporting Manager</option>
+                <select value={reporting} onChange={(e) => setReporting(e.target.value)}>
+                    <option value="">Reporting Manager</option>
                 </select>
-                <select>
-                    <option>Employment Status</option>
+                <select value={status} onChange={(e) => setStatus(e.target.value)}>
+                    <option value="">Employment Status</option>
                 </select>
-                <select>
-                    <option>Category</option>
+                <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <option value="">Category</option>
                 </select>
+
                 <button className="search-btn">Search</button>
-                <button className="reset-btn">Reset</button>
+                <button className="reset-btn" onClick={handleReset}>
+                    Reset
+                </button>
             </div>
 
             <table className="employee-table">
