@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../api/authService';
 import '../assets/styles/loginForm.css';
@@ -11,6 +11,10 @@ const LoginForm = () => {
     const [success, setSuccess] = useState(false);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        localStorage.removeItem('token');
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
