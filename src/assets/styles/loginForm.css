@@ -78,7 +78,7 @@ body {
     display: block;
     margin: 0;
     padding: 0;
-    transform: translateX(-10px);
+    transform: translateX(4px);
 }
 
 .login-title {
