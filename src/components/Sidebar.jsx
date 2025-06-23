@@ -3,14 +3,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import '../assets/styles/homePage.css';
 
 const menuItems = [
-    { icon: 'fa-gauge', label: 'Dashboard', to: '/dashboard' },
-    { icon: 'fa-user-tie', label: 'HR', to: '/hr' },
-    { icon: 'fa-folder', label: 'Documents', to: '/documents' },
-    { icon: 'fa-users', label: 'Team', to: '/team' },
-    { icon: 'fa-file-lines', label: 'Exam', to: '/exam' },
-    { icon: 'fa-laptop-code', label: 'IT', to: '/it' },
-    { icon: 'fa-book-open', label: 'Reports', to: '/reports' },
-    { icon: 'fa-user-check', label: 'Access', to: '/access' }
+    { icon: 'fa-chart-line', label: 'Dashboard', to: '/dashboard' },
+    { icon: 'fa-users', label: 'Employees', to: '/employees' }, 
+    { icon: 'fa-calendar-check', label: 'Daily Updates', to: '/daily-updates' },
+    { icon: 'fa-calendar-day', label: 'Events', to: '/events' },
+    { icon: 'fa-user-slash', label: 'Resignation', to: '/resignation' },
+    { icon: 'fa-ticket-alt', label: 'Tickets', to: '/tickets' },
+    { icon: 'fa-file-contract', label: 'Company Policy', to: '/company-policy' }
 ];
 
 const Sidebar = () => {
