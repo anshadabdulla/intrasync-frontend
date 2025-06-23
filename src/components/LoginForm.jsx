@@ -31,7 +31,7 @@ const LoginForm = () => {
                 setMessage('Login successful!');
                 setShowScreenLoader(true);
                 setTimeout(() => {
-                    navigate('/home', { replace: true });
+                    navigate('/home');
                 }, 1000);
             } else {
                 setMessage(res.data.errors?.[0] || 'Login failed.');
