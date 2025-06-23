@@ -23,7 +23,7 @@ const ResetPassword = () => {
             return;
         }
         if (newPassword.length < 6) {
-            setError('New password must be at least 6 characters.');
+            setError('At least 6 characters.');
             return;
         }
 
