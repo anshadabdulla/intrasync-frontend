@@ -1018,4 +1018,81 @@ body {
     .section-block {
         margin-bottom: var(--gap-sm);
     }
+    @media (max-width: 768px) {
+    .profile-menu {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+    }
+
+    .profile-btn {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+        font-size: 14px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .profile-avatar {
+        margin-right: 0;
+        font-size: 24px;
+    }
+
+    .profile-name {
+        flex: 1;
+        min-width: 0;
+        font-size: 13px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .profile-role {
+        font-size: 11px;
+        color: #6b7280;
+        font-weight: 400;
+    }
+
+    .profile-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        left: auto;
+        min-width: 100%;
+        z-index: 1000;
+        padding: 6px 0;
+    }
+
+    .profile-dropdown button {
+        font-size: 13px;
+        padding: 10px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-btn {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .profile-name {
+        font-size: 12px;
+    }
+
+    .profile-role {
+        font-size: 10px;
+    }
+
+    .profile-dropdown {
+        right: 0;
+        left: 0;
+        width: 100%;
+    }
+}
+
 }
