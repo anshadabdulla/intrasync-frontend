@@ -93,15 +93,19 @@ const HomePageForm = () => {
     return (
         <div className="layout-container" ref={layoutRef}>
             <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+
             <div className={`dashboard-container ${isSidebarOpen ? 'shrink' : ''}`}>
                 <DashboardHeader
                     employee={employee}
                     onResetPassword={() => setShowReset(true)}
                     onLogout={handleLogout}
                 />
-                <CardsSummary />
-                <EmployeeInfo employee={employee} />
-                <AttendanceSection />
+
+                <div className="dashboard-scroll-wrapper">
+                    <CardsSummary />
+                    <EmployeeInfo employee={employee} />
+                    <AttendanceSection />
+                </div>
             </div>
 
             {showReset && (

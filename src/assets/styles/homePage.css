@@ -216,7 +216,8 @@ body {
 ----------------------------------- */
 .dashboard-container {
     flex: 1;
-    padding: 56px 48px;
+    height: 100vh;
+    padding: 56px 48px 0;
     background: var(--dashboard-bg);
     transition: margin-left var(--transition);
     min-width: 0;
@@ -224,8 +225,14 @@ body {
     flex-direction: column;
     gap: var(--gap);
     margin-left: var(--sidebar-width);
+    overflow: hidden;
 }
-
+.dashboard-scroll-wrapper {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: 28px;
+    padding-right: 8px;
+}
 .sidebar-open .dashboard-container {
     margin-left: calc(var(--sidebar-width) + var(--label-panel-width));
 }
