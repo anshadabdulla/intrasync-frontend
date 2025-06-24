@@ -62,6 +62,24 @@ const EmployeeInfo = ({ employee }) => {
                     </div>
                 </div>
                 <div className="info-item">
+                    <MapPin className="icon text-blue-500" />
+                    <div>
+                        <div className="label">Address</div>
+                        <div className="value" style={{ whiteSpace: 'pre-line' }}>
+                            {employee?.permenent_address || '—'}
+                        </div>
+                    </div>
+                </div>
+                <div className="info-item">
+                    <MapPin className="icon text-blue-500" />
+                    <div>
+                        <div className="label">Address</div>
+                        <div className="value" style={{ whiteSpace: 'pre-line' }}>
+                            {employee?.permenent_address || '—'}
+                        </div>
+                    </div>
+                </div>
+                <div className="info-item">
                     <UsersRound className="icon text-pink-500" />
                     <div>
                         <div className="label">Gender</div>
