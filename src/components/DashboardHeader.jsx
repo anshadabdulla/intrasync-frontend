@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import '../assets/styles/homePage.css';
 
@@ -10,6 +10,7 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
     const calendarRef = useRef();
 
     const location = useLocation();
+    const navigate = useNavigate();
     const pathname = location.pathname;
 
     let headingText = '';
@@ -59,8 +60,12 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
             <div className="welcome-msg">{headingText && <h2>{headingText}</h2>}</div>
 
             <div className="nav-actions">
-                <button className="nav-btn active">Dashboard</button>
-                <button className="nav-btn">Welcome</button>
+                <button className="nav-btn active" onClick={() => navigate('/home')}>
+                    Dashboard
+                </button>
+                <button className="nav-btn " onClick={() => navigate('/home')}>
+                    Welcome
+                </button>
                 <button className="nav-btn" onClick={() => setShowCalendar(!showCalendar)}>
                     Calendar
                 </button>
