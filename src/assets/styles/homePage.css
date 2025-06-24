@@ -236,6 +236,11 @@ body {
 .sidebar-open .dashboard-container {
     margin-left: calc(var(--sidebar-width) + var(--label-panel-width));
 }
+.nav-btn.active {
+    background-color: var(--primary-bg-light);
+    color: white;
+    border-radius: 6px;
+}
 
 /* -----------------------------------
    Header Section

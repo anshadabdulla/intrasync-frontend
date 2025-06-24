@@ -60,13 +60,22 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
             <div className="welcome-msg">{headingText && <h2>{headingText}</h2>}</div>
 
             <div className="nav-actions">
-                <button className="nav-btn active" onClick={() => navigate('/home')}>
+                <button
+                    className={`nav-btn ${pathname === '/home' ? 'active' : ''}`}
+                    onClick={() => navigate('/home')}
+                >
                     Dashboard
                 </button>
-                <button className="nav-btn " onClick={() => navigate('/home')}>
+                <button
+                    className={`nav-btn ${pathname === '/employe-list' ? 'active' : ''}`}
+                    onClick={() => navigate('/employe-list')}
+                >
                     Welcome
                 </button>
-                <button className="nav-btn" onClick={() => setShowCalendar(!showCalendar)}>
+                <button
+                    className={`nav-btn ${showCalendar ? 'active' : ''}`}
+                    onClick={() => setShowCalendar(!showCalendar)}
+                >
                     Calendar
                 </button>
 
@@ -76,7 +85,7 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
                         style={{
                             position: 'absolute',
                             top: '60px',
-                            right: showCalendar && window.innerWidth < 500 ? '8px' : '20px',
+                            right: window.innerWidth < 500 ? '8px' : '20px',
                             width: window.innerWidth < 400 ? '95vw' : 'auto',
                             maxWidth: '360px',
                             zIndex: 1000,
