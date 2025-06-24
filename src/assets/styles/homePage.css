@@ -883,6 +883,7 @@ body {
 /* -----------------------------------
    Responsive Design 
 ----------------------------------- */
+
 @media (max-width: 1024px) {
     .dashboard-header {
         flex-direction: column;
