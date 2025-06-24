@@ -47,7 +47,7 @@ const EmployeeInfo = ({ employee }) => {
                     <CalendarDays className="icon text-yellow-500" />
                     <div>
                         <div className="label">Joining Date</div>
-                        <div className="value">{employee?.joining_date || '—'}</div>
+                        <div className="value">{employee?.doj || '—'}</div>
                     </div>
                 </div>
                 <div className="info-item">
@@ -55,7 +55,7 @@ const EmployeeInfo = ({ employee }) => {
                     <div>
                         <div className="label">Address</div>
                         <div className="value" style={{ whiteSpace: 'pre-line' }}>
-                            {employee?.address || '—'}
+                            {employee?.permenent_address || '—'}
                         </div>
                     </div>
                 </div>
