@@ -24,8 +24,11 @@ const EmployeeInfo = ({ employee }) => {
             <div className="info-grid">
                 <div className="info-item">
                     <Mail className="icon text-purple-500" />
-                    <div className="value" style={{ maxWidth: '240px' }}>
-                        {employee?.email || '—'}
+                    <div>
+                        <div className="label">Email</div>
+                        <div className="value" title={employee?.email}>
+                            {employee?.email || '—'}
+                        </div>
                     </div>
                 </div>
                 <div className="info-item">
