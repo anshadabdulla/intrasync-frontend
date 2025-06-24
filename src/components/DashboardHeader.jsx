@@ -56,10 +56,7 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
 
     return (
         <div className="dashboard-header">
-            <div className="welcome-msg">
-                {headingText && <h2>{headingText}</h2>}
-                <p>{employee?.designation || ''}</p>
-            </div>
+            <div className="welcome-msg">{headingText && <h2>{headingText}</h2>}</div>
 
             <div className="nav-actions">
                 <button className="nav-btn active">Dashboard</button>
@@ -91,10 +88,7 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
                 <div className="profile-menu" ref={menuRef}>
                     <button className="profile-btn" onClick={() => setOpen(!open)}>
                         <span className="profile-avatar">{renderAvatar()}</span>
-                        <span className="profile-name">
-                            {employee?.name}
-                            <span className="profile-role">{employee?.designation}</span>
-                        </span>
+                        <span className="profile-name">{employee?.name}</span>
                         <i className="fa fa-chevron-down" style={{ marginLeft: 8 }} />
                     </button>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, Droplet, CalendarDays, MapPin, UsersRound, Building, Briefcase, Crown } from 'lucide-react';
+import { Mail, Phone, Droplet, CalendarDays, MapPin, Building, Briefcase, UserCog } from 'lucide-react';
 import '../assets/styles/homePage.css';
 
 const EmployeeInfo = ({ employee }) => {
@@ -67,7 +67,7 @@ const EmployeeInfo = ({ employee }) => {
                     </div>
                 </div>
                 <div className="info-item">
-                    <Crown className="icon text-yellow-500" />
+                    <UserCog className="icon text-yellow-500" />
                     <div>
                         <div className="label">Team Lead</div>
                         <div className="value">{employee?.TeamLead?.name || '—'}</div>
@@ -80,13 +80,6 @@ const EmployeeInfo = ({ employee }) => {
                         <div className="value" style={{ whiteSpace: 'pre-line' }}>
                             {employee?.permenent_address || '—'}
                         </div>
-                    </div>
-                </div>
-                <div className="info-item">
-                    <UsersRound className="icon text-pink-500" />
-                    <div>
-                        <div className="label">Gender</div>
-                        <div className="value">{employee?.gender || '—'}</div>
                     </div>
                 </div>
             </div>
