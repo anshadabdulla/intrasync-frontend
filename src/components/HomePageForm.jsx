@@ -102,9 +102,15 @@ const HomePageForm = () => {
                 />
 
                 <div className="dashboard-scroll-wrapper">
-                    <CardsSummary />
-                    <EmployeeInfo employee={employee} />
-                    <AttendanceSection />
+                    <div className="section-block">
+                        <CardsSummary />
+                    </div>
+                    <div className="section-block">
+                        <EmployeeInfo employee={employee} />
+                    </div>
+                    <div className="section-block">
+                        <AttendanceSection />
+                    </div>
                 </div>
             </div>
 
