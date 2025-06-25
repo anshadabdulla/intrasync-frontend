@@ -1,26 +1,28 @@
 /* -----------------------------------
-   Employee Dashboard Styles
+   Employee Dashboard Styles - Enterprise UI
 ----------------------------------- */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
 .employee-container {
-    padding: 32px 48px;
+    padding: 40px 64px;
     background-color: #f4f6fc;
     min-height: 100vh;
     font-family: 'Inter', sans-serif;
     box-sizing: border-box;
+    color: #1f2937;
 }
 
+/* Header */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
 }
 
 .header h2 {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 700;
     color: #003c78;
     margin: 0;
@@ -29,37 +31,42 @@
 .add-btn {
     background-color: #facc15;
     color: #111827;
-    padding: 10px 20px;
-    font-size: 14px;
+    padding: 12px 24px;
+    font-size: 15px;
     font-weight: 600;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-    transition: background-color 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .add-btn:hover {
     background-color: #eab308;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 }
 
+/* Filters */
 .filters {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 16px;
+    margin-bottom: 24px;
+    align-items: center;
 }
 
 .filters input,
 .filters select {
-    padding: 10px 12px;
-    font-size: 14px;
+    padding: 12px 14px;
+    font-size: 15px;
     background-color: #ffffff;
     border: 1px solid #d1d5db;
-    border-radius: 8px;
-    min-width: 160px;
+    border-radius: 10px;
+    min-width: 180px;
+    height: 44px;
     outline: none;
-    transition: border-color 0.2s ease;
+    color: #111827;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .filters input::placeholder {
@@ -69,15 +76,38 @@
 .filters input:focus,
 .filters select:focus {
     border-color: #2563eb;
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
 }
 
+.filters select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='%236B7280' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z' clip-rule='evenodd' /%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+    padding-right: 2.5rem;
+    background-color: #fff;
+}
+
+.filters select:hover {
+    border-color: #9ca3af;
+}
+
+.filters select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+    outline: none;
+}
+
+/* Buttons */
 .search-btn,
 .reset-btn {
-    padding: 10px 20px;
-    font-size: 14px;
+    padding: 12px 24px;
+    font-size: 15px;
     font-weight: 600;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -102,26 +132,28 @@
     background-color: #eff6ff;
 }
 
+/* Employee Table */
 .employee-table {
     width: 100%;
     border-collapse: collapse;
     background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     overflow: hidden;
+    font-size: 14px;
+    color: #374151;
 }
 
 .employee-table thead {
     background-color: #f9fafb;
-    color: #374151;
-    font-weight: 600;
     text-transform: uppercase;
+    font-weight: 600;
+    color: #4b5563;
 }
 
 .employee-table th,
 .employee-table td {
-    padding: 14px 16px;
-    font-size: 14px;
+    padding: 16px 20px;
     text-align: left;
     border-bottom: 1px solid #e5e7eb;
 }
@@ -129,16 +161,16 @@
 .employee-table th:first-child,
 .employee-table td:first-child {
     text-align: center;
-    width: 40px;
+    width: 50px;
 }
 
 .employee-table tbody tr:hover {
-    background-color: #e5e7eb;
+    background-color: #f3f4f6;
     transition: background-color 0.2s ease-in-out;
 }
 
 .employee-table tbody tr:nth-child(even) {
-    background-color: #f9fafb;
+    background-color: #fafafa;
 }
 
 .employee-table tbody tr:last-child td {
@@ -148,21 +180,85 @@
 .employee-table input[type='checkbox'] {
     transform: scale(1.1);
     cursor: pointer;
+    accent-color: #2563eb;
+}
+.dropdown {
+    position: relative;
+    min-width: 180px;
 }
 
+.dropdown-toggle {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #111827;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dropdown-toggle:hover {
+    border-color: #9ca3af;
+}
+
+.dropdown-toggle:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+    outline: none;
+}
+
+.dropdown-arrow {
+    font-size: 12px;
+    margin-left: 8px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    z-index: 999;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    padding: 8px 0;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.dropdown-menu li {
+    padding: 10px 16px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-menu li:hover {
+    background-color: #f3f4f6;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
     .employee-container {
-        padding: 24px 20px;
+        padding: 24px;
     }
 
     .header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 12px;
+        gap: 16px;
     }
 
     .filters {
         flex-direction: column;
+        align-items: stretch;
     }
 
     .search-btn,
@@ -172,6 +268,6 @@
 
     .employee-table th,
     .employee-table td {
-        padding: 12px;
+        padding: 14px;
     }
 }

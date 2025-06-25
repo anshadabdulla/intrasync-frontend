@@ -8,9 +8,17 @@ const EmployeeList = () => {
     const [department, setDepartment] = useState('');
     const [reporting, setReporting] = useState('');
     const [status, setStatus] = useState('');
+    const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
+    const statusOptions = {
+        0: 'Resigned',
+        1: 'Active',
+        2: 'Notice Period',
+        3: 'Long Leave'
+    };
 
     const fetchEmployees = useCallback(async () => {
         setLoading(true);
@@ -20,7 +28,7 @@ const EmployeeList = () => {
                 name: search,
                 designation,
                 department,
-                category: status,
+                status,
                 page: 1,
                 pageSize: 10
             });
@@ -69,18 +77,42 @@ const EmployeeList = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
+
                 <select value={designation} onChange={(e) => setDesignation(e.target.value)}>
                     <option value="">Select Designation</option>
                 </select>
+
                 <select value={department} onChange={(e) => setDepartment(e.target.value)}>
                     <option value="">Select Department</option>
                 </select>
+
                 <select value={reporting} onChange={(e) => setReporting(e.target.value)}>
                     <option value="">Reporting Manager</option>
                 </select>
-                <select value={status} onChange={(e) => setStatus(e.target.value)}>
-                    <option value="">Employment Status</option>
-                </select>
+
+                {/* Custom Dropdown for Status */}
+                <div className="dropdown">
+                    <button className="dropdown-toggle" onClick={() => setStatusDropdownOpen(!statusDropdownOpen)}>
+                        {statusOptions[status] || 'Employment Status'}
+                        <span className="dropdown-arrow">▾</span>
+                    </button>
+                    {statusDropdownOpen && (
+                        <ul className="dropdown-menu">
+                            {Object.entries(statusOptions).map(([value, label]) => (
+                                <li
+                                    key={value}
+                                    onClick={() => {
+                                        setStatus(value);
+                                        setStatusDropdownOpen(false);
+                                    }}
+                                >
+                                    {label}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
                 <button className="search-btn" onClick={handleSearch}>
                     Search
                 </button>
