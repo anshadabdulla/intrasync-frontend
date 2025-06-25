@@ -1,53 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { getAllEmployees } from '../api/employeeService';
 import './../assets/styles/employeeList.css';
-
-const employees = [
-    {
-        id: 'ZT2075',
-        name: 'Mr. Jonas K P',
-        gender: 'Male',
-        designation: 'Trainer',
-        department: 'Vision 2030',
-        mobile: '+919876543210',
-        reporting: 'Rithika Raj'
-    },
-    {
-        id: 'ZT2074',
-        name: 'Mr. Anshad Abdulla',
-        gender: 'Male',
-        designation: '',
-        department: '',
-        mobile: '1234567891',
-        reporting: ''
-    },
-    {
-        id: 'ZT2073',
-        name: 'Mr. Anshad Muruda',
-        gender: 'Male',
-        designation: '',
-        department: '',
-        mobile: '1234567891',
-        reporting: ''
-    },
-    {
-        id: 'ZT2072',
-        name: 'Ms. Ammu A Joy',
-        gender: 'Female',
-        designation: 'Entry Level',
-        department: 'Vision 2030',
-        mobile: '09447346913',
-        reporting: 'Rithika Raj'
-    },
-    {
-        id: 'ZT2071',
-        name: 'Ms. Jinx Jin X',
-        gender: 'Female',
-        designation: 'Junior Developer',
-        department: 'Python',
-        mobile: '+919544654503',
-        reporting: 'Rithika Raj'
-    }
-];
 
 const EmployeeList = () => {
     const [search, setSearch] = useState('');
@@ -55,6 +8,43 @@ const EmployeeList = () => {
     const [department, setDepartment] = useState('');
     const [reporting, setReporting] = useState('');
     const [status, setStatus] = useState('');
+    const [employees, setEmployees] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+
+    const fetchEmployees = useCallback(async () => {
+        setLoading(true);
+        setError('');
+        try {
+            const res = await getAllEmployees({
+                name: search,
+                designation,
+                department,
+                category: status,
+                page: 1,
+                pageSize: 10
+            });
+
+            if (res.data.status) {
+                setEmployees(res.data.data);
+            } else {
+                setEmployees([]);
+                setError(res.data.msg || 'Failed to fetch employees');
+            }
+        } catch (err) {
+            setError(err.response?.data?.msg || 'Server error');
+        } finally {
+            setLoading(false);
+        }
+    }, [search, designation, department, status]);
+
+    useEffect(() => {
+        fetchEmployees();
+    }, [fetchEmployees]);
+
+    const handleSearch = () => {
+        fetchEmployees();
+    };
 
     const handleReset = () => {
         setSearch('');
@@ -62,6 +52,7 @@ const EmployeeList = () => {
         setDepartment('');
         setReporting('');
         setStatus('');
+        setTimeout(fetchEmployees, 0);
     };
 
     return (
@@ -90,46 +81,54 @@ const EmployeeList = () => {
                 <select value={status} onChange={(e) => setStatus(e.target.value)}>
                     <option value="">Employment Status</option>
                 </select>
-                <button className="search-btn">Search</button>
+                <button className="search-btn" onClick={handleSearch}>
+                    Search
+                </button>
                 <button className="reset-btn" onClick={handleReset}>
                     Reset
                 </button>
             </div>
 
-            <table className="employee-table">
-                <thead>
-                    <tr>
-                        <th>
-                            <input type="checkbox" aria-label="Select all" />
-                        </th>
-                        <th>SL.NO</th>
-                        <th>Employee ID</th>
-                        <th>Name</th>
-                        <th>Gender</th>
-                        <th>Designation</th>
-                        <th>Department</th>
-                        <th>Mobile</th>
-                        <th>Reporting To</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {employees.map((emp, index) => (
-                        <tr key={emp.id}>
-                            <td>
-                                <input type="checkbox" aria-label={`Select ${emp.name}`} />
-                            </td>
-                            <td>{index + 1}</td>
-                            <td>{emp.id}</td>
-                            <td>{emp.name}</td>
-                            <td>{emp.gender}</td>
-                            <td>{emp.designation || '-'}</td>
-                            <td>{emp.department || '-'}</td>
-                            <td>{emp.mobile}</td>
-                            <td>{emp.reporting || '-'}</td>
+            {loading ? (
+                <p>Loading employees...</p>
+            ) : error ? (
+                <p style={{ color: 'red' }}>{error}</p>
+            ) : (
+                <table className="employee-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" />
+                            </th>
+                            <th>SL.NO</th>
+                            <th>Employee ID</th>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>Designation</th>
+                            <th>Department</th>
+                            <th>Mobile</th>
+                            <th>Reporting To</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {employees.map((emp, index) => (
+                            <tr key={emp.id}>
+                                <td>
+                                    <input type="checkbox" />
+                                </td>
+                                <td>{index + 1}</td>
+                                <td>{emp.employee_no || '-'}</td>
+                                <td>{emp.full_name || '-'}</td>
+                                <td>{emp.gender || '-'}</td>
+                                <td>{emp.Designation?.name || '-'}</td>
+                                <td>{emp.Department?.name || '-'}</td>
+                                <td>{emp.mobile || '-'}</td>
+                                <td>{emp.TeamLead?.name || '-'}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 };

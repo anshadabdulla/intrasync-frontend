@@ -30,3 +30,13 @@ export const resetPassword = async (currentPassword, newPassword) => {
         { headers: { Authorization: `Bearer ${token}` } }
     );
 };
+
+export const getAllEmployees = async (params) => {
+    const token = localStorage.getItem('token');
+    return axios.get('/employee', {
+        params,
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+};
