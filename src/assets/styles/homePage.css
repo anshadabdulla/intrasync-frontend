@@ -301,6 +301,10 @@ body {
     box-shadow: 0 6px 18px rgba(67, 56, 202, 0.18);
 }
 
+/* -----------------------------------
+   react - calendar
+----------------------------------- */
+
 .react-calendar {
     font-family: 'Inter', sans-serif;
     border: none;
