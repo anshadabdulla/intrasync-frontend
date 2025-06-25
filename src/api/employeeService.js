@@ -61,3 +61,10 @@ export const getAllEmployeeTL = async () => {
         headers: { Authorization: `Bearer ${token}` }
     });
 };
+
+export const createEmployee = async (employeeData) => {
+    const token = localStorage.getItem('token');
+    return axios.post('/employee', employeeData, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+};

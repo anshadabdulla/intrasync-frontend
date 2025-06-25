@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { getAllEmployees, getAllDepartments, getAllDesignations, getAllEmployeeTL } from '../api/employeeService';
 import './../assets/styles/employeeList.css';
 import { jwtDecode } from 'jwt-decode';
+import CreateEmployeeForm from './CreateEmployeeForm';
 
 const EmployeeList = () => {
     const [search, setSearch] = useState('');
@@ -22,6 +23,8 @@ const EmployeeList = () => {
     const [departmentList, setDepartmentList] = useState([]);
     const [teamleadList, setTeamleadList] = useState([]);
     const [resetTriggered, setResetTriggered] = useState(false);
+    const [showCreateModal, setShowCreateModal] = useState(false);
+
     const dropdownRef = useRef(null);
     const designationDropdownRef = useRef(null);
     const departmentDropdownRef = useRef(null);
@@ -29,7 +32,6 @@ const EmployeeList = () => {
     const selectAllRef = useRef(null);
 
     let userType = '';
-
     try {
         const token = localStorage.getItem('token');
         if (token) {
@@ -164,7 +166,11 @@ const EmployeeList = () => {
         <div className="employee-container">
             <div className="header">
                 <h2>Employee Directory</h2>
-                {userType === 'hr' && <button className="add-btn">+ Add Employee</button>}
+                {userType === 'hr' && (
+                    <button className="add-btn" onClick={() => setShowCreateModal(true)}>
+                        + Add Employee
+                    </button>
+                )}
             </div>
 
             <div className="filters">
@@ -325,6 +331,19 @@ const EmployeeList = () => {
                         ))}
                     </tbody>
                 </table>
+            )}
+            {showCreateModal && (
+                <div className="modal-overlay" onClick={() => setShowCreateModal(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <CreateEmployeeForm
+                            onClose={() => setShowCreateModal(false)}
+                            onSuccess={() => {
+                                setShowCreateModal(false);
+                                fetchEmployees();
+                            }}
+                        />
+                    </div>
+                </div>
             )}
         </div>
     );
