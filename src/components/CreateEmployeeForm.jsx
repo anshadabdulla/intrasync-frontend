@@ -60,8 +60,10 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
                     <input id="mobile" name="mobile" onChange={handleChange} required />
 
                     <label htmlFor="gender">Gender</label>
-                    <select id="gender" name="gender" onChange={handleChange} required>
-                        <option value="">Select Gender</option>
+                    <select id="gender" name="gender" value={form.gender} onChange={handleChange} required>
+                        <option value="" disabled hidden>
+                            Select Gender
+                        </option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
