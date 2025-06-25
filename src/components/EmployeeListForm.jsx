@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { getAllEmployees, getAllDepartments, getAllDesignations, getAllEmployeeTL } from '../api/employeeService';
 import './../assets/styles/employeeList.css';
+import { jwtDecode } from 'jwt-decode';
 
 const EmployeeList = () => {
     const [search, setSearch] = useState('');
@@ -26,6 +27,18 @@ const EmployeeList = () => {
     const departmentDropdownRef = useRef(null);
     const teamleadDropdownRef = useRef(null);
     const selectAllRef = useRef(null);
+
+    let userType = '';
+
+    try {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decoded = jwtDecode(token);
+            userType = decoded.user_type?.toLowerCase();
+        }
+    } catch (error) {
+        console.error('Invalid token:', error);
+    }
 
     const statusOptions = {
         0: 'Resigned',
@@ -151,7 +164,7 @@ const EmployeeList = () => {
         <div className="employee-container">
             <div className="header">
                 <h2>Employee Directory</h2>
-                <button className="add-btn">+ Add Employee</button>
+                {userType === 'hr' && <button className="add-btn">+ Add Employee</button>}
             </div>
 
             <div className="filters">
