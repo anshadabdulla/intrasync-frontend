@@ -9,6 +9,8 @@ const EmployeeList = () => {
     const [reporting, setReporting] = useState('');
     const [status, setStatus] = useState('');
     const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
+    const [designationDropdownOpen, setDesignationDropdownOpen] = useState(false);
+    const [departmentDropdownOpen, setDepartmentDropdownOpen] = useState(false);
     const [employees, setEmployees] = useState([]);
     const [selectedEmployees, setSelectedEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -17,6 +19,8 @@ const EmployeeList = () => {
     const [departmentList, setDepartmentList] = useState([]);
     const [resetTriggered, setResetTriggered] = useState(false);
     const dropdownRef = useRef(null);
+    const designationDropdownRef = useRef(null);
+    const departmentDropdownRef = useRef(null);
     const selectAllRef = useRef(null);
 
     const statusOptions = {
@@ -29,9 +33,7 @@ const EmployeeList = () => {
     const fetchEmployees = useCallback(async () => {
         setLoading(true);
         setError('');
-
         const delay = new Promise((resolve) => setTimeout(resolve, 400));
-
         try {
             const [res] = await Promise.all([
                 getAllEmployees({
@@ -69,6 +71,12 @@ const EmployeeList = () => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setStatusDropdownOpen(false);
             }
+            if (designationDropdownRef.current && !designationDropdownRef.current.contains(event.target)) {
+                setDesignationDropdownOpen(false);
+            }
+            if (departmentDropdownRef.current && !departmentDropdownRef.current.contains(event.target)) {
+                setDepartmentDropdownOpen(false);
+            }
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -78,14 +86,12 @@ const EmployeeList = () => {
         const fetchDropdownData = async () => {
             try {
                 const [designationRes, departmentRes] = await Promise.all([getAllDesignations(), getAllDepartments()]);
-
                 if (designationRes.data.status) setDesignationList(designationRes.data.data);
                 if (departmentRes.data.status) setDepartmentList(departmentRes.data.data);
             } catch (err) {
                 console.error('Dropdown load error:', err);
             }
         };
-
         fetchDropdownData();
     }, []);
 
@@ -103,9 +109,7 @@ const EmployeeList = () => {
         }
     }, [resetTriggered, fetchEmployees]);
 
-    const handleSearch = () => {
-        fetchEmployees();
-    };
+    const handleSearch = () => fetchEmployees();
 
     const handleReset = () => {
         setSearch('');
@@ -114,7 +118,7 @@ const EmployeeList = () => {
         setReporting('');
         setStatus('');
         setSelectedEmployees([]);
-        setResetTriggered(true); // Trigger fetch after reset
+        setResetTriggered(true);
     };
 
     const handleSelectAll = (e) => {
@@ -144,24 +148,53 @@ const EmployeeList = () => {
                     onChange={(e) => setSearch(e.target.value)}
                 />
 
-                <select value={designation} onChange={(e) => setDesignation(e.target.value)}>
-                    <option value="">Select Designation</option>
-                    {designationList.map((item) => (
-                        <option key={item.id} value={item.id}>
-                            {item.name}
-                        </option>
-                    ))}
-                </select>
+                {/* Custom Designation Dropdown */}
+                <div className="dropdown" ref={designationDropdownRef}>
+                    <button className="dropdown-toggle" onClick={() => setDesignationDropdownOpen((prev) => !prev)}>
+                        {designationList.find((d) => d.id === designation)?.name || 'Select Designation'}
+                        <span className="dropdown-arrow">▾</span>
+                    </button>
+                    {designationDropdownOpen && (
+                        <ul className="dropdown-menu show">
+                            {designationList.map((item) => (
+                                <li
+                                    key={item.id}
+                                    onClick={() => {
+                                        setDesignation(item.id);
+                                        setDesignationDropdownOpen(false);
+                                    }}
+                                >
+                                    {item.name}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
 
-                <select value={department} onChange={(e) => setDepartment(e.target.value)}>
-                    <option value="">Select Department</option>
-                    {departmentList.map((item) => (
-                        <option key={item.id} value={item.id}>
-                            {item.name}
-                        </option>
-                    ))}
-                </select>
+                {/* Custom Department Dropdown */}
+                <div className="dropdown" ref={departmentDropdownRef}>
+                    <button className="dropdown-toggle" onClick={() => setDepartmentDropdownOpen((prev) => !prev)}>
+                        {departmentList.find((d) => d.id === department)?.name || 'Select Department'}
+                        <span className="dropdown-arrow">▾</span>
+                    </button>
+                    {departmentDropdownOpen && (
+                        <ul className="dropdown-menu show">
+                            {departmentList.map((item) => (
+                                <li
+                                    key={item.id}
+                                    onClick={() => {
+                                        setDepartment(item.id);
+                                        setDepartmentDropdownOpen(false);
+                                    }}
+                                >
+                                    {item.name}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
 
+                {/* Employment Status Dropdown */}
                 <div className="dropdown" ref={dropdownRef}>
                     <button className="dropdown-toggle" onClick={() => setStatusDropdownOpen((prev) => !prev)}>
                         {statusOptions[status] || 'Employment Status'}
