@@ -302,15 +302,15 @@ body {
 }
 
 /* -----------------------------------
-   React Calendar
+   React Calendar - Enhanced UI
 ----------------------------------- */
 
 .react-calendar {
     font-family: 'Inter', sans-serif;
     background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+    padding: 24px;
     max-width: 100%;
     width: 100%;
     box-sizing: border-box;
@@ -321,7 +321,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .react-calendar__navigation button {
@@ -331,8 +331,8 @@ body {
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    padding: 6px 14px;
-    border-radius: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
@@ -346,26 +346,29 @@ body {
     justify-content: space-between;
     text-align: center;
     font-weight: 600;
-    color: #9ca3af;
+    color: #6b7280;
     text-transform: uppercase;
     font-size: 13px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    padding: 0 4px;
 }
 
 .react-calendar__month-view__weekdays__weekday {
-    padding: 6px 0;
+    flex: 1;
+    padding: 8px 0;
 }
 
 .react-calendar__tile {
     background: none;
     border: none;
     text-align: center;
-    padding: 8px 0;
+    padding: 12px 0;
     cursor: pointer;
     font-size: 15px;
     color: #1f2937;
-    border-radius: 8px;
+    border-radius: 10px;
     transition: all 0.25s ease;
+    margin: 2px;
 }
 
 .react-calendar__tile:hover {
@@ -378,7 +381,7 @@ body {
     background-color: #2563eb !important;
     color: #ffffff;
     font-weight: 700;
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 .react-calendar__tile--now {
@@ -386,8 +389,8 @@ body {
     color: #0284c7;
     font-weight: 600;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -400,22 +403,22 @@ body {
 
 @media screen and (max-width: 480px) {
     .react-calendar {
-        padding: 14px;
+        padding: 16px;
     }
 
     .react-calendar__tile {
         font-size: 13px;
-        padding: 6px 0;
+        padding: 10px 0;
     }
 
     .react-calendar__navigation button {
         font-size: 13px;
-        padding: 4px 10px;
+        padding: 6px 10px;
     }
 
     .react-calendar__tile--now {
-        width: 30px;
-        height: 30px;
+        width: 32px;
+        height: 32px;
         font-size: 13px;
     }
 }
