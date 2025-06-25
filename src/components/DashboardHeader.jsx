@@ -84,8 +84,8 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
                         ref={calendarRef}
                         style={{
                             position: 'absolute',
-                            top: '60px',
-                            right: window.innerWidth < 500 ? '8px' : '20px',
+                            top: '170px',
+                            right: window.innerWidth < 500 ? '40px' : '60px',
                             width: window.innerWidth < 400 ? '95vw' : 'auto',
                             maxWidth: '360px',
                             zIndex: 1000,
