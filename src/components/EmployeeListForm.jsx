@@ -43,7 +43,7 @@ const EmployeeList = () => {
 
             if (res.data.status) {
                 setEmployees(res.data.data);
-                setSelectedEmployees([]); // clear selection on fetch
+                setSelectedEmployees([]);
             } else {
                 setEmployees([]);
                 setError(res.data.msg || 'Failed to fetch employees');
