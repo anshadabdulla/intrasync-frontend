@@ -60,10 +60,7 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
             <div className="welcome-msg">{headingText && <h2>{headingText}</h2>}</div>
 
             <div className="nav-actions">
-                <button
-                    className={`nav-btn ${pathname === '/home' ? 'active' : ''}`}
-                    onClick={() => navigate('/home')}
-                >
+                <button className={`nav-btn ${pathname === '/home' ? 'active' : ''}`} onClick={() => navigate('/home')}>
                     Dashboard
                 </button>
                 <button
@@ -95,7 +92,11 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
                             padding: 16
                         }}
                     >
-                        <Calendar defaultValue={new Date()} />
+                        <Calendar
+                            defaultValue={new Date()}
+                            showNeighboringMonth={false}
+                            showFixedNumberOfWeeks={false}
+                        />
                     </div>
                 )}
 
