@@ -49,7 +49,7 @@ const EmployeeList = () => {
 
     useEffect(() => {
         fetchEmployees();
-    }, [fetchEmployees, search, designation, department, status]);
+    }, [fetchEmployees]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -132,7 +132,11 @@ const EmployeeList = () => {
             </div>
 
             {loading ? (
-                <p>Loading employees...</p>
+                <div className="loader-wrapper">
+                    <div className="loader-dots">
+                        <span></span>
+                    </div>
+                </div>
             ) : error ? (
                 <p style={{ color: 'red' }}>{error}</p>
             ) : (
