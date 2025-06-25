@@ -24,15 +24,21 @@ const EmployeeList = () => {
     const fetchEmployees = useCallback(async () => {
         setLoading(true);
         setError('');
+
+        const delay = new Promise((resolve) => setTimeout(resolve, 2000));
+
         try {
-            const res = await getAllEmployees({
-                name: search,
-                designation,
-                department,
-                status,
-                page: 1,
-                pageSize: 10
-            });
+            const [res] = await Promise.all([
+                getAllEmployees({
+                    name: search,
+                    designation,
+                    department,
+                    status,
+                    page: 1,
+                    pageSize: 10
+                }),
+                delay
+            ]);
 
             if (res.data.status) {
                 setEmployees(res.data.data);
