@@ -1,187 +1,136 @@
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(17, 24, 39, 0.65);
-    z-index: 1000;
-}
 
-.modal-content {
-    width: 100%;
-    max-width: 640px;
-    max-height: 90vh;
-    padding: 48px;
-    border-radius: 18px;
-    background-color: #ffffff;
-    overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-    animation: modalFadeIn 0.25s ease-in-out;
-    box-sizing: border-box;
-}
-
-@keyframes modalFadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.create-employee-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.page-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px;
     font-family: 'Inter', sans-serif;
+    background-color: #f9fafb;
     color: #111827;
 }
 
-.create-employee-form h2 {
-    font-size: 26px;
-    font-weight: 700;
-    color: #1f2937;
-    margin-bottom: 12px;
-    text-align: center;
+
+.form-section {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
-.create-employee-form label {
-    font-size: 14px;
+
+.section-title {
+    background-color: #5c83f6;
+    color: white;
+    padding: 16px 24px;
+    font-size: 18px;
     font-weight: 600;
-    color: #374151;
-    margin-bottom: 4px;
-    display: block;
+    border-bottom: 1px solid #e5e7eb;
 }
 
-.create-employee-form input,
-.create-employee-form textarea {
+form fieldset {
+    border: none;
+    padding: 24px;
+}
+
+form legend {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 24px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 1024px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.grid-container input,
+.grid-container select {
     width: 100%;
-    padding: 14px 16px;
-    border: 1px solid #d1d5db;
-    border-radius: 10px;
-    font-size: 15px;
-    background-color: #f9fafb;
-    transition: all 0.2s ease;
-    resize: vertical;
-}
-
-.create-employee-form input:focus,
-.create-employee-form textarea:focus {
-    border-color: #4f46e5;
-    background-color: #ffffff;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-    outline: none;
-}
-
-.create-employee-form select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    width: 100%;
-    padding: 14px 16px;
-    padding-right: 48px;
-    font-size: 15px;
-    font-weight: 500;
-    color: #1f2937;
-    background-color: #f9fafb;
-    border: 1px solid #d1d5db;
-    border-radius: 10px;
-    background-image: url("data:image/svg+xml,%3Csvg fill='gray' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 12l-4-4h8l-4 4z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1.25rem center;
-    background-size: 1rem;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
-}
-
-.create-employee-form select:focus {
-    border-color: #4f46e5;
-    background-color: #ffffff;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-    outline: none;
-}
-
-.form-error {
-    background-color: #fef2f2;
-    border: 1px solid #fecaca;
-    color: #b91c1c;
+    padding: 12px 14px;
     font-size: 14px;
-    padding: 12px 16px;
+    border: 1px solid #d1d5db;
     border-radius: 8px;
-    margin-top: -8px;
+    background-color: white;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
-.create-employee-form .btn {
-    padding: 14px 20px;
-    font-size: 15px;
+.grid-container input:focus,
+.grid-container select:focus {
+    border-color: #5c83f6;
+    box-shadow: 0 0 0 2px rgba(92, 131, 246, 0.2);
+    outline: none;
+}
+
+::placeholder {
+    color: #9ca3af;
+    opacity: 1;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 20px 24px;
+    background-color: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.btn {
+    padding: 10px 20px;
     font-weight: 600;
-    color: #ffffff;
-    background-color: #2563eb;
+    font-size: 14px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition: background-color 0.2s ease;
 }
 
-.create-employee-form .btn:hover {
+.btn.primary {
+    background-color: #2563eb;
+    color: white;
+}
+
+.btn.primary:hover {
     background-color: #1e40af;
-    transform: translateY(-1px);
 }
 
-.create-employee-form .btn.cancel {
-    background-color: #ef4444;
-    margin-top: 10px;
+.btn.secondary {
+    background-color: #f3f4f6;
+    color: #111827;
 }
 
-.create-employee-form .btn.cancel:hover {
-    background-color: #b91c1c;
+.btn.secondary:hover {
+    background-color: #e5e7eb;
 }
 
-@media (max-width: 480px) {
-    .modal-content {
-        padding: 28px;
-    }
-
-    .create-employee-form h2 {
-        font-size: 22px;
-    }
-
-    .create-employee-form input,
-    .create-employee-form textarea,
-    .create-employee-form select {
-        padding: 12px;
-        font-size: 14px;
-    }
-
-    .create-employee-form .btn {
-        width: 100%;
-    }
+.btn.cancel {
+    background-color: transparent;
+    border: 1px solid #d1d5db;
+    color: #374151;
 }
 
-body.dark .modal-content {
-    background-color: #1f2937;
-    color: #f9fafb;
+.btn.cancel:hover {
+    background-color: #f9fafb;
 }
 
-body.dark .create-employee-form input,
-body.dark .create-employee-form textarea,
-body.dark .create-employee-form select {
-    background-color: #374151;
-    color: #f9fafb;
-    border-color: #4b5563;
-}
-
-body.dark .create-employee-form select {
-    background-image: url("data:image/svg+xml,%3Csvg fill='white' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 12l-4-4h8l-4 4z'/%3E%3C/svg%3E");
-}
-
-body.dark .form-error {
-    background-color: #7f1d1d;
-    border-color: #ef4444;
+.form-error {
+    color: #dc2626;
+    padding: 0 24px;
+    font-size: 14px;
+    margin-top: -12px;
 }
