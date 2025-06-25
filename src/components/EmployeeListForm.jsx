@@ -148,7 +148,6 @@ const EmployeeList = () => {
                     onChange={(e) => setSearch(e.target.value)}
                 />
 
-                {/* Custom Designation Dropdown */}
                 <div className="dropdown" ref={designationDropdownRef}>
                     <button className="dropdown-toggle" onClick={() => setDesignationDropdownOpen((prev) => !prev)}>
                         {designationList.find((d) => d.id === designation)?.name || 'Select Designation'}
@@ -171,7 +170,6 @@ const EmployeeList = () => {
                     )}
                 </div>
 
-                {/* Custom Department Dropdown */}
                 <div className="dropdown" ref={departmentDropdownRef}>
                     <button className="dropdown-toggle" onClick={() => setDepartmentDropdownOpen((prev) => !prev)}>
                         {departmentList.find((d) => d.id === department)?.name || 'Select Department'}
@@ -194,7 +192,6 @@ const EmployeeList = () => {
                     )}
                 </div>
 
-                {/* Employment Status Dropdown */}
                 <div className="dropdown" ref={dropdownRef}>
                     <button className="dropdown-toggle" onClick={() => setStatusDropdownOpen((prev) => !prev)}>
                         {statusOptions[status] || 'Employment Status'}
