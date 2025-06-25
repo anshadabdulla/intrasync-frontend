@@ -25,7 +25,7 @@ const EmployeeList = () => {
         setLoading(true);
         setError('');
 
-        const delay = new Promise((resolve) => setTimeout(resolve, 2000));
+        const delay = new Promise((resolve) => setTimeout(resolve, 400));
 
         try {
             const [res] = await Promise.all([
