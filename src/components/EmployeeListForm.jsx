@@ -1,26 +1,30 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { getAllEmployees, getAllDepartments, getAllDesignations } from '../api/employeeService';
+import { getAllEmployees, getAllDepartments, getAllDesignations, getAllEmployeeTL } from '../api/employeeService';
 import './../assets/styles/employeeList.css';
 
 const EmployeeList = () => {
     const [search, setSearch] = useState('');
     const [designation, setDesignation] = useState('');
     const [department, setDepartment] = useState('');
+    const [teamlead, setTeamlead] = useState('');
     const [reporting, setReporting] = useState('');
     const [status, setStatus] = useState('');
     const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
     const [designationDropdownOpen, setDesignationDropdownOpen] = useState(false);
     const [departmentDropdownOpen, setDepartmentDropdownOpen] = useState(false);
+    const [teamleadDropdownOpen, setTeamleadDropdownOpen] = useState(false);
     const [employees, setEmployees] = useState([]);
     const [selectedEmployees, setSelectedEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [designationList, setDesignationList] = useState([]);
     const [departmentList, setDepartmentList] = useState([]);
+    const [teamleadList, setTeamleadList] = useState([]);
     const [resetTriggered, setResetTriggered] = useState(false);
     const dropdownRef = useRef(null);
     const designationDropdownRef = useRef(null);
     const departmentDropdownRef = useRef(null);
+    const teamleadDropdownRef = useRef(null);
     const selectAllRef = useRef(null);
 
     const statusOptions = {
@@ -41,6 +45,7 @@ const EmployeeList = () => {
                     designation,
                     department,
                     reporting,
+                    teamlead,
                     status,
                     page: 1,
                     pageSize: 10
@@ -60,7 +65,7 @@ const EmployeeList = () => {
         } finally {
             setLoading(false);
         }
-    }, [search, designation, department, reporting, status]);
+    }, [search, designation, department, reporting, status, teamlead]);
 
     useEffect(() => {
         fetchEmployees();
@@ -77,6 +82,9 @@ const EmployeeList = () => {
             if (departmentDropdownRef.current && !departmentDropdownRef.current.contains(event.target)) {
                 setDepartmentDropdownOpen(false);
             }
+            if (teamleadDropdownRef.current && !teamleadDropdownRef.current.contains(event.target)) {
+                setTeamleadDropdownOpen(false);
+            }
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -85,9 +93,14 @@ const EmployeeList = () => {
     useEffect(() => {
         const fetchDropdownData = async () => {
             try {
-                const [designationRes, departmentRes] = await Promise.all([getAllDesignations(), getAllDepartments()]);
+                const [designationRes, departmentRes, teamleadRes] = await Promise.all([
+                    getAllDesignations(),
+                    getAllDepartments(),
+                    getAllEmployeeTL()
+                ]);
                 if (designationRes.data.status) setDesignationList(designationRes.data.data);
                 if (departmentRes.data.status) setDepartmentList(departmentRes.data.data);
+                if (teamleadRes.data.status) setTeamleadList(teamleadRes.data.data);
             } catch (err) {
                 console.error('Dropdown load error:', err);
             }
@@ -115,6 +128,7 @@ const EmployeeList = () => {
         setSearch('');
         setDesignation('');
         setDepartment('');
+        setTeamlead('');
         setReporting('');
         setStatus('');
         setSelectedEmployees([]);
@@ -183,6 +197,28 @@ const EmployeeList = () => {
                                     onClick={() => {
                                         setDepartment(item.id);
                                         setDepartmentDropdownOpen(false);
+                                    }}
+                                >
+                                    {item.name}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
+                <div className="dropdown" ref={teamleadDropdownRef}>
+                    <button className="dropdown-toggle" onClick={() => setTeamleadDropdownOpen((prev) => !prev)}>
+                        {teamleadList.find((d) => d.id === teamlead)?.name || 'Reporting To'}
+                        <span className="dropdown-arrow">▾</span>
+                    </button>
+                    {teamleadDropdownOpen && (
+                        <ul className="dropdown-menu show">
+                            {teamleadList.map((item) => (
+                                <li
+                                    key={item.id}
+                                    onClick={() => {
+                                        setTeamlead(item.id);
+                                        setTeamleadDropdownOpen(false);
                                     }}
                                 >
                                     {item.name}

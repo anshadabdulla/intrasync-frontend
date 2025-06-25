@@ -54,3 +54,10 @@ export const getAllDepartments = async () => {
         headers: { Authorization: `Bearer ${token}` }
     });
 };
+
+export const getAllEmployeeTL = async () => {
+    const token = localStorage.getItem('token');
+    return axios.get('/employee-tl', {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+};
