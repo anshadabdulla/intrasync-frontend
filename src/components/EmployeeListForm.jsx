@@ -10,6 +10,7 @@ const EmployeeList = () => {
     const [status, setStatus] = useState('');
     const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
     const [employees, setEmployees] = useState([]);
+    const [selectedEmployees, setSelectedEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const dropdownRef = useRef(null);
@@ -42,6 +43,7 @@ const EmployeeList = () => {
 
             if (res.data.status) {
                 setEmployees(res.data.data);
+                setSelectedEmployees([]); // clear selection on fetch
             } else {
                 setEmployees([]);
                 setError(res.data.msg || 'Failed to fetch employees');
@@ -78,6 +80,22 @@ const EmployeeList = () => {
         setDepartment('');
         setReporting('');
         setStatus('');
+        setSelectedEmployees([]);
+        setTimeout(() => {
+            fetchEmployees();
+        }, 0);
+    };
+
+    const handleSelectAll = (e) => {
+        if (e.target.checked) {
+            setSelectedEmployees(employees.map((emp) => emp.id));
+        } else {
+            setSelectedEmployees([]);
+        }
+    };
+
+    const handleSelectOne = (id, checked) => {
+        setSelectedEmployees((prev) => (checked ? [...prev, id] : prev.filter((empId) => empId !== id)));
     };
 
     return (
@@ -145,12 +163,21 @@ const EmployeeList = () => {
                 </div>
             ) : error ? (
                 <p style={{ color: 'red' }}>{error}</p>
+            ) : employees.length === 0 ? (
+                <p>No employees found.</p>
             ) : (
                 <table className="employee-table">
                     <thead>
                         <tr>
                             <th>
-                                <input type="checkbox" />
+                                <input
+                                    type="checkbox"
+                                    onChange={handleSelectAll}
+                                    checked={employees.length > 0 && selectedEmployees.length === employees.length}
+                                    indeterminate={
+                                        selectedEmployees.length > 0 && selectedEmployees.length < employees.length
+                                    }
+                                />
                             </th>
                             <th>SL.NO</th>
                             <th>Employee ID</th>
@@ -166,7 +193,11 @@ const EmployeeList = () => {
                         {employees.map((emp, index) => (
                             <tr key={emp.id}>
                                 <td>
-                                    <input type="checkbox" />
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedEmployees.includes(emp.id)}
+                                        onChange={(e) => handleSelectOne(emp.id, e.target.checked)}
+                                    />
                                 </td>
                                 <td>{index + 1}</td>
                                 <td>{emp.employee_no || '-'}</td>
