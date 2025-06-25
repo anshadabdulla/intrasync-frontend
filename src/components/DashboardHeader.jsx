@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css'; // Base styles (required)
-import '../assets/styles/homePage.css'; // Your custom overrides
+import 'react-calendar/dist/Calendar.css';
+import '../assets/styles/homePage.css';
 
 const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
     const [open, setOpen] = useState(false);
