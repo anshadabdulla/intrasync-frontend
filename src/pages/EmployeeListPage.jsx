@@ -13,6 +13,8 @@ const EmployeeListPage = () => {
     const [employee, setEmployee] = useState(null);
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [showReset, setShowReset] = useState(false);
+    const [showScreenLoader, setShowScreenLoader] = useState(false);
+
     const navigate = useNavigate();
     const layoutRef = useRef();
 
@@ -38,12 +40,13 @@ const EmployeeListPage = () => {
 
     const handleLogout = async () => {
         try {
+            setShowScreenLoader(true);
             await logout();
+            localStorage.removeItem('token');
+            setTimeout(() => navigate('/'), 800);
         } catch (err) {
             console.error('Logout failed:', err);
-        } finally {
-            localStorage.removeItem('token');
-            navigate('/');
+            setShowScreenLoader(false);
         }
     };
 
@@ -70,6 +73,16 @@ const EmployeeListPage = () => {
         };
     }, [isSidebarOpen]);
 
+    if (showScreenLoader) {
+        return (
+            <div className="screen-loader">
+                <div className="loader-dots screen">
+                    <span></span>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="layout-container" ref={layoutRef}>
             <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
@@ -77,7 +90,7 @@ const EmployeeListPage = () => {
                 <DashboardHeader
                     employee={employee}
                     onLogout={handleLogout}
-                    onResetPassword={() => setShowReset(true)} 
+                    onResetPassword={() => setShowReset(true)}
                 />
                 <EmployeeListForm />
             </div>
