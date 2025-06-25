@@ -3,7 +3,6 @@ import { getAllEmployees, getAllDepartments, getAllDesignations, getAllEmployeeT
 import { useNavigate } from 'react-router-dom';
 import './../assets/styles/employeeList.css';
 import { jwtDecode } from 'jwt-decode';
-import CreateEmployeeForm from './CreateEmployeeForm';
 
 const EmployeeList = () => {
     const [search, setSearch] = useState('');
@@ -24,7 +23,6 @@ const EmployeeList = () => {
     const [departmentList, setDepartmentList] = useState([]);
     const [teamleadList, setTeamleadList] = useState([]);
     const [resetTriggered, setResetTriggered] = useState(false);
-    const [showCreateModal, setShowCreateModal] = useState(false);
 
     const dropdownRef = useRef(null);
     const designationDropdownRef = useRef(null);
@@ -333,19 +331,6 @@ const EmployeeList = () => {
                         ))}
                     </tbody>
                 </table>
-            )}
-            {showCreateModal && (
-                <div className="modal-overlay" onClick={() => setShowCreateModal(false)}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <CreateEmployeeForm
-                            onClose={() => setShowCreateModal(false)}
-                            onSuccess={() => {
-                                setShowCreateModal(false);
-                                fetchEmployees();
-                            }}
-                        />
-                    </div>
-                </div>
             )}
         </div>
     );
