@@ -249,6 +249,14 @@ body {
     background-color: var(--gray-hover);
 }
 
+.dropdown-menu {
+    display: none;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .employee-container {

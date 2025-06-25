@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { getAllEmployees } from '../api/employeeService';
 import './../assets/styles/employeeList.css';
 
@@ -12,6 +12,7 @@ const EmployeeList = () => {
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const dropdownRef = useRef(null);
 
     const statusOptions = {
         0: 'Resigned',
@@ -48,7 +49,18 @@ const EmployeeList = () => {
 
     useEffect(() => {
         fetchEmployees();
-    }, [fetchEmployees]);
+    }, [fetchEmployees, search, designation, department, status]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setStatusDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     const handleSearch = () => {
         fetchEmployees();
@@ -60,7 +72,6 @@ const EmployeeList = () => {
         setDepartment('');
         setReporting('');
         setStatus('');
-        setTimeout(fetchEmployees, 0);
     };
 
     return (
@@ -90,14 +101,13 @@ const EmployeeList = () => {
                     <option value="">Reporting Manager</option>
                 </select>
 
-                {/* Custom Dropdown for Status */}
-                <div className="dropdown">
-                    <button className="dropdown-toggle" onClick={() => setStatusDropdownOpen(!statusDropdownOpen)}>
+                <div className="dropdown" ref={dropdownRef}>
+                    <button className="dropdown-toggle" onClick={() => setStatusDropdownOpen((prev) => !prev)}>
                         {statusOptions[status] || 'Employment Status'}
                         <span className="dropdown-arrow">▾</span>
                     </button>
                     {statusDropdownOpen && (
-                        <ul className="dropdown-menu">
+                        <ul className="dropdown-menu show">
                             {Object.entries(statusOptions).map(([value, label]) => (
                                 <li
                                     key={value}
