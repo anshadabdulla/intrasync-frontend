@@ -157,7 +157,7 @@ const EmployeeList = () => {
             <div className="filters">
                 <input
                     type="text"
-                    placeholder="Search by Name / Email / ID"
+                    placeholder="Search by Name / ID"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
