@@ -40,3 +40,17 @@ export const getAllEmployees = async (params) => {
         }
     });
 };
+
+export const getAllDesignations = async () => {
+    const token = localStorage.getItem('token');
+    return axios.get('/designation', {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+};
+
+export const getAllDepartments = async () => {
+    const token = localStorage.getItem('token');
+    return axios.get('/department', {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+};

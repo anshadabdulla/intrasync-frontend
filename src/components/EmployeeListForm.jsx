@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { getAllEmployees } from '../api/employeeService';
+import { getAllEmployees, getAllDepartments, getAllDesignations } from '../api/employeeService';
 import './../assets/styles/employeeList.css';
 
 const EmployeeList = () => {
@@ -13,7 +13,10 @@ const EmployeeList = () => {
     const [selectedEmployees, setSelectedEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [designationList, setDesignationList] = useState([]);
+    const [departmentList, setDepartmentList] = useState([]);
     const dropdownRef = useRef(null);
+    const selectAllRef = useRef(null);
 
     const statusOptions = {
         0: 'Resigned',
@@ -34,6 +37,7 @@ const EmployeeList = () => {
                     name: search,
                     designation,
                     department,
+                    reporting,
                     status,
                     page: 1,
                     pageSize: 10
@@ -53,7 +57,7 @@ const EmployeeList = () => {
         } finally {
             setLoading(false);
         }
-    }, [search, designation, department, status]);
+    }, [search, designation, department, reporting, status]);
 
     useEffect(() => {
         fetchEmployees();
@@ -65,10 +69,38 @@ const EmployeeList = () => {
                 setStatusDropdownOpen(false);
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
+
+    useEffect(() => {
+        const fetchDropdownData = async () => {
+            try {
+                const [designationRes, departmentRes] = await Promise.all([
+                    getAllDesignations(),
+                    getAllDepartments()
+                    // getAllManagers() // Optional: fetch if available
+                ]);
+
+                if (designationRes.data.status) setDesignationList(designationRes.data.data);
+                if (departmentRes.data.status) setDepartmentList(departmentRes.data.data);
+
+                // Optional manager dropdown support
+                // if (managerRes.data.status) setManagerList(managerRes.data.data);
+            } catch (err) {
+                console.error('Dropdown load error:', err);
+            }
+        };
+
+        fetchDropdownData();
+    }, []);
+
+    useEffect(() => {
+        if (selectAllRef.current) {
+            selectAllRef.current.indeterminate =
+                selectedEmployees.length > 0 && selectedEmployees.length < employees.length;
+        }
+    }, [selectedEmployees, employees]);
 
     const handleSearch = () => {
         fetchEmployees();
@@ -115,15 +147,33 @@ const EmployeeList = () => {
 
                 <select value={designation} onChange={(e) => setDesignation(e.target.value)}>
                     <option value="">Select Designation</option>
+                    {designationList.map((item) => (
+                        <option key={item.id} value={item.id}>
+                            {item.name}
+                        </option>
+                    ))}
                 </select>
 
                 <select value={department} onChange={(e) => setDepartment(e.target.value)}>
                     <option value="">Select Department</option>
+                    {departmentList.map((item) => (
+                        <option key={item.id} value={item.id}>
+                            {item.name}
+                        </option>
+                    ))}
                 </select>
 
+                {/* Optional: Reporting Manager Filter */}
+                {/* 
                 <select value={reporting} onChange={(e) => setReporting(e.target.value)}>
-                    <option value="">Reporting Manager</option>
+                    <option value="">Select Reporting Manager</option>
+                    {managerList.map((item) => (
+                        <option key={item.id} value={item.id}>
+                            {item.name}
+                        </option>
+                    ))}
                 </select>
+                */}
 
                 <div className="dropdown" ref={dropdownRef}>
                     <button className="dropdown-toggle" onClick={() => setStatusDropdownOpen((prev) => !prev)}>
@@ -171,12 +221,10 @@ const EmployeeList = () => {
                         <tr>
                             <th>
                                 <input
+                                    ref={selectAllRef}
                                     type="checkbox"
                                     onChange={handleSelectAll}
                                     checked={employees.length > 0 && selectedEmployees.length === employees.length}
-                                    indeterminate={
-                                        selectedEmployees.length > 0 && selectedEmployees.length < employees.length
-                                    }
                                 />
                             </th>
                             <th>SL.NO</th>
