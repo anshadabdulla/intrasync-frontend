@@ -401,28 +401,6 @@ body {
     color: #d1d5db;
 }
 
-@media screen and (max-width: 480px) {
-    .react-calendar {
-        padding: 16px;
-    }
-
-    .react-calendar__tile {
-        font-size: 13px;
-        padding: 10px 0;
-    }
-
-    .react-calendar__navigation button {
-        font-size: 13px;
-        padding: 6px 10px;
-    }
-
-    .react-calendar__tile--now {
-        width: 32px;
-        height: 32px;
-        font-size: 13px;
-    }
-}
-
 /* -----------------------------------
    Cards Summary
 ----------------------------------- */
@@ -1136,6 +1114,27 @@ body {
             white-space: normal !important;
             overflow: visible !important;
             text-overflow: unset !important;
+        }
+    }
+    @media screen and (max-width: 480px) {
+        .react-calendar {
+            padding: 16px;
+        }
+
+        .react-calendar__tile {
+            font-size: 13px;
+            padding: 10px 0;
+        }
+
+        .react-calendar__navigation button {
+            font-size: 13px;
+            padding: 6px 10px;
+        }
+
+        .react-calendar__tile--now {
+            width: 32px;
+            height: 32px;
+            font-size: 13px;
         }
     }
 }
