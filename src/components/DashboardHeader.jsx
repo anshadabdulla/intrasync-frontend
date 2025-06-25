@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Calendar from 'react-calendar';
-import '../assets/styles/homePage.css';
+import 'react-calendar/dist/Calendar.css'; // Base styles (required)
+import '../assets/styles/homePage.css'; // Your custom overrides
 
 const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
     const [open, setOpen] = useState(false);
@@ -17,7 +18,7 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
     if (pathname === '/home') {
         headingText = `Welcome, ${employee?.name}`;
     } else if (pathname === '/employe-list') {
-        headingText = 'Intrasync ';
+        headingText = 'Intrasync';
     }
 
     useEffect(() => {
@@ -81,8 +82,8 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
                         ref={calendarRef}
                         style={{
                             position: 'absolute',
-                            top: '170px',
-                            right: window.innerWidth < 500 ? '40px' : '60px',
+                            top: '150px',
+                            right: window.innerWidth < 500 ? '30px' : '55px',
                             width: window.innerWidth < 400 ? '95vw' : 'auto',
                             maxWidth: '360px',
                             zIndex: 1000,
@@ -92,11 +93,7 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
                             padding: 16
                         }}
                     >
-                        <Calendar
-                            defaultValue={new Date()}
-                            showNeighboringMonth={false}
-                            showFixedNumberOfWeeks={false}
-                        />
+                        <Calendar defaultValue={new Date()} showNeighboringMonth={false} calendarType="gregory" />
                     </div>
                 )}
 
