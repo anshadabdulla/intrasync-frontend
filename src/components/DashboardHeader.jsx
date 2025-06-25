@@ -64,12 +64,12 @@ const DashboardHeader = ({ employee, onResetPassword, onLogout }) => {
                 <button className={`nav-btn ${pathname === '/home' ? 'active' : ''}`} onClick={() => navigate('/home')}>
                     Dashboard
                 </button>
-                <button
+                {/* <button
                     className={`nav-btn ${pathname === '/employe-list' ? 'active' : ''}`}
                     onClick={() => navigate('/employe-list')}
                 >
                     Welcome
-                </button>
+                </button> */}
                 <button
                     className={`nav-btn ${showCalendar ? 'active' : ''}`}
                     onClick={() => setShowCalendar(!showCalendar)}
