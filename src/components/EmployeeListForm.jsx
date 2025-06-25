@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { getAllEmployees, getAllDepartments, getAllDesignations, getAllEmployeeTL } from '../api/employeeService';
+import { useNavigate } from 'react-router-dom';
 import './../assets/styles/employeeList.css';
 import { jwtDecode } from 'jwt-decode';
 import CreateEmployeeForm from './CreateEmployeeForm';
@@ -30,6 +31,7 @@ const EmployeeList = () => {
     const departmentDropdownRef = useRef(null);
     const teamleadDropdownRef = useRef(null);
     const selectAllRef = useRef(null);
+    const navigate = useNavigate();
 
     let userType = '';
     try {
@@ -167,7 +169,7 @@ const EmployeeList = () => {
             <div className="header">
                 <h2>Employee Directory</h2>
                 {userType === 'hr' && (
-                    <button className="add-btn" onClick={() => setShowCreateModal(true)}>
+                    <button className="add-btn" onClick={() => navigate('/employe-create')}>
                         + Add Employee
                     </button>
                 )}

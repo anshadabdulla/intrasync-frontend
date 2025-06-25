@@ -4,6 +4,7 @@ import LoginPage from '../pages/LoginPage';
 import ForgotPasswordPage from '../pages/ForgotPasswordPage';
 import HomePage from '../pages/HomePage';
 import EmployeeListPage from '../pages/EmployeeListPage';
+import CreateEmployeePage from '../pages/CreateEmployeePage';
 
 
 const AppRoutes = () => {
@@ -14,6 +15,7 @@ const AppRoutes = () => {
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/employe-list" element={<EmployeeListPage />} />
+                <Route path="/employe-create" element={<CreateEmployeePage />} />
             </Routes>
         </Router>
     );
