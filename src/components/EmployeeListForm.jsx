@@ -15,6 +15,7 @@ const EmployeeList = () => {
     const [error, setError] = useState('');
     const [designationList, setDesignationList] = useState([]);
     const [departmentList, setDepartmentList] = useState([]);
+    const [resetTriggered, setResetTriggered] = useState(false);
     const dropdownRef = useRef(null);
     const selectAllRef = useRef(null);
 
@@ -76,17 +77,10 @@ const EmployeeList = () => {
     useEffect(() => {
         const fetchDropdownData = async () => {
             try {
-                const [designationRes, departmentRes] = await Promise.all([
-                    getAllDesignations(),
-                    getAllDepartments()
-                    // getAllManagers() // Optional: fetch if available
-                ]);
+                const [designationRes, departmentRes] = await Promise.all([getAllDesignations(), getAllDepartments()]);
 
                 if (designationRes.data.status) setDesignationList(designationRes.data.data);
                 if (departmentRes.data.status) setDepartmentList(departmentRes.data.data);
-
-                // Optional manager dropdown support
-                // if (managerRes.data.status) setManagerList(managerRes.data.data);
             } catch (err) {
                 console.error('Dropdown load error:', err);
             }
@@ -102,6 +96,13 @@ const EmployeeList = () => {
         }
     }, [selectedEmployees, employees]);
 
+    useEffect(() => {
+        if (resetTriggered) {
+            fetchEmployees();
+            setResetTriggered(false);
+        }
+    }, [resetTriggered, fetchEmployees]);
+
     const handleSearch = () => {
         fetchEmployees();
     };
@@ -113,9 +114,7 @@ const EmployeeList = () => {
         setReporting('');
         setStatus('');
         setSelectedEmployees([]);
-        setTimeout(() => {
-            fetchEmployees();
-        }, 0);
+        setResetTriggered(true); // Trigger fetch after reset
     };
 
     const handleSelectAll = (e) => {
@@ -162,18 +161,6 @@ const EmployeeList = () => {
                         </option>
                     ))}
                 </select>
-
-                {/* Optional: Reporting Manager Filter */}
-                {/* 
-                <select value={reporting} onChange={(e) => setReporting(e.target.value)}>
-                    <option value="">Select Reporting Manager</option>
-                    {managerList.map((item) => (
-                        <option key={item.id} value={item.id}>
-                            {item.name}
-                        </option>
-                    ))}
-                </select>
-                */}
 
                 <div className="dropdown" ref={dropdownRef}>
                     <button className="dropdown-toggle" onClick={() => setStatusDropdownOpen((prev) => !prev)}>
