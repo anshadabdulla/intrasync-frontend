@@ -302,7 +302,33 @@ body {
 }
 
 /* -----------------------------------
-   Calendar Popup
+   Calendar Wrapper & Popup Positioning
+----------------------------------- */
+.calendar-wrapper {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    z-index: 1000;
+}
+
+@media (max-width: 500px) {
+    .calendar-wrapper {
+        right: 8px;
+        width: 95vw;
+    }
+}
+
+.calendar-popup {
+    width: 100%;
+    max-width: 360px;
+    padding: 16px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* -----------------------------------
+   Calendar Component Styling
 ----------------------------------- */
 
 .react-calendar {
@@ -311,13 +337,14 @@ body {
     font-family: 'Inter', sans-serif;
     font-size: 15px;
     padding: 24px;
-    width: 340px;
+    width: 100%;
+    max-width: 340px;
     color: #0f172a;
     transition: all 0.3s ease;
     border: 1px solid #e2e8f0;
     animation: fadeIn 0.3s ease-in-out;
-    z-index: 1000;
     box-shadow: none;
+    box-sizing: border-box;
 }
 
 @keyframes fadeIn {
@@ -380,6 +407,7 @@ body {
     display: grid !important;
     grid-template-columns: repeat(7, 1fr);
     gap: 10px;
+    padding: 0 2px;
 }
 
 .react-calendar__tile {
