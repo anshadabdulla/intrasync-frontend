@@ -337,7 +337,11 @@ const EmployeeList = () => {
                                 <td className="actions-cell">
                                     <button
                                         className="action-icon-btn"
-                                        onClick={() => navigate(`/employe-update/${emp.id}`)}
+                                        onClick={async () => {
+                                            setLoading(true);
+                                            await new Promise((resolve) => setTimeout(resolve, 300));
+                                            navigate(`/employe-update/${emp.id}`);
+                                        }}
                                         title="Edit"
                                     >
                                         <img src="/icons/edit-icon.svg" alt="Edit" />
