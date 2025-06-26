@@ -291,6 +291,34 @@ body {
     animation-delay: 0s;
 }
 
+.actions-cell {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-icon-btn {
+    background-color: #f9fafb;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-icon-btn:hover {
+    background-color: #e5e7eb;
+}
+
+.action-icon-btn img {
+    width: 18px;
+    height: 18px;
+}
+
 @keyframes dotsBounce {
     0%,
     80%,

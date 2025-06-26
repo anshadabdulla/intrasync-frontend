@@ -313,6 +313,7 @@ const EmployeeList = () => {
                             <th>Department</th>
                             <th>Mobile</th>
                             <th>Reporting To</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -333,6 +334,26 @@ const EmployeeList = () => {
                                 <td>{emp.Department?.name || '-'}</td>
                                 <td>{emp.mobile || '-'}</td>
                                 <td>{emp.TeamLead?.name || '-'}</td>
+                                <td className="actions-cell">
+                                    <button
+                                        className="action-icon-btn"
+                                        onClick={() => navigate(`/employe-update/${emp.id}`)}
+                                        title="Edit"
+                                    >
+                                        <img src="/icons/edit-icon.svg" alt="Edit" />
+                                    </button>
+                                    <button
+                                        className="action-icon-btn"
+                                        onClick={() => {
+                                            if (window.confirm('Are you sure you want to delete this employee?')) {
+                                                console.log('Delete employee ID:', emp.id);
+                                            }
+                                        }}
+                                        title="Delete"
+                                    >
+                                        <img src="/icons/delete-icon.svg" alt="Delete" />
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

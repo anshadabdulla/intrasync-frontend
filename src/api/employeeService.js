@@ -68,3 +68,10 @@ export const createEmployee = async (employeeData) => {
         headers: { Authorization: `Bearer ${token}` }
     });
 };
+
+export const updateEmployee = async (id, employeeData) => {
+    const token = localStorage.getItem('token');
+    return axios.put(`/employee/${id}`, employeeData, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+};

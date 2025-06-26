@@ -5,7 +5,7 @@ import ForgotPasswordPage from '../pages/ForgotPasswordPage';
 import HomePage from '../pages/HomePage';
 import EmployeeListPage from '../pages/EmployeeListPage';
 import CreateEmployeePage from '../pages/CreateEmployeePage';
-
+import UpdateEmployeePage from '../pages/UpdateEmployeePage';
 
 const AppRoutes = () => {
     return (
@@ -16,6 +16,7 @@ const AppRoutes = () => {
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/employe-list" element={<EmployeeListPage />} />
                 <Route path="/employe-create" element={<CreateEmployeePage />} />
+                <Route path="/employe-update/:id" element={<UpdateEmployeePage />} />
             </Routes>
         </Router>
     );
