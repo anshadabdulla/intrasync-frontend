@@ -31,6 +31,12 @@ const EmployeeList = () => {
     const selectAllRef = useRef(null);
     const navigate = useNavigate();
 
+    const handleCreateEmployee = async () => {
+        setLoading(true);
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        navigate('/employe-create');
+    };
+
     let userType = '';
     try {
         const token = localStorage.getItem('token');
@@ -167,7 +173,7 @@ const EmployeeList = () => {
             <div className="header">
                 <h2>Employee Directory</h2>
                 {userType === 'hr' && (
-                    <button className="add-btn" onClick={() => navigate('/employe-create')}>
+                    <button className="add-btn" onClick={handleCreateEmployee}>
                         + Add Employee
                     </button>
                 )}
