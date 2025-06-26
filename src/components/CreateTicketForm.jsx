@@ -3,11 +3,13 @@ import '../assets/styles/createTicketForm.css';
 import { createTicket } from '../api/ticketService';
 import { Listbox } from '@headlessui/react';
 import { ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const categories = ['Bug', 'Feature Request', 'Support', 'Other'];
 const priorities = ['Low', 'Medium', 'High'];
 
-const CreateTicketForm = ({ onClose, onSuccess }) => {
+const CreateTicketForm = ({ onClose }) => {
     const [form, setForm] = useState({
         title: '',
         category: '',
@@ -17,6 +19,7 @@ const CreateTicketForm = ({ onClose, onSuccess }) => {
 
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -30,7 +33,18 @@ const CreateTicketForm = ({ onClose, onSuccess }) => {
         try {
             const res = await createTicket(form);
             if (res.data.status) {
-                onSuccess();
+                let userType = '';
+                const token = localStorage.getItem('token');
+                if (token) {
+                    const decoded = jwtDecode(token);
+                    userType = decoded.user_type?.toLowerCase();
+                }
+
+                if (userType === 'hr') {
+                    navigate('/ticket-list');
+                } else {
+                    navigate('/home');
+                }
             } else {
                 setError(res.data.msg || res.data.errors?.[0] || 'Failed to create ticket.');
             }
