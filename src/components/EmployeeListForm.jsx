@@ -30,6 +30,7 @@ const EmployeeList = () => {
     const [teamleadList, setTeamleadList] = useState([]);
     const [resetTriggered, setResetTriggered] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deleting, setDeleting] = useState(false);
     const [deletingId, setDeletingId] = useState(null);
     const dropdownRef = useRef(null);
     const designationDropdownRef = useRef(null);
@@ -45,20 +46,20 @@ const EmployeeList = () => {
     };
 
     const handleConfirmDelete = async () => {
+        setDeleting(true);
         try {
-            setLoading(true);
             const res = await deleteEmployeeById(deletingId);
             if (res.data.status) {
                 setShowDeleteModal(false);
                 setDeletingId(null);
-                fetchEmployees(); // refresh list
+                fetchEmployees();
             } else {
                 alert(res.data.msg || 'Failed to delete.');
             }
         } catch (error) {
             alert(error.response?.data?.errors?.[0] || 'Server error');
         } finally {
-            setLoading(false);
+            setDeleting(false);
         }
     };
 
@@ -307,14 +308,21 @@ const EmployeeList = () => {
                                 <span className="delete-exclamation">!</span>
                             </div>
                             <h2 className="delete-modal-heading">Are you sure want to delete?</h2>
-                            <div className="delete-modal-actions">
-                                <button className="delete-cancel-btn" onClick={() => setShowDeleteModal(false)}>
-                                    Cancel
-                                </button>
-                                <button className="delete-confirm-btn" onClick={handleConfirmDelete}>
-                                    Yes
-                                </button>
-                            </div>
+                            {deleting ? (
+                                <div className="delete-modal-loading">
+                                    <div className="spinner"></div>
+                                    <p className="delete-loading-text">Deleting...</p>
+                                </div>
+                            ) : (
+                                <div className="delete-modal-actions">
+                                    <button className="delete-cancel-btn" onClick={() => setShowDeleteModal(false)}>
+                                        Cancel
+                                    </button>
+                                    <button className="delete-confirm-btn" onClick={handleConfirmDelete}>
+                                        Yes
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
