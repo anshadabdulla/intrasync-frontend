@@ -137,14 +137,14 @@ const AttendanceSection = () => {
                     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
                     gap: 20px;
                     margin-top: 24px;
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
                 }
 
                 .attendance-card {
                     background: #ffffff;
-                    border-radius: 12px;
+                    border-radius: 10px;
                     padding: 24px;
-                    border: 1px solid #e2e8f0;
+                    border: 1px solid #d1d5db;
                     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
                     transition: all 0.2s ease;
                 }
@@ -169,8 +169,8 @@ const AttendanceSection = () => {
                 }
 
                 .header-icon {
-                    color: #6366f1;
-                    background: rgba(99, 102, 241, 0.1);
+                    color: #2563eb;
+                    background: rgba(37, 99, 235, 0.1);
                     padding: 8px;
                     border-radius: 8px;
                     width: 36px;
@@ -181,13 +181,13 @@ const AttendanceSection = () => {
                     margin: 0;
                     font-size: 16px;
                     font-weight: 600;
-                    color: #1e293b;
+                    color: #111827;
                 }
 
                 .card-header p {
                     margin: 2px 0 0 0;
                     font-size: 13px;
-                    color: #64748b;
+                    color: #6b7280;
                 }
 
                 /* Attendance Percentage */
@@ -219,13 +219,13 @@ const AttendanceSection = () => {
 
                 .stat-label {
                     font-size: 14px;
-                    color: #64748b;
+                    color: #6b7280;
                 }
 
                 .stat-value {
                     font-size: 14px;
                     font-weight: 600;
-                    color: #1e293b;
+                    color: #111827;
                 }
 
                 /* Progress Bar */
@@ -244,14 +244,14 @@ const AttendanceSection = () => {
 
                 .progress-fill {
                     height: 100%;
-                    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+                    background: linear-gradient(90deg, #2563eb, #3b82f6);
                     border-radius: 3px;
                     transition: width 0.6s ease;
                 }
 
                 .progress-text {
                     font-size: 12px;
-                    color: #6366f1;
+                    color: #2563eb;
                     font-weight: 500;
                 }
 
@@ -296,9 +296,9 @@ const AttendanceSection = () => {
                     align-items: center;
                     justify-content: space-between;
                     padding: 16px 20px;
-                    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+                    background: linear-gradient(135deg, #f9fafb 0%, #f1f5f9 100%);
                     border-radius: 10px;
-                    border: 1px solid #e2e8f0;
+                    border: 1px solid #d1d5db;
                 }
 
                 .time-block {
@@ -310,7 +310,7 @@ const AttendanceSection = () => {
 
                 .time-label {
                     font-size: 11px;
-                    color: #64748b;
+                    color: #6b7280;
                     text-transform: uppercase;
                     font-weight: 500;
                     letter-spacing: 0.5px;
@@ -320,16 +320,16 @@ const AttendanceSection = () => {
                 .time-value {
                     font-size: 18px;
                     font-weight: 700;
-                    color: #1e293b;
+                    color: #111827;
                 }
 
                 .time-value.live {
-                    color: #6366f1;
+                    color: #2563eb;
                 }
 
                 .time-separator {
                     font-size: 16px;
-                    color: #cbd5e1;
+                    color: #d1d5db;
                     margin: 0 16px;
                 }
 
@@ -349,13 +349,13 @@ const AttendanceSection = () => {
 
                 .summary-label {
                     font-size: 13px;
-                    color: #64748b;
+                    color: #6b7280;
                 }
 
                 .summary-value {
                     font-size: 13px;
                     font-weight: 600;
-                    color: #1e293b;
+                    color: #111827;
                 }
 
                 /* Week Score */
@@ -389,8 +389,8 @@ const AttendanceSection = () => {
                     align-items: center;
                     padding: 12px 8px;
                     border-radius: 8px;
-                    border: 1px solid #e2e8f0;
-                    background: #f8fafc;
+                    border: 1px solid #d1d5db;
+                    background: #f9fafb;
                     flex: 1;
                     min-width: 0;
                     transition: all 0.2s ease;
@@ -402,13 +402,13 @@ const AttendanceSection = () => {
                 }
 
                 .day-item.active {
-                    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.08) 100%);
-                    border-color: rgba(99, 102, 241, 0.2);
+                    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(59, 130, 246, 0.08) 100%);
+                    border-color: rgba(37, 99, 235, 0.2);
                 }
 
                 .day-name {
                     font-size: 11px;
-                    color: #64748b;
+                    color: #6b7280;
                     text-transform: uppercase;
                     font-weight: 600;
                     letter-spacing: 0.3px;
@@ -418,11 +418,11 @@ const AttendanceSection = () => {
                 .day-hours {
                     font-size: 12px;
                     font-weight: 600;
-                    color: #1e293b;
+                    color: #111827;
                 }
 
                 .day-item.active .day-hours {
-                    color: #6366f1;
+                    color: #2563eb;
                 }
 
                 /* Week Total */
@@ -431,21 +431,21 @@ const AttendanceSection = () => {
                     justify-content: space-between;
                     align-items: center;
                     padding: 12px 16px;
-                    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+                    background: linear-gradient(135deg, #f9fafb 0%, #f1f5f9 100%);
                     border-radius: 8px;
-                    border: 1px solid #e2e8f0;
+                    border: 1px solid #d1d5db;
                 }
 
                 .total-label {
                     font-size: 13px;
-                    color: #64748b;
+                    color: #6b7280;
                     font-weight: 500;
                 }
 
                 .total-hours {
                     font-size: 16px;
                     font-weight: 700;
-                    color: #1e293b;
+                    color: #111827;
                 }
 
                 /* Responsive */
