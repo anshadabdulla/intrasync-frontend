@@ -195,7 +195,7 @@ body {
 
 .dropdown {
     position: relative;
-    min-width: 217px;
+    min-width: 200px;
 }
 
 .dropdown-toggle {
