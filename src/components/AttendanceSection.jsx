@@ -130,354 +130,352 @@ const AttendanceSection = () => {
                     <span className="total-hours">42h 12m</span>
                 </div>
             </div>
+
+            <style jsx>{`
+                .attendance-section {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                    gap: 20px;
+                    margin-top: 24px;
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                }
+
+                .attendance-card {
+                    background: #ffffff;
+                    border-radius: 12px;
+                    padding: 24px;
+                    border: 1px solid #e2e8f0;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+                    transition: all 0.2s ease;
+                }
+
+                .attendance-card:hover {
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+                    transform: translateY(-1px);
+                }
+
+                /* Card Header */
+                .card-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    margin-bottom: 20px;
+                }
+
+                .header-info {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                }
+
+                .header-icon {
+                    color: #6366f1;
+                    background: rgba(99, 102, 241, 0.1);
+                    padding: 8px;
+                    border-radius: 8px;
+                    width: 36px;
+                    height: 36px;
+                }
+
+                .card-header h4 {
+                    margin: 0;
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #1e293b;
+                }
+
+                .card-header p {
+                    margin: 2px 0 0 0;
+                    font-size: 13px;
+                    color: #64748b;
+                }
+
+                /* Attendance Percentage */
+                .attendance-percentage {
+                    text-align: right;
+                }
+
+                .percentage {
+                    font-size: 32px;
+                    font-weight: 800;
+                    color: #059669;
+                    line-height: 1;
+                }
+
+                /* Stats */
+                .attendance-stats {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+                    margin-bottom: 20px;
+                }
+
+                .stat-row {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 8px 0;
+                }
+
+                .stat-label {
+                    font-size: 14px;
+                    color: #64748b;
+                }
+
+                .stat-value {
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: #1e293b;
+                }
+
+                /* Progress Bar */
+                .progress-container {
+                    margin-top: 16px;
+                }
+
+                .progress-bar {
+                    width: 100%;
+                    height: 6px;
+                    background: #f1f5f9;
+                    border-radius: 3px;
+                    overflow: hidden;
+                    margin-bottom: 8px;
+                }
+
+                .progress-fill {
+                    height: 100%;
+                    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+                    border-radius: 3px;
+                    transition: width 0.6s ease;
+                }
+
+                .progress-text {
+                    font-size: 12px;
+                    color: #6366f1;
+                    font-weight: 500;
+                }
+
+                /* Status Indicator */
+                .status-indicator {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    font-size: 13px;
+                    font-weight: 500;
+                }
+
+                .status-indicator.active {
+                    color: #059669;
+                }
+
+                .status-dot {
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    background: #059669;
+                    animation: pulse 2s infinite;
+                }
+
+                @keyframes pulse {
+                    0%,
+                    100% {
+                        opacity: 1;
+                    }
+                    50% {
+                        opacity: 0.6;
+                    }
+                }
+
+                /* Today's Time Display */
+                .today-time {
+                    margin-bottom: 20px;
+                }
+
+                .time-display {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 16px 20px;
+                    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+                    border-radius: 10px;
+                    border: 1px solid #e2e8f0;
+                }
+
+                .time-block {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    flex: 1;
+                }
+
+                .time-label {
+                    font-size: 11px;
+                    color: #64748b;
+                    text-transform: uppercase;
+                    font-weight: 500;
+                    letter-spacing: 0.5px;
+                    margin-bottom: 4px;
+                }
+
+                .time-value {
+                    font-size: 18px;
+                    font-weight: 700;
+                    color: #1e293b;
+                }
+
+                .time-value.live {
+                    color: #6366f1;
+                }
+
+                .time-separator {
+                    font-size: 16px;
+                    color: #cbd5e1;
+                    margin: 0 16px;
+                }
+
+                /* Today Summary */
+                .today-summary {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                }
+
+                .summary-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 8px 0;
+                }
+
+                .summary-label {
+                    font-size: 13px;
+                    color: #64748b;
+                }
+
+                .summary-value {
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #1e293b;
+                }
+
+                /* Week Score */
+                .week-score {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: #059669;
+                }
+
+                .check-icon {
+                    color: #059669;
+                }
+
+                /* Week Overview */
+                .week-overview {
+                    margin-bottom: 16px;
+                }
+
+                .week-days {
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 8px;
+                }
+
+                .day-item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding: 12px 8px;
+                    border-radius: 8px;
+                    border: 1px solid #e2e8f0;
+                    background: #f8fafc;
+                    flex: 1;
+                    min-width: 0;
+                    transition: all 0.2s ease;
+                }
+
+                .day-item.completed {
+                    background: linear-gradient(135deg, rgba(5, 150, 105, 0.05) 0%, rgba(5, 150, 105, 0.08) 100%);
+                    border-color: rgba(5, 150, 105, 0.2);
+                }
+
+                .day-item.active {
+                    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.08) 100%);
+                    border-color: rgba(99, 102, 241, 0.2);
+                }
+
+                .day-name {
+                    font-size: 11px;
+                    color: #64748b;
+                    text-transform: uppercase;
+                    font-weight: 600;
+                    letter-spacing: 0.3px;
+                    margin-bottom: 4px;
+                }
+
+                .day-hours {
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #1e293b;
+                }
+
+                .day-item.active .day-hours {
+                    color: #6366f1;
+                }
+
+                /* Week Total */
+                .week-total {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 12px 16px;
+                    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+                    border-radius: 8px;
+                    border: 1px solid #e2e8f0;
+                }
+
+                .total-label {
+                    font-size: 13px;
+                    color: #64748b;
+                    font-weight: 500;
+                }
+
+                .total-hours {
+                    font-size: 16px;
+                    font-weight: 700;
+                    color: #1e293b;
+                }
+
+                /* Responsive */
+                @media (max-width: 768px) {
+                    .attendance-section {
+                        grid-template-columns: 1fr;
+                        gap: 16px;
+                    }
+
+                    .time-display {
+                        flex-direction: column;
+                        gap: 12px;
+                    }
+
+                    .time-separator {
+                        transform: rotate(90deg);
+                        margin: 8px 0;
+                    }
+
+                    .week-days {
+                        flex-wrap: wrap;
+                    }
+
+                    .day-item {
+                        min-width: calc(20% - 6px);
+                    }
+                }
+            `}</style>
         </div>
     );
 };
-
-// Simplified, elegant styles matching your dashboard
-const styles = `
-.attendance-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 20px;
-  margin-top: 24px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-.attendance-card {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 24px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
-}
-
-.attendance-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-1px);
-}
-
-/* Card Header */
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
-}
-
-.header-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.header-icon {
-  color: #6366f1;
-  background: rgba(99, 102, 241, 0.1);
-  padding: 8px;
-  border-radius: 8px;
-  width: 36px;
-  height: 36px;
-}
-
-.card-header h4 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-.card-header p {
-  margin: 2px 0 0 0;
-  font-size: 13px;
-  color: #6b7280;
-}
-
-/* Attendance Percentage */
-.attendance-percentage {
-  text-align: right;
-}
-
-.percentage {
-  font-size: 32px;
-  font-weight: 800;
-  color: #10b981;
-  line-height: 1;
-}
-
-/* Stats */
-.attendance-stats {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.stat-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-}
-
-.stat-label {
-  font-size: 14px;
-  color: #6b7280;
-}
-
-.stat-value {
-  font-size: 14px;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-/* Progress Bar */
-.progress-container {
-  margin-top: 16px;
-}
-
-.progress-bar {
-  width: 100%;
-  height: 6px;
-  background: #f3f4f6;
-  border-radius: 3px;
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #10b981, #34d399);
-  border-radius: 3px;
-  transition: width 0.6s ease;
-}
-
-.progress-text {
-  font-size: 12px;
-  color: #10b981;
-  font-weight: 500;
-}
-
-/* Status Indicator */
-.status-indicator {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.status-indicator.active {
-  color: #10b981;
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #10b981;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
-}
-
-/* Today's Time Display */
-.today-time {
-  margin-bottom: 20px;
-}
-
-.time-display {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  background: #f8fafc;
-  border-radius: 10px;
-  border: 1px solid #f1f5f9;
-}
-
-.time-block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-}
-
-.time-label {
-  font-size: 11px;
-  color: #6b7280;
-  text-transform: uppercase;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-
-.time-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: #1f2937;
-}
-
-.time-value.live {
-  color: #6366f1;
-}
-
-.time-separator {
-  font-size: 16px;
-  color: #d1d5db;
-  margin: 0 16px;
-}
-
-/* Today Summary */
-.today-summary {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.summary-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-}
-
-.summary-label {
-  font-size: 13px;
-  color: #6b7280;
-}
-
-.summary-value {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-/* Week Score */
-.week-score {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #10b981;
-}
-
-.check-icon {
-  color: #10b981;
-}
-
-/* Week Overview */
-.week-overview {
-  margin-bottom: 16px;
-}
-
-.week-days {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.day-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 12px 8px;
-  border-radius: 8px;
-  border: 1px solid #f3f4f6;
-  background: #fafafa;
-  flex: 1;
-  min-width: 0;
-}
-
-.day-item.completed {
-  background: rgba(16, 185, 129, 0.05);
-  border-color: rgba(16, 185, 129, 0.2);
-}
-
-.day-item.active {
-  background: rgba(99, 102, 241, 0.05);
-  border-color: rgba(99, 102, 241, 0.2);
-}
-
-.day-name {
-  font-size: 11px;
-  color: #6b7280;
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  margin-bottom: 4px;
-}
-
-.day-hours {
-  font-size: 12px;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-.day-item.active .day-hours {
-  color: #6366f1;
-}
-
-/* Week Total */
-.week-total {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background: #f8fafc;
-  border-radius: 8px;
-  border: 1px solid #f1f5f9;
-}
-
-.total-label {
-  font-size: 13px;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.total-hours {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1f2937;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .attendance-section {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  
-  .time-display {
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .time-separator {
-    transform: rotate(90deg);
-    margin: 8px 0;
-  }
-  
-  .week-days {
-    flex-wrap: wrap;
-  }
-  
-  .day-item {
-    min-width: calc(20% - 6px);
-  }
-}
-`;
-
-// Inject styles
-if (typeof document !== 'undefined') {
-    const styleSheet = document.createElement('style');
-    styleSheet.textContent = styles;
-    document.head.appendChild(styleSheet);
-}
 
 export default AttendanceSection;
