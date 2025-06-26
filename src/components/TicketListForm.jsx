@@ -1,0 +1,298 @@
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import './../assets/styles/TicketListForm.css';
+import excel from '../assets/images/excel-download.png';
+import { getAllTicket, deleteTicketById, downloadTicketExcel } from '../api/ticketService';
+
+const STATUS_MAP = {
+    0: 'Pending',
+    1: 'Resolved',
+    2: 'Rejected',
+    3: 'On Hold',
+    4: 'Revoked'
+};
+
+const CATEGORY_OPTIONS = ['Bug', 'Feature Request', 'Support', 'Other'];
+const PRIORITY_OPTIONS = ['Low', 'Medium', 'High'];
+
+const TicketList = () => {
+    const [tickets, setTickets] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [search, setSearch] = useState('');
+    const [status, setStatus] = useState('');
+    const [category, setCategory] = useState('');
+    const [priority, setPriority] = useState('');
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deletingId, setDeletingId] = useState(null);
+    const [deleting, setDeleting] = useState(false);
+    const [selectedTickets, setSelectedTickets] = useState([]);
+    const selectAllRef = useRef(null);
+    const navigate = useNavigate();
+
+    let userType = '';
+    try {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decoded = jwtDecode(token);
+            userType = decoded.user_type?.toLowerCase();
+        }
+    } catch (err) {
+        console.error('Invalid token:', err);
+    }
+
+    const fetchTickets = useCallback(async () => {
+        setLoading(true);
+        setError('');
+        try {
+            const [res] = await Promise.all([
+                getAllTicket({ search, status, category, priority }),
+                new Promise((resolve) => setTimeout(resolve, 400)) 
+            ]);
+
+            if (res.data.status) {
+                setTickets(res.data.data);
+                setSelectedTickets([]);
+            } else {
+                setError(res.data.msg || 'Failed to fetch tickets');
+            }
+        } catch (err) {
+            setError(err.response?.data?.msg || 'Server error');
+        } finally {
+            setLoading(false);
+        }
+    }, [search, status, category, priority]);
+
+    useEffect(() => {
+        fetchTickets();
+    }, [fetchTickets]);
+
+    useEffect(() => {
+        if (selectAllRef.current) {
+            selectAllRef.current.indeterminate = selectedTickets.length > 0 && selectedTickets.length < tickets.length;
+        }
+    }, [selectedTickets, tickets]);
+
+    const handleCreateTicket = async () => {
+        setLoading(true);
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        navigate('/ticket-create');
+    };
+
+    const handleConfirmDelete = async () => {
+        setDeleting(true);
+        try {
+            const res = await deleteTicketById(deletingId);
+            if (res.data.status) {
+                setShowDeleteModal(false);
+                setDeletingId(null);
+                fetchTickets();
+            } else {
+                alert(res.data.msg || 'Failed to delete.');
+            }
+        } catch (err) {
+            alert(err.response?.data?.errors?.[0] || 'Server error');
+        } finally {
+            setDeleting(false);
+        }
+    };
+
+    const handleSelectAll = (e) => {
+        setSelectedTickets(e.target.checked ? tickets.map((t) => t.id) : []);
+    };
+
+    const handleSelectOne = (id, checked) => {
+        setSelectedTickets((prev) => (checked ? [...prev, id] : prev.filter((tid) => tid !== id)));
+    };
+
+    const handleResetFilters = () => {
+        setSearch('');
+        setStatus('');
+        setCategory('');
+        setPriority('');
+    };
+
+    return (
+        <div className="employee-container">
+            <div className="header">
+                <h2>Ticket List</h2>
+                {userType === 'hr' && (
+                    <button className="add-btn" onClick={handleCreateTicket}>
+                        + Add Ticket
+                    </button>
+                )}
+            </div>
+
+            <div className="filters">
+                <input
+                    type="text"
+                    placeholder="Search by ID or Title..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+                <select value={status} onChange={(e) => setStatus(e.target.value)}>
+                    <option value="">All Status</option>
+                    {Object.entries(STATUS_MAP).map(([val, label]) => (
+                        <option key={val} value={val}>
+                            {label}
+                        </option>
+                    ))}
+                </select>
+                <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <option value="">All Categories</option>
+                    {CATEGORY_OPTIONS.map((cat) => (
+                        <option key={cat} value={cat}>
+                            {cat}
+                        </option>
+                    ))}
+                </select>
+                <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+                    <option value="">All Priorities</option>
+                    {PRIORITY_OPTIONS.map((pri) => (
+                        <option key={pri} value={pri}>
+                            {pri}
+                        </option>
+                    ))}
+                </select>
+                <button className="search-btn" onClick={fetchTickets}>
+                    Search
+                </button>
+                <button className="reset-btn" onClick={handleResetFilters}>
+                    Reset
+                </button>
+                <button
+                    className="excel-download-btn"
+                    title="Download Excel"
+                    onClick={async () => {
+                        try {
+                            const response = await downloadTicketExcel({ search, status, category, priority });
+                            const url = window.URL.createObjectURL(new Blob([response.data]));
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.setAttribute('download', 'ticket_data.xlsx');
+                            document.body.appendChild(link);
+                            link.click();
+                            link.remove();
+                        } catch (err) {
+                            console.error('Excel download error:', err);
+                            alert('Failed to download Excel file');
+                        }
+                    }}
+                >
+                    <img src={excel} alt="Download Excel" />
+                </button>
+            </div>
+
+            {showDeleteModal && (
+                <div className="modal-overlay">
+                    <div className="delete-modal-box">
+                        <div className="delete-icon-circle">
+                            <span className="delete-exclamation">!</span>
+                        </div>
+                        <h2 className="delete-modal-heading">Are you sure want to delete?</h2>
+                        {deleting ? (
+                            <div className="delete-modal-loading">
+                                <div className="spinner"></div>
+                                <p className="delete-loading-text">Deleting...</p>
+                            </div>
+                        ) : (
+                            <div className="delete-modal-actions">
+                                <button className="delete-cancel-btn" onClick={() => setShowDeleteModal(false)}>
+                                    Cancel
+                                </button>
+                                <button className="delete-confirm-btn" onClick={handleConfirmDelete}>
+                                    Yes
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            {loading ? (
+                <div className="loader-wrapper">
+                    <div className="loader-dots">
+                        <span></span>
+                    </div>
+                </div>
+            ) : error ? (
+                <p className="error-text">{error}</p>
+            ) : tickets.length === 0 ? (
+                <p>No tickets found.</p>
+            ) : (
+                <table className="employee-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input
+                                    ref={selectAllRef}
+                                    type="checkbox"
+                                    onChange={handleSelectAll}
+                                    checked={tickets.length > 0 && selectedTickets.length === tickets.length}
+                                />
+                            </th>
+                            <th>SL.NO</th>
+                            <th>Ticket ID</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Priority</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Created By</th>
+                            {userType === 'hr' && <th>Actions</th>}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {tickets.map((ticket, index) => (
+                            <tr key={ticket.id}>
+                                <td>
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedTickets.includes(ticket.id)}
+                                        onChange={(e) => handleSelectOne(ticket.id, e.target.checked)}
+                                    />
+                                </td>
+                                <td>{index + 1}</td>
+                                <td>{ticket.ticket_id}</td>
+                                <td>{ticket.title}</td>
+                                <td>{ticket.category}</td>
+                                <td>{ticket.priority}</td>
+                                <td>{ticket.description}</td>
+                                <td>{STATUS_MAP[ticket.status]}</td>
+                                <td>{ticket.CreatedBy?.full_name || '-'}</td>
+                                {userType === 'hr' && (
+                                    <td className="actions-cell">
+                                        <button
+                                            className="action-icon-btn"
+                                            onClick={async () => {
+                                                setLoading(true);
+                                                await new Promise((resolve) => setTimeout(resolve, 300));
+                                                navigate(`/ticket-update/${ticket.id}`);
+                                            }}
+                                            title="Edit"
+                                        >
+                                            <img src="/icons/edit-icon.svg" alt="Edit" />
+                                        </button>
+                                        <button
+                                            className="action-icon-btn"
+                                            onClick={() => {
+                                                setDeletingId(ticket.id);
+                                                setShowDeleteModal(true);
+                                            }}
+                                            title="Delete"
+                                        >
+                                            <img src="/icons/delete-icon.svg" alt="Delete" />
+                                        </button>
+                                    </td>
+                                )}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </div>
+    );
+};
+
+export default TicketList;
