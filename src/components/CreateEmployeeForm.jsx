@@ -6,29 +6,28 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
     const [form, setForm] = useState({
         employee_no: '',
         prefix: '',
-        first_name: '',
-        middle_name: '',
-        last_name: '',
+        name: '',
+        mname: '',
+        lname: '',
+        residential_address: '',
+        permenent_address: '',
         father_name: '',
         email: '',
+        department: '',
+        designation: '',
+        teamlead: '',
+        doj: '',
         mobile: '',
-        ctc: '',
+        ctc_salary: '',
         nationality: '',
-        dob: '',
         gender: '',
         marital_status: '',
         blood_group: '',
-        emergency_contact: '',
+        emergency_phone: '',
         relation: '',
         stay_in: '',
-        distance: '',
-        doj: '',
-        doc: '',
-        on_probation: '',
-        probation_days: '',
-        employment_type: '',
-        contract_from: '',
-        contract_to: ''
+        distance_from_office: '',
+        probation: ''
     });
 
     const [error, setError] = useState('');
@@ -61,109 +60,150 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
         <div className="page-wrapper">
             <div className="form-section">
                 <h2 className="section-title">Add Employee</h2>
-                <form className="grid-form" onSubmit={handleSubmit}>
-                    <fieldset>
-                        <legend>Employee Information</legend>
-                        <div className="grid-container">
-                            <input name="employee_no" placeholder="Employee ID" onChange={handleChange} required />
-                            <select name="prefix" onChange={handleChange} required>
-                                <option value="">Select Prefix</option>
-                                <option>Mr</option>
-                                <option>Mrs</option>
-                                <option>Ms</option>
-                                <option>Dr</option>
-                            </select>
-                            <input name="first_name" placeholder="First Name" onChange={handleChange} required />
-                            <input name="middle_name" placeholder="Middle Name" onChange={handleChange} />
-                            <input name="last_name" placeholder="Last Name" onChange={handleChange} required />
-                            <input name="father_name" placeholder="Father's Name" onChange={handleChange} required />
-                            <input name="email" type="email" placeholder="Email ID" onChange={handleChange} required />
-                            <input name="mobile" placeholder="Mobile Number" onChange={handleChange} required />
-                            <input name="ctc" placeholder="Current CTC" onChange={handleChange} />
-                            <select name="nationality" onChange={handleChange} required>
-                                <option value="">Select Nationality</option>
-                                <option>Indian</option>
-                                <option>Other</option>
-                            </select>
-                            <input name="dob" type="date" onChange={handleChange} required />
-                            <select name="gender" onChange={handleChange} required>
-                                <option value="">Select Gender</option>
-                                <option>Male</option>
-                                <option>Female</option>
-                                <option>Other</option>
-                            </select>
-                            <select name="marital_status" onChange={handleChange} required>
-                                <option value="">Select Marital Status</option>
-                                <option>Single</option>
-                                <option>Married</option>
-                                <option>Divorced</option>
-                                <option>Widowed</option>
-                            </select>
-                            <select name="blood_group" onChange={handleChange}>
-                                <option value="">Select Blood Group</option>
-                                <option>A+</option>
-                                <option>A-</option>
-                                <option>B+</option>
-                                <option>B-</option>
-                                <option>AB+</option>
-                                <option>AB-</option>
-                                <option>O+</option>
-                                <option>O-</option>
-                            </select>
-                            <input
-                                name="emergency_contact"
-                                placeholder="Emergency Contact"
-                                onChange={handleChange}
-                                required
-                            />
-                            <select name="relation" onChange={handleChange}>
-                                <option value="">Select Relation</option>
-                                <option>Father</option>
-                                <option>Mother</option>
-                                <option>Spouse</option>
-                                <option>Sibling</option>
-                                <option>Friend</option>
-                            </select>
-                            <select name="stay_in" onChange={handleChange}>
-                                <option value="">Select Stay In</option>
-                                <option>Hostel</option>
-                                <option>Home</option>
-                                <option>PG</option>
-                            </select>
-                            <input name="distance" placeholder="Distance From Office (in KM)" onChange={handleChange} />
-                            <input name="doj" type="date" onChange={handleChange} required />
-                            <input name="doc" type="date" onChange={handleChange} />
-                            <select name="on_probation" onChange={handleChange}>
-                                <option value="">On Probation?</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                            <input name="probation_days" placeholder="Probation Days" onChange={handleChange} />
-                            <input
-                                name="employment_type"
-                                placeholder="Employment Type"
-                                onChange={handleChange}
-                                required
-                            />
-                            <input name="contract_from" type="date" onChange={handleChange} />
-                            <input name="contract_to" type="date" onChange={handleChange} />
+
+                <div className="form-body">
+                    <form className="grid-form" onSubmit={handleSubmit}>
+                        <fieldset>
+                            <legend>Employee Information</legend>
+                            <div className="grid-container">
+                                <input name="employee_no" placeholder="Employee ID" onChange={handleChange} required />
+                                <select name="prefix" onChange={handleChange} required>
+                                    <option value="">Select Prefix</option>
+                                    <option>Mr</option>
+                                    <option>Mrs</option>
+                                    <option>Ms</option>
+                                    <option>Dr</option>
+                                </select>
+                                <input name="name" placeholder="First Name" onChange={handleChange} required />
+                                <input name="mname" placeholder="Middle Name" onChange={handleChange} />
+                                <input name="lname" placeholder="Last Name" onChange={handleChange} required />
+
+                                <div className="textarea-group">
+                                    <label htmlFor="residential_address">Residential Address</label>
+                                    <textarea
+                                        name="residential_address"
+                                        id="residential_address"
+                                        placeholder="Enter residential address"
+                                        rows="3"
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="textarea-group">
+                                    <label htmlFor="permenent_address">Permanent Address</label>
+                                    <textarea
+                                        name="permenent_address"
+                                        id="permenent_address"
+                                        placeholder="Enter permanent address"
+                                        rows="3"
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+
+                                <input
+                                    name="father_name"
+                                    placeholder="Father's Name"
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <input
+                                    name="email"
+                                    type="email"
+                                    placeholder="Email ID"
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <input name="mobile" placeholder="Mobile Number" onChange={handleChange} required />
+                                <input name="ctc_salary" placeholder="CTC Salary" onChange={handleChange} />
+                                <select name="nationality" onChange={handleChange} required>
+                                    <option value="">Select Nationality</option>
+                                    <option>Indian</option>
+                                    <option>Other</option>
+                                </select>
+                                <select name="gender" onChange={handleChange} required>
+                                    <option value="">Select Gender</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Other</option>
+                                </select>
+                                <select name="marital_status" onChange={handleChange} required>
+                                    <option value="">Select Marital Status</option>
+                                    <option>Single</option>
+                                    <option>Married</option>
+                                    <option>Divorced</option>
+                                    <option>Widowed</option>
+                                </select>
+                                <select name="blood_group" onChange={handleChange}>
+                                    <option value="">Select Blood Group</option>
+                                    <option>A+</option>
+                                    <option>A-</option>
+                                    <option>B+</option>
+                                    <option>B-</option>
+                                    <option>AB+</option>
+                                    <option>AB-</option>
+                                    <option>O+</option>
+                                    <option>O-</option>
+                                </select>
+                                <input
+                                    name="emergency_phone"
+                                    placeholder="Emergency Contact"
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <select name="relation" onChange={handleChange}>
+                                    <option value="">Select Relation</option>
+                                    <option>Father</option>
+                                    <option>Mother</option>
+                                    <option>Spouse</option>
+                                    <option>Sibling</option>
+                                    <option>Friend</option>
+                                </select>
+                                <select name="stay_in" onChange={handleChange}>
+                                    <option value="">Select Stay In</option>
+                                    <option>Hostel</option>
+                                    <option>Home</option>
+                                    <option>PG</option>
+                                </select>
+                                <input
+                                    name="distance_from_office"
+                                    placeholder="Distance From Office (KM)"
+                                    onChange={handleChange}
+                                />
+                                <input
+                                    name="doj"
+                                    type="date"
+                                    placeholder="Date of Joining"
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <input name="teamlead" placeholder="Team Lead" onChange={handleChange} />
+                                <input name="department" placeholder="Department" onChange={handleChange} />
+                                <input name="designation" placeholder="Designation" onChange={handleChange} />
+                                <select name="probation" onChange={handleChange}>
+                                    <option value="">On Probation?</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                        </fieldset>
+
+                        {error && <div className="form-error">{error}</div>}
+
+                        <div className="form-actions">
+                            <button type="button" className="btn cancel" onClick={onClose}>
+                                Cancel
+                            </button>
+                            <button className="btn secondary" disabled={loading}>
+                                {loading ? 'Saving...' : 'Save & Exit'}
+                            </button>
+                            <button className="btn primary" type="submit" disabled={loading}>
+                                {loading ? 'Saving...' : 'Submit'}
+                            </button>
                         </div>
-                    </fieldset>
-
-                    {error && <div className="form-error">{error}</div>}
-
-                    <div className="form-actions">
-                        <button type="button" className="btn cancel" onClick={onClose}>
-                            Cancel
-                        </button>
-                        <button className="btn secondary" disabled={loading}>
-                            {loading ? 'Saving...' : 'Save & Exit'}
-                        </button>
-                        <button className="btn primary" type="submit" disabled={loading}>
-                            {loading ? 'Saving...' : 'Submit'}
-                        </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     );

@@ -30,15 +30,26 @@
     font-family: var(--font-base);
     background-color: var(--color-bg-light);
     color: var(--color-text-dark);
-    overflow-y: auto;
-    max-height: 100vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-section {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     background-color: var(--color-bg-white);
     border-radius: var(--radius-lg);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    min-height: 0;
+}
+
+.form-body {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 120px;
 }
 
 .section-title {
@@ -98,17 +109,53 @@ form legend {
     outline: none;
 }
 
+.textarea-group {
+    display: flex;
+    flex-direction: column;
+    grid-column: span 3;
+}
+
+.textarea-group label {
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-dark);
+}
+
+.textarea-group textarea {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    font-size: 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    resize: vertical;
+    background-color: white;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+    font-family: var(--font-base);
+    line-height: 1.5;
+    min-height: 80px;
+}
+
+.textarea-group textarea:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px rgba(92, 131, 246, 0.2);
+    outline: none;
+}
+
 ::placeholder {
     color: var(--color-placeholder);
     opacity: 1;
 }
 
 .form-actions {
+    position: sticky;
+    bottom: 0;
+    background-color: var(--color-bg-white);
+    z-index: 10;
     display: flex;
     justify-content: flex-end;
     gap: var(--space-sm);
     padding: var(--space-md) var(--space-lg);
-    background-color: var(--color-bg-white);
     border-top: 1px solid var(--color-border-light);
     border-bottom-left-radius: var(--radius-lg);
     border-bottom-right-radius: var(--radius-lg);
