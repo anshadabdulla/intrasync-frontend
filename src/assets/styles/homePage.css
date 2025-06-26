@@ -5,7 +5,7 @@
 
 :root {
     --primary-bg: #2563eb;
-    --primary-bg-light: #3b82f6;
+    --primary-bg-light: #2563eb;
     --primary-accent: #f59e0b;
     --primary-text: #111827;
     --secondary-bg: #f9fafb;
@@ -18,7 +18,7 @@
     --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     --box-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
     --btn-bg: #2563eb;
-    --btn-bg-hover: #1e40af;
+    --btn-bg-hover: #2563eb;
     --success-color: #059669;
     --error-color: #ef4444;
     --gap: 24px;

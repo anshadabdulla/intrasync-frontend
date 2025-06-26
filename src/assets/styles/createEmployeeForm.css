@@ -2,25 +2,32 @@
     --color-bg-light: #f9fafb;
     --color-bg-white: #ffffff;
     --color-text-dark: #111827;
+    --color-text-secondary: #6b7280;
     --color-primary: #2563eb;
     --color-primary-hover: #1e40af;
-    --color-accent: #5c83f6;
+    --color-accent: #f59e0b;
+    --color-accent-hover: #d97706;
     --color-border: #d1d5db;
     --color-border-light: #e5e7eb;
     --color-placeholder: #9ca3af;
-    --color-error: #dc2626;
+    --color-error: #ef4444;
+    --color-success: #059669;
 
     --font-base: 'Inter', sans-serif;
 
     --radius-lg: 12px;
-    --radius-md: 8px;
-    --radius-sm: 4px;
+    --radius-md: 10px;
+    --radius-sm: 6px;
 
     --space-xs: 8px;
     --space-sm: 12px;
     --space-md: 16px;
     --space-lg: 24px;
     --space-xl: 32px;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+    --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .page-wrapper {
@@ -41,24 +48,29 @@
     flex: 1;
     background-color: var(--color-bg-white);
     border-radius: var(--radius-lg);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
     overflow: hidden;
     min-height: 0;
+    transition: all 0.2s ease;
+}
+
+.form-section:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.section-title {
+    background-color: var(--color-primary);
+    color: white;
+    padding: var(--space-md) var(--space-lg);
+    font-size: 18px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--color-border-light);
 }
 
 .form-body {
     flex: 1;
     overflow-y: auto;
     padding-bottom: 120px;
-}
-
-.section-title {
-    background-color: var(--color-accent);
-    color: white;
-    padding: var(--space-md) var(--space-lg);
-    font-size: 18px;
-    font-weight: 600;
-    border-bottom: 1px solid var(--color-border-light);
 }
 
 form fieldset {
@@ -92,20 +104,24 @@ form legend {
 }
 
 .grid-container input,
-.grid-container select {
+.grid-container select,
+.grid-container textarea {
     width: 100%;
     padding: var(--space-sm) var(--space-md);
     font-size: 14px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    background-color: white;
-    transition: border 0.2s ease, box-shadow 0.2s ease;
+    background-color: var(--color-bg-white);
+    transition: all 0.2s ease;
+    font-family: var(--font-base);
+    box-shadow: var(--shadow-sm);
 }
 
 .grid-container input:focus,
-.grid-container select:focus {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 2px rgba(92, 131, 246, 0.2);
+.grid-container select:focus,
+.grid-container textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: var(--focus-ring);
     outline: none;
 }
 
@@ -123,23 +139,9 @@ form legend {
 }
 
 .textarea-group textarea {
-    width: 100%;
-    padding: var(--space-sm) var(--space-md);
-    font-size: 14px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
     resize: vertical;
-    background-color: white;
-    transition: border 0.2s ease, box-shadow 0.2s ease;
-    font-family: var(--font-base);
+    min-height: 100px;
     line-height: 1.5;
-    min-height: 80px;
-}
-
-.textarea-group textarea:focus {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 2px rgba(92, 131, 246, 0.2);
-    outline: none;
 }
 
 ::placeholder {
@@ -168,7 +170,13 @@ form legend {
     border: none;
     border-radius: var(--radius-md);
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
 }
 
 .btn.primary {
@@ -181,22 +189,24 @@ form legend {
 }
 
 .btn.secondary {
-    background-color: #f3f4f6;
+    background-color: var(--color-accent);
     color: var(--color-text-dark);
 }
 
 .btn.secondary:hover {
-    background-color: var(--color-border-light);
+    background-color: var(--color-accent-hover);
 }
 
 .btn.cancel {
     background-color: transparent;
     border: 1px solid var(--color-border);
-    color: #374151;
+    color: var(--color-text-secondary);
+    box-shadow: none;
 }
 
 .btn.cancel:hover {
     background-color: var(--color-bg-light);
+    box-shadow: var(--shadow-sm);
 }
 
 .form-error {

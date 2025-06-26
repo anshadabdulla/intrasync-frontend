@@ -244,7 +244,7 @@ const AttendanceSection = () => {
 
                 .progress-fill {
                     height: 100%;
-                    background: linear-gradient(90deg, #2563eb, #3b82f6);
+                    background: linear-gradient(90deg, #2563eb, #2563eb);
                     border-radius: 3px;
                     transition: width 0.6s ease;
                 }
