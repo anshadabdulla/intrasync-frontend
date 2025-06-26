@@ -38,7 +38,7 @@ const HomePageForm = () => {
                 console.error(err);
                 navigate('/');
             } finally {
-                setTimeout(() => setShowScreenLoader(false), 800);
+                setTimeout(() => setShowScreenLoader(false), 600);
             }
         };
 
