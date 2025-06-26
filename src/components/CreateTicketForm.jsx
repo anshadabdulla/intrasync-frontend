@@ -17,9 +17,14 @@ const CreateTicketForm = ({ onClose }) => {
         description: ''
     });
 
-    const [error, setError] = useState('');
+    const [toast, setToast] = useState({ message: '', visible: false });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    const showToast = (message) => {
+        setToast({ message, visible: true });
+        setTimeout(() => setToast({ message: '', visible: false }), 4000);
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -29,16 +34,12 @@ const CreateTicketForm = ({ onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError('');
+
         try {
             const res = await createTicket(form);
             if (res.data.status) {
-                let userType = '';
                 const token = localStorage.getItem('token');
-                if (token) {
-                    const decoded = jwtDecode(token);
-                    userType = decoded.user_type?.toLowerCase();
-                }
+                const userType = token ? jwtDecode(token).user_type?.toLowerCase() : '';
 
                 if (userType === 'hr') {
                     navigate('/ticket-list');
@@ -46,10 +47,11 @@ const CreateTicketForm = ({ onClose }) => {
                     navigate('/home');
                 }
             } else {
-                setError(res.data.msg || res.data.errors?.[0] || 'Failed to create ticket.');
+                showToast(res.data.msg || res.data.errors?.[0] || 'Failed to create ticket.');
             }
         } catch (err) {
-            setError(err.response?.data?.errors?.[0] || 'Server error.');
+            const backendMsg = err?.response?.data?.msg || err?.response?.data?.errors?.[0];
+            showToast(backendMsg || 'Server error.');
         } finally {
             setLoading(false);
         }
@@ -116,8 +118,6 @@ const CreateTicketForm = ({ onClose }) => {
                             </div>
                         </fieldset>
 
-                        {error && <div className="form-error">{error}</div>}
-
                         <div className="form-actions">
                             <button type="button" className="btn cancel" onClick={onClose}>
                                 Cancel
@@ -132,6 +132,12 @@ const CreateTicketForm = ({ onClose }) => {
                     </form>
                 </div>
             </div>
+
+            {toast.visible && (
+                <div className="toast-popup">
+                    <span>{toast.message}</span>
+                </div>
+            )}
         </div>
     );
 };
