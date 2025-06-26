@@ -355,7 +355,7 @@ const EmployeeList = () => {
                         }
                     }}
                 >
-                    <img src="/icons/excel-download-icon.svg" alt="Download Excel" />
+                    <img src="/icons/excel-download-icon.png" alt="Download Excel" />
                 </button>
 
                 <button className="search-btn" onClick={handleSearch}>

@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
-  <!-- Green document background -->
-  <path fill="#34A853" d="M6 4h24l12 12v28a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2z"></path>
-  <!-- Document folded corner -->
-  <path fill="#2C8C45" d="M30 4v12h12L30 4z"></path>
-  <!-- Centered white downward arrow -->
-  <path fill="#FFFFFF" d="M24 17c1.1 0 2 .9 2 2v9.17l2.59-2.58L30 28l-6 6-6-6 1.41-1.41L22 28.17V19c0-1.1.9-2 2-2z"></path>
-</svg>
