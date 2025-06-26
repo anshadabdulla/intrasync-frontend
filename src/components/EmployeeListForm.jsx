@@ -2,13 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './../assets/styles/employeeList.css';
 import { jwtDecode } from 'jwt-decode';
-import {
-    getAllEmployees,
-    getAllDepartments,
-    getAllDesignations,
-    getAllEmployeeTL,
-    deleteEmployeeById
-} from '../api/employeeService';
+import { getAllEmployees, getAllDepartments, getAllDesignations, getAllEmployeeTL, deleteEmployeeById } from '../api/employeeService';
 
 const EmployeeList = () => {
     const [search, setSearch] = useState('');
