@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import '../assets/styles/createTicketForm.css';
 import { createTicket } from '../api/ticketService';
+import { Listbox } from '@headlessui/react';
+import { ChevronDown } from 'lucide-react';
+
+const categories = ['Bug', 'Feature Request', 'Support', 'Other'];
+const priorities = ['Low', 'Medium', 'High'];
 
 const CreateTicketForm = ({ onClose, onSuccess }) => {
     const [form, setForm] = useState({
@@ -46,19 +51,43 @@ const CreateTicketForm = ({ onClose, onSuccess }) => {
                             <legend>Ticket Information</legend>
                             <div className="grid-container">
                                 <input name="title" placeholder="Title" onChange={handleChange} required />
-                                <select name="category" onChange={handleChange} required>
-                                    <option value="">Select Category</option>
-                                    <option value="Bug">Bug</option>
-                                    <option value="Feature Request">Feature Request</option>
-                                    <option value="Support">Support</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                                <select name="priority" onChange={handleChange} required>
-                                    <option value="">Select Priority</option>
-                                    <option value="Low">Low</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="High">High</option>
-                                </select>
+
+                                <Listbox
+                                    value={form.category}
+                                    onChange={(value) => setForm((prev) => ({ ...prev, category: value }))}
+                                >
+                                    <div className="custom-select">
+                                        <Listbox.Button className="custom-select-button">
+                                            {form.category || 'Select Category'} <ChevronDown size={16} />
+                                        </Listbox.Button>
+                                        <Listbox.Options className="custom-select-options">
+                                            {categories.map((cat) => (
+                                                <Listbox.Option key={cat} value={cat} className="custom-option">
+                                                    {cat}
+                                                </Listbox.Option>
+                                            ))}
+                                        </Listbox.Options>
+                                    </div>
+                                </Listbox>
+
+                                <Listbox
+                                    value={form.priority}
+                                    onChange={(value) => setForm((prev) => ({ ...prev, priority: value }))}
+                                >
+                                    <div className="custom-select">
+                                        <Listbox.Button className="custom-select-button">
+                                            {form.priority || 'Select Priority'} <ChevronDown size={16} />
+                                        </Listbox.Button>
+                                        <Listbox.Options className="custom-select-options">
+                                            {priorities.map((prio) => (
+                                                <Listbox.Option key={prio} value={prio} className="custom-option">
+                                                    {prio}
+                                                </Listbox.Option>
+                                            ))}
+                                        </Listbox.Options>
+                                    </div>
+                                </Listbox>
+
                                 <div className="textarea-group">
                                     <label htmlFor="description">Description</label>
                                     <textarea
