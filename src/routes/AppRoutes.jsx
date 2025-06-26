@@ -7,6 +7,7 @@ import EmployeeListPage from '../pages/EmployeeListPage';
 import CreateEmployeePage from '../pages/CreateEmployeePage';
 import UpdateEmployeePage from '../pages/UpdateEmployeePage';
 import TicketListPage from '../pages/TicketListPage';
+import CreateTicketPage from '../pages/CreateTicketPage';
 
 const AppRoutes = () => {
     return (
@@ -19,6 +20,7 @@ const AppRoutes = () => {
                 <Route path="/employe-create" element={<CreateEmployeePage />} />
                 <Route path="/employe-update/:id" element={<UpdateEmployeePage />} />
                 <Route path="/ticket-list" element={<TicketListPage />} />
+                <Route path="/ticket-create" element={<CreateTicketPage />} />
             </Routes>
         </Router>
     );
