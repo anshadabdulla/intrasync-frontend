@@ -17,6 +17,16 @@
     --blue: #2563eb;
     --blue-hover: #1d4ed8;
     --font-family: 'Inter', sans-serif;
+    --modal-overlay-bg: rgba(0, 0, 0, 0.5);
+    --modal-bg: #ffffff;
+    --modal-text: #1f2937;
+    --modal-shadow: rgba(0, 0, 0, 0.15);
+    --cancel-bg: #7da3f1;
+    --cancel-hover-bg: #5d8de0;
+    --confirm-bg: #fbbf24;
+    --confirm-hover-bg: #f59e0b;
+    --border-warning: #fde68a;
+    --icon-warning: #facc15;
 }
 
 body {
@@ -295,7 +305,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 12px; 
+    gap: 12px;
     padding: 8px 0;
 }
 
@@ -315,7 +325,7 @@ body {
 }
 
 .action-icon-btn:hover {
-    background-color: #e2e8f0; 
+    background-color: #e2e8f0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
@@ -334,6 +344,121 @@ body {
     height: 18px;
     object-fit: contain;
     filter: grayscale(100%) contrast(150%);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--modal-overlay-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 16px;
+    backdrop-filter: blur(2px);
+    animation: fadeIn 0.25s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.delete-modal-box {
+    background-color: var(--modal-bg);
+    padding: 40px 32px 32px;
+    border-radius: 16px;
+    max-width: 440px;
+    width: 100%;
+    box-shadow: 0 12px 32px var(--modal-shadow);
+    text-align: center;
+    animation: scaleIn 0.3s ease;
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.delete-icon-circle {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    border: 4px solid var(--border-warning);
+    background-color: #fffef9;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--icon-warning);
+    font-size: 40px;
+    font-weight: 700;
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+.delete-exclamation {
+    margin-top: -4px;
+    font-size: 36px;
+    font-family: 'Inter', sans-serif;
+}
+
+.delete-modal-heading {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--modal-text);
+    margin-bottom: 32px;
+    line-height: 1.4;
+}
+
+.delete-modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.delete-cancel-btn,
+.delete-confirm-btn {
+    padding: 10px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    min-width: 120px;
+    font-family: 'Inter', sans-serif;
+}
+
+.delete-cancel-btn {
+    background-color: var(--cancel-bg);
+    color: #ffffff;
+}
+
+.delete-cancel-btn:hover {
+    background-color: var(--cancel-hover-bg);
+}
+
+.delete-confirm-btn {
+    background-color: var(--confirm-bg);
+    color: #ffffff;
+}
+
+.delete-confirm-btn:hover {
+    background-color: var(--confirm-hover-bg);
 }
 
 @keyframes dotsBounce {

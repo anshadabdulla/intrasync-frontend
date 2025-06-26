@@ -1,8 +1,14 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { getAllEmployees, getAllDepartments, getAllDesignations, getAllEmployeeTL } from '../api/employeeService';
 import { useNavigate } from 'react-router-dom';
 import './../assets/styles/employeeList.css';
 import { jwtDecode } from 'jwt-decode';
+import {
+    getAllEmployees,
+    getAllDepartments,
+    getAllDesignations,
+    getAllEmployeeTL,
+    deleteEmployeeById
+} from '../api/employeeService';
 
 const EmployeeList = () => {
     const [search, setSearch] = useState('');
@@ -23,7 +29,8 @@ const EmployeeList = () => {
     const [departmentList, setDepartmentList] = useState([]);
     const [teamleadList, setTeamleadList] = useState([]);
     const [resetTriggered, setResetTriggered] = useState(false);
-
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deletingId, setDeletingId] = useState(null);
     const dropdownRef = useRef(null);
     const designationDropdownRef = useRef(null);
     const departmentDropdownRef = useRef(null);
@@ -35,6 +42,24 @@ const EmployeeList = () => {
         setLoading(true);
         await new Promise((resolve) => setTimeout(resolve, 300));
         navigate('/employe-create');
+    };
+
+    const handleConfirmDelete = async () => {
+        try {
+            setLoading(true);
+            const res = await deleteEmployeeById(deletingId);
+            if (res.data.status) {
+                setShowDeleteModal(false);
+                setDeletingId(null);
+                fetchEmployees(); // refresh list
+            } else {
+                alert(res.data.msg || 'Failed to delete.');
+            }
+        } catch (error) {
+            alert(error.response?.data?.errors?.[0] || 'Server error');
+        } finally {
+            setLoading(false);
+        }
     };
 
     let userType = '';
@@ -275,6 +300,25 @@ const EmployeeList = () => {
                     )}
                 </div>
 
+                {showDeleteModal && (
+                    <div className="modal-overlay">
+                        <div className="delete-modal-box">
+                            <div className="delete-icon-circle">
+                                <span className="delete-exclamation">!</span>
+                            </div>
+                            <h2 className="delete-modal-heading">Are you sure want to delete?</h2>
+                            <div className="delete-modal-actions">
+                                <button className="delete-cancel-btn" onClick={() => setShowDeleteModal(false)}>
+                                    Cancel
+                                </button>
+                                <button className="delete-confirm-btn" onClick={handleConfirmDelete}>
+                                    Yes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 <button className="search-btn" onClick={handleSearch}>
                     Search
                 </button>
@@ -349,9 +393,8 @@ const EmployeeList = () => {
                                     <button
                                         className="action-icon-btn"
                                         onClick={() => {
-                                            if (window.confirm('Are you sure you want to delete this employee?')) {
-                                                console.log('Delete employee ID:', emp.id);
-                                            }
+                                            setDeletingId(emp.id);
+                                            setShowDeleteModal(true);
                                         }}
                                         title="Delete"
                                     >

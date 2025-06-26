@@ -75,3 +75,12 @@ export const updateEmployee = async (id, employeeData) => {
         headers: { Authorization: `Bearer ${token}` }
     });
 };
+
+export const deleteEmployeeById = (id) => {
+    const token = localStorage.getItem('token');
+    return axios.delete(`/employee/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+};
