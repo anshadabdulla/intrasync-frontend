@@ -28,7 +28,13 @@ const TicketList = () => {
     const [deletingId, setDeletingId] = useState(null);
     const [deleting, setDeleting] = useState(false);
     const [selectedTickets, setSelectedTickets] = useState([]);
+    const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
+    const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+    const [priorityDropdownOpen, setPriorityDropdownOpen] = useState(false);
     const selectAllRef = useRef(null);
+    const statusDropdownRef = useRef(null);
+    const categoryDropdownRef = useRef(null);
+    const priorityDropdownRef = useRef(null);
     const navigate = useNavigate();
 
     let userType = '';
@@ -48,7 +54,7 @@ const TicketList = () => {
         try {
             const [res] = await Promise.all([
                 getAllTicket({ search, status, category, priority }),
-                new Promise((resolve) => setTimeout(resolve, 400)) 
+                new Promise((resolve) => setTimeout(resolve, 400))
             ]);
 
             if (res.data.status) {
@@ -73,6 +79,22 @@ const TicketList = () => {
             selectAllRef.current.indeterminate = selectedTickets.length > 0 && selectedTickets.length < tickets.length;
         }
     }, [selectedTickets, tickets]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (statusDropdownRef.current && !statusDropdownRef.current.contains(event.target)) {
+                setStatusDropdownOpen(false);
+            }
+            if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(event.target)) {
+                setCategoryDropdownOpen(false);
+            }
+            if (priorityDropdownRef.current && !priorityDropdownRef.current.contains(event.target)) {
+                setPriorityDropdownOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     const handleCreateTicket = async () => {
         setLoading(true);
@@ -131,30 +153,73 @@ const TicketList = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                <select value={status} onChange={(e) => setStatus(e.target.value)}>
-                    <option value="">All Status</option>
-                    {Object.entries(STATUS_MAP).map(([val, label]) => (
-                        <option key={val} value={val}>
-                            {label}
-                        </option>
-                    ))}
-                </select>
-                <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                    <option value="">All Categories</option>
-                    {CATEGORY_OPTIONS.map((cat) => (
-                        <option key={cat} value={cat}>
-                            {cat}
-                        </option>
-                    ))}
-                </select>
-                <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-                    <option value="">All Priorities</option>
-                    {PRIORITY_OPTIONS.map((pri) => (
-                        <option key={pri} value={pri}>
-                            {pri}
-                        </option>
-                    ))}
-                </select>
+
+                <div className="dropdown" ref={statusDropdownRef}>
+                    <button className="dropdown-toggle" onClick={() => setStatusDropdownOpen((prev) => !prev)}>
+                        {STATUS_MAP[status] || 'All Status'}
+                        <span className="dropdown-arrow">▾</span>
+                    </button>
+                    {statusDropdownOpen && (
+                        <ul className="dropdown-menu show">
+                            {Object.entries(STATUS_MAP).map(([val, label]) => (
+                                <li
+                                    key={val}
+                                    onClick={() => {
+                                        setStatus(val);
+                                        setStatusDropdownOpen(false);
+                                    }}
+                                >
+                                    {label}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
+                <div className="dropdown" ref={categoryDropdownRef}>
+                    <button className="dropdown-toggle" onClick={() => setCategoryDropdownOpen((prev) => !prev)}>
+                        {category || 'All Categories'}
+                        <span className="dropdown-arrow">▾</span>
+                    </button>
+                    {categoryDropdownOpen && (
+                        <ul className="dropdown-menu show">
+                            {CATEGORY_OPTIONS.map((cat) => (
+                                <li
+                                    key={cat}
+                                    onClick={() => {
+                                        setCategory(cat);
+                                        setCategoryDropdownOpen(false);
+                                    }}
+                                >
+                                    {cat}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
+                <div className="dropdown" ref={priorityDropdownRef}>
+                    <button className="dropdown-toggle" onClick={() => setPriorityDropdownOpen((prev) => !prev)}>
+                        {priority || 'All Priorities'}
+                        <span className="dropdown-arrow">▾</span>
+                    </button>
+                    {priorityDropdownOpen && (
+                        <ul className="dropdown-menu show">
+                            {PRIORITY_OPTIONS.map((pri) => (
+                                <li
+                                    key={pri}
+                                    onClick={() => {
+                                        setPriority(pri);
+                                        setPriorityDropdownOpen(false);
+                                    }}
+                                >
+                                    {pri}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
                 <button className="search-btn" onClick={fetchTickets}>
                     Search
                 </button>
