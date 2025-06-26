@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './../assets/styles/employeeList.css';
 import { jwtDecode } from 'jwt-decode';
+import excel from '../assets/images/excel-download.png';
 import {
     getAllEmployees,
     getAllDepartments,
@@ -355,7 +356,7 @@ const EmployeeList = () => {
                         }
                     }}
                 >
-                    <img src="/icons/excel-download-icon.png" alt="Download Excel" />
+                    <img src={excel} alt="Download Excel" />
                 </button>
 
                 <button className="search-btn" onClick={handleSearch}>
