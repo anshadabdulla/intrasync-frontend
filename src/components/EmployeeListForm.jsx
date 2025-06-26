@@ -2,7 +2,13 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './../assets/styles/employeeList.css';
 import { jwtDecode } from 'jwt-decode';
-import { getAllEmployees, getAllDepartments, getAllDesignations, getAllEmployeeTL, deleteEmployeeById } from '../api/employeeService';
+import {
+    getAllEmployees,
+    getAllDepartments,
+    getAllDesignations,
+    getAllEmployeeTL,
+    deleteEmployeeById
+} from '../api/employeeService';
 
 const EmployeeList = () => {
     const [search, setSearch] = useState('');
@@ -359,7 +365,7 @@ const EmployeeList = () => {
                             <th>Department</th>
                             <th>Mobile</th>
                             <th>Reporting To</th>
-                            <th>Actions</th>
+                            {userType === 'hr' && <th>Actions</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -380,29 +386,31 @@ const EmployeeList = () => {
                                 <td>{emp.Department?.name || '-'}</td>
                                 <td>{emp.mobile || '-'}</td>
                                 <td>{emp.TeamLead?.name || '-'}</td>
-                                <td className="actions-cell">
-                                    <button
-                                        className="action-icon-btn"
-                                        onClick={async () => {
-                                            setLoading(true);
-                                            await new Promise((resolve) => setTimeout(resolve, 300));
-                                            navigate(`/employe-update/${emp.id}`);
-                                        }}
-                                        title="Edit"
-                                    >
-                                        <img src="/icons/edit-icon.svg" alt="Edit" />
-                                    </button>
-                                    <button
-                                        className="action-icon-btn"
-                                        onClick={() => {
-                                            setDeletingId(emp.id);
-                                            setShowDeleteModal(true);
-                                        }}
-                                        title="Delete"
-                                    >
-                                        <img src="/icons/delete-icon.svg" alt="Delete" />
-                                    </button>
-                                </td>
+                                {userType === 'hr' && (
+                                    <td className="actions-cell">
+                                        <button
+                                            className="action-icon-btn"
+                                            onClick={async () => {
+                                                setLoading(true);
+                                                await new Promise((resolve) => setTimeout(resolve, 300));
+                                                navigate(`/employe-update/${emp.id}`);
+                                            }}
+                                            title="Edit"
+                                        >
+                                            <img src="/icons/edit-icon.svg" alt="Edit" />
+                                        </button>
+                                        <button
+                                            className="action-icon-btn"
+                                            onClick={() => {
+                                                setDeletingId(emp.id);
+                                                setShowDeleteModal(true);
+                                            }}
+                                            title="Delete"
+                                        >
+                                            <img src="/icons/delete-icon.svg" alt="Delete" />
+                                        </button>
+                                    </td>
+                                )}
                             </tr>
                         ))}
                     </tbody>
