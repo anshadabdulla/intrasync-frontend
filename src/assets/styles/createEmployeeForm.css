@@ -1,47 +1,71 @@
+:root {
+    --color-bg-light: #f9fafb;
+    --color-bg-white: #ffffff;
+    --color-text-dark: #111827;
+    --color-primary: #2563eb;
+    --color-primary-hover: #1e40af;
+    --color-accent: #5c83f6;
+    --color-border: #d1d5db;
+    --color-border-light: #e5e7eb;
+    --color-placeholder: #9ca3af;
+    --color-error: #dc2626;
+
+    --font-base: 'Inter', sans-serif;
+
+    --radius-lg: 12px;
+    --radius-md: 8px;
+    --radius-sm: 4px;
+
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+}
 
 .page-wrapper {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 32px;
-    font-family: 'Inter', sans-serif;
-    background-color: #f9fafb;
-    color: #111827;
+    padding: var(--space-xl);
+    font-family: var(--font-base);
+    background-color: var(--color-bg-light);
+    color: var(--color-text-dark);
+    overflow-y: auto;
+    max-height: 100vh;
 }
 
-
 .form-section {
-    background-color: #ffffff;
-    border-radius: 12px;
+    background-color: var(--color-bg-white);
+    border-radius: var(--radius-lg);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
-
 .section-title {
-    background-color: #5c83f6;
+    background-color: var(--color-accent);
     color: white;
-    padding: 16px 24px;
+    padding: var(--space-md) var(--space-lg);
     font-size: 18px;
     font-weight: 600;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--color-border-light);
 }
 
 form fieldset {
     border: none;
-    padding: 24px;
+    padding: var(--space-lg);
 }
 
 form legend {
     font-size: 16px;
     font-weight: 600;
-    color: #111827;
-    margin-bottom: 24px;
+    color: var(--color-text-dark);
+    margin-bottom: var(--space-lg);
 }
 
 .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    gap: var(--space-lg);
 }
 
 @media (max-width: 1024px) {
@@ -59,35 +83,35 @@ form legend {
 .grid-container input,
 .grid-container select {
     width: 100%;
-    padding: 12px 14px;
+    padding: var(--space-sm) var(--space-md);
     font-size: 14px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     background-color: white;
     transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
 .grid-container input:focus,
 .grid-container select:focus {
-    border-color: #5c83f6;
+    border-color: var(--color-accent);
     box-shadow: 0 0 0 2px rgba(92, 131, 246, 0.2);
     outline: none;
 }
 
 ::placeholder {
-    color: #9ca3af;
+    color: var(--color-placeholder);
     opacity: 1;
 }
 
 .form-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
-    padding: 20px 24px;
-    background-color: #ffffff;
-    border-top: 1px solid #e5e7eb;
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-lg);
+    background-color: var(--color-bg-white);
+    border-top: 1px solid var(--color-border-light);
+    border-bottom-left-radius: var(--radius-lg);
+    border-bottom-right-radius: var(--radius-lg);
 }
 
 .btn {
@@ -95,42 +119,42 @@ form legend {
     font-weight: 600;
     font-size: 14px;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
 .btn.primary {
-    background-color: #2563eb;
+    background-color: var(--color-primary);
     color: white;
 }
 
 .btn.primary:hover {
-    background-color: #1e40af;
+    background-color: var(--color-primary-hover);
 }
 
 .btn.secondary {
     background-color: #f3f4f6;
-    color: #111827;
+    color: var(--color-text-dark);
 }
 
 .btn.secondary:hover {
-    background-color: #e5e7eb;
+    background-color: var(--color-border-light);
 }
 
 .btn.cancel {
     background-color: transparent;
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--color-border);
     color: #374151;
 }
 
 .btn.cancel:hover {
-    background-color: #f9fafb;
+    background-color: var(--color-bg-light);
 }
 
 .form-error {
-    color: #dc2626;
-    padding: 0 24px;
+    color: var(--color-error);
+    padding: 0 var(--space-lg);
     font-size: 14px;
     margin-top: -12px;
 }

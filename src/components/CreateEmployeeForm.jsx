@@ -70,6 +70,8 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
                                 <option value="">Select Prefix</option>
                                 <option>Mr</option>
                                 <option>Mrs</option>
+                                <option>Ms</option>
+                                <option>Dr</option>
                             </select>
                             <input name="first_name" placeholder="First Name" onChange={handleChange} required />
                             <input name="middle_name" placeholder="Middle Name" onChange={handleChange} />
@@ -83,13 +85,7 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
                                 <option>Indian</option>
                                 <option>Other</option>
                             </select>
-                            <input
-                                name="dob"
-                                type="date"
-                                placeholder="Date of Birth"
-                                onChange={handleChange}
-                                required
-                            />
+                            <input name="dob" type="date" onChange={handleChange} required />
                             <select name="gender" onChange={handleChange} required>
                                 <option value="">Select Gender</option>
                                 <option>Male</option>
@@ -100,11 +96,19 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
                                 <option value="">Select Marital Status</option>
                                 <option>Single</option>
                                 <option>Married</option>
+                                <option>Divorced</option>
+                                <option>Widowed</option>
                             </select>
                             <select name="blood_group" onChange={handleChange}>
                                 <option value="">Select Blood Group</option>
                                 <option>A+</option>
+                                <option>A-</option>
                                 <option>B+</option>
+                                <option>B-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
+                                <option>O+</option>
+                                <option>O-</option>
                             </select>
                             <input
                                 name="emergency_contact"
@@ -116,45 +120,33 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
                                 <option value="">Select Relation</option>
                                 <option>Father</option>
                                 <option>Mother</option>
+                                <option>Spouse</option>
+                                <option>Sibling</option>
+                                <option>Friend</option>
                             </select>
                             <select name="stay_in" onChange={handleChange}>
                                 <option value="">Select Stay In</option>
                                 <option>Hostel</option>
                                 <option>Home</option>
+                                <option>PG</option>
                             </select>
                             <input name="distance" placeholder="Distance From Office (in KM)" onChange={handleChange} />
-                            <input
-                                name="doj"
-                                type="date"
-                                placeholder="Date of Joining"
-                                onChange={handleChange}
-                                required
-                            />
-                            <input name="doc" type="date" placeholder="Date of Confirmation" onChange={handleChange} />
+                            <input name="doj" type="date" onChange={handleChange} required />
+                            <input name="doc" type="date" onChange={handleChange} />
                             <select name="on_probation" onChange={handleChange}>
                                 <option value="">On Probation?</option>
                                 <option value="yes">Yes</option>
                                 <option value="no">No</option>
                             </select>
-                            <input name="probation_days" placeholder="Days" onChange={handleChange} />
+                            <input name="probation_days" placeholder="Probation Days" onChange={handleChange} />
                             <input
                                 name="employment_type"
                                 placeholder="Employment Type"
                                 onChange={handleChange}
                                 required
                             />
-                            <input
-                                name="contract_from"
-                                type="date"
-                                placeholder="Contract From Date"
-                                onChange={handleChange}
-                            />
-                            <input
-                                name="contract_to"
-                                type="date"
-                                placeholder="Contract To Date"
-                                onChange={handleChange}
-                            />
+                            <input name="contract_from" type="date" onChange={handleChange} />
+                            <input name="contract_to" type="date" onChange={handleChange} />
                         </div>
                     </fieldset>
 
