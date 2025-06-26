@@ -84,3 +84,14 @@ export const deleteEmployeeById = (id) => {
         }
     });
 };
+
+export const downloadEmployeeExcel = async (params) => {
+    const token = localStorage.getItem('token');
+    return axios.get('/employee-excel', {
+        params,
+        responseType: 'blob',
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+};

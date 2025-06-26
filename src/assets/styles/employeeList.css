@@ -461,6 +461,22 @@ body {
     background-color: var(--confirm-hover-bg);
 }
 
+.excel-download-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    margin-left: 10px;
+}
+.excel-download-btn img {
+    width: 28px;
+    height: 28px;
+}
+.excel-download-btn:hover {
+    background-color: #e6f4ea;
+    border-radius: 6px;
+}
+
 @keyframes dotsBounce {
     0%,
     80%,

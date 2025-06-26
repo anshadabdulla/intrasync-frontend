@@ -2,7 +2,14 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './../assets/styles/employeeList.css';
 import { jwtDecode } from 'jwt-decode';
-import { getAllEmployees, getAllDepartments, getAllDesignations, getAllEmployeeTL, deleteEmployeeById } from '../api/employeeService';
+import {
+    getAllEmployees,
+    getAllDepartments,
+    getAllDesignations,
+    getAllEmployeeTL,
+    deleteEmployeeById,
+    downloadEmployeeExcel
+} from '../api/employeeService';
 
 const EmployeeList = () => {
     const [search, setSearch] = useState('');
@@ -320,6 +327,36 @@ const EmployeeList = () => {
                         </div>
                     </div>
                 )}
+
+                <button
+                    className="excel-download-btn"
+                    title="Download Excel"
+                    onClick={async () => {
+                        try {
+                            const response = await downloadEmployeeExcel({
+                                name: search,
+                                designation,
+                                department,
+                                reporting,
+                                teamlead,
+                                status
+                            });
+
+                            const url = window.URL.createObjectURL(new Blob([response.data]));
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.setAttribute('download', 'employee_data.xlsx');
+                            document.body.appendChild(link);
+                            link.click();
+                            link.remove();
+                        } catch (err) {
+                            console.error('Excel download error:', err);
+                            alert('Failed to download Excel file');
+                        }
+                    }}
+                >
+                    <img src="/icons/excel-download-icon.svg" alt="Download Excel" />
+                </button>
 
                 <button className="search-btn" onClick={handleSearch}>
                     Search
