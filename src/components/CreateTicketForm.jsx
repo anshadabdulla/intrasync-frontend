@@ -59,13 +59,17 @@ const CreateTicketForm = ({ onClose, onSuccess }) => {
                                     <option value="Medium">Medium</option>
                                     <option value="High">High</option>
                                 </select>
-                                <textarea
-                                    name="description"
-                                    placeholder="Enter description"
-                                    rows="4"
-                                    onChange={handleChange}
-                                    required
-                                ></textarea>
+                                <div className="textarea-group">
+                                    <label htmlFor="description">Description</label>
+                                    <textarea
+                                        name="description"
+                                        id="description"
+                                        placeholder="Enter description"
+                                        rows="4"
+                                        onChange={handleChange}
+                                        required
+                                    ></textarea>
+                                </div>
                             </div>
                         </fieldset>
 
@@ -75,7 +79,7 @@ const CreateTicketForm = ({ onClose, onSuccess }) => {
                             <button type="button" className="btn cancel" onClick={onClose}>
                                 Cancel
                             </button>
-                            <button className="btn secondary" disabled={loading}>
+                            <button className="btn secondary" type="submit" disabled={loading}>
                                 {loading ? 'Saving...' : 'Save & Exit'}
                             </button>
                             <button className="btn primary" type="submit" disabled={loading}>

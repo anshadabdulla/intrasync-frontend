@@ -46,12 +46,6 @@
     min-height: 0;
 }
 
-.form-body {
-    flex: 1;
-    overflow-y: auto;
-    padding-bottom: 120px;
-}
-
 .section-title {
     background-color: var(--color-accent);
     color: white;
@@ -59,6 +53,12 @@
     font-size: 18px;
     font-weight: 600;
     border-bottom: 1px solid var(--color-border-light);
+}
+
+.form-body {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 120px;
 }
 
 form fieldset {
@@ -92,7 +92,8 @@ form legend {
 }
 
 .grid-container input,
-.grid-container select {
+.grid-container select,
+.grid-container textarea {
     width: 100%;
     padding: var(--space-sm) var(--space-md);
     font-size: 14px;
@@ -100,10 +101,12 @@ form legend {
     border-radius: var(--radius-md);
     background-color: white;
     transition: border 0.2s ease, box-shadow 0.2s ease;
+    font-family: var(--font-base);
 }
 
 .grid-container input:focus,
-.grid-container select:focus {
+.grid-container select:focus,
+.grid-container textarea:focus {
     border-color: var(--color-accent);
     box-shadow: 0 0 0 2px rgba(92, 131, 246, 0.2);
     outline: none;
@@ -123,23 +126,9 @@ form legend {
 }
 
 .textarea-group textarea {
-    width: 100%;
-    padding: var(--space-sm) var(--space-md);
-    font-size: 14px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
     resize: vertical;
-    background-color: white;
-    transition: border 0.2s ease, box-shadow 0.2s ease;
-    font-family: var(--font-base);
+    min-height: 100px;
     line-height: 1.5;
-    min-height: 80px;
-}
-
-.textarea-group textarea:focus {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 2px rgba(92, 131, 246, 0.2);
-    outline: none;
 }
 
 ::placeholder {
