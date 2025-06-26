@@ -19,7 +19,7 @@ const PRIORITY_OPTIONS = ['Low', 'Medium', 'High'];
 const TicketList = () => {
     const [tickets, setTickets] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [toast, setToast] = useState({ message: '', visible: false });
     const [search, setSearch] = useState('');
     const [status, setStatus] = useState('');
     const [category, setCategory] = useState('');
@@ -37,6 +37,11 @@ const TicketList = () => {
     const priorityDropdownRef = useRef(null);
     const navigate = useNavigate();
 
+    const showToast = (message) => {
+        setToast({ message, visible: true });
+        setTimeout(() => setToast({ message: '', visible: false }), 4000);
+    };
+
     let userType = '';
     try {
         const token = localStorage.getItem('token');
@@ -50,7 +55,6 @@ const TicketList = () => {
 
     const fetchTickets = useCallback(async () => {
         setLoading(true);
-        setError('');
         try {
             const [res] = await Promise.all([
                 getAllTicket({ search, status, category, priority }),
@@ -61,10 +65,11 @@ const TicketList = () => {
                 setTickets(res.data.data);
                 setSelectedTickets([]);
             } else {
-                setError(res.data.msg || 'Failed to fetch tickets');
+                showToast(res.data.msg || 'Failed to fetch tickets');
             }
         } catch (err) {
-            setError(err.response?.data?.msg || 'Server error');
+            const backendMsg = err?.response?.data?.msg || err?.response?.data?.errors?.[0] || 'Server error';
+            showToast(backendMsg);
         } finally {
             setLoading(false);
         }
@@ -111,10 +116,11 @@ const TicketList = () => {
                 setDeletingId(null);
                 fetchTickets();
             } else {
-                alert(res.data.msg || 'Failed to delete.');
+                showToast(res.data.msg || 'Failed to delete.');
             }
         } catch (err) {
-            alert(err.response?.data?.errors?.[0] || 'Server error');
+            const backendMsg = err?.response?.data?.msg || err?.response?.data?.errors?.[0] || 'Server error';
+            showToast(backendMsg);
         } finally {
             setDeleting(false);
         }
@@ -145,6 +151,12 @@ const TicketList = () => {
                     </button>
                 )}
             </div>
+
+            {toast.visible && (
+                <div className="toast-popup center-toast">
+                    <span>{toast.message}</span>
+                </div>
+            )}
 
             <div className="filters">
                 <input
@@ -281,8 +293,6 @@ const TicketList = () => {
                         <span></span>
                     </div>
                 </div>
-            ) : error ? (
-                <p className="error-text">{error}</p>
             ) : tickets.length === 0 ? (
                 <p>No tickets found.</p>
             ) : (
