@@ -170,8 +170,6 @@ const TicketList = () => {
                     <span>{toast.message}</span>
                 </div>
             )}
-
-            {/* Filters & Excel Download */}
             <div className="filters">
                 <input
                     type="text"
@@ -275,8 +273,6 @@ const TicketList = () => {
                     <img src={excel} alt="Download Excel" />
                 </button>
             </div>
-
-            {/* Delete Confirmation Modal */}
             {showDeleteModal && (
                 <div className="modal-overlay">
                     <div className="delete-modal-box">
@@ -302,8 +298,6 @@ const TicketList = () => {
                     </div>
                 </div>
             )}
-
-            {/* Loader or Table */}
             {loading ? (
                 <div className="loader-wrapper">
                     <div className="loader-dots">

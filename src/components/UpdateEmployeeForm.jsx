@@ -261,7 +261,6 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                     required
                                 />
 
-                                {/* Team Lead Dropdown */}
                                 <select name="teamlead" value={form.teamlead || ''} onChange={handleChange}>
                                     <option value="">Select Team Lead</option>
                                     {teamleads.map((tl) => (
@@ -271,7 +270,6 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                     ))}
                                 </select>
 
-                                {/* Department Dropdown */}
                                 <select
                                     name="department"
                                     value={form.department || ''}
@@ -286,7 +284,6 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                     ))}
                                 </select>
 
-                                {/* Designation Dropdown */}
                                 <select
                                     name="designation"
                                     value={form.designation || ''}

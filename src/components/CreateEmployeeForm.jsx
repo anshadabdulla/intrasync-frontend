@@ -201,7 +201,6 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
                                     required
                                 />
 
-                                {/* Replaced Inputs with Dynamic Dropdowns */}
                                 <select name="teamlead" onChange={handleChange}>
                                     <option value="">Select Team Lead</option>
                                     {teamleads.map((emp) => (

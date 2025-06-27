@@ -4,7 +4,6 @@ import { Clock, Calendar, TrendingUp, CheckCircle } from 'lucide-react';
 const AttendanceSection = () => {
     return (
         <div className="attendance-section">
-            {/* Monthly Attendance Card */}
             <div className="attendance-card">
                 <div className="card-header">
                     <div className="header-info">
@@ -42,7 +41,6 @@ const AttendanceSection = () => {
                 </div>
             </div>
 
-            {/* Today's Attendance Card */}
             <div className="attendance-card">
                 <div className="card-header">
                     <div className="header-info">
@@ -84,7 +82,6 @@ const AttendanceSection = () => {
                 </div>
             </div>
 
-            {/* Quick Stats Card */}
             <div className="attendance-card">
                 <div className="card-header">
                     <div className="header-info">
