@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../assets/styles/createEmployeeForm.css';
-import { createEmployee } from '../api/employeeService';
+import { createEmployee, getAllEmployees, getAllDepartments, getAllDesignations } from '../api/employeeService';
 
 const CreateEmployeeForm = ({ onClose, onSuccess }) => {
     const [form, setForm] = useState({
@@ -30,8 +30,30 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
         probation: ''
     });
 
+    const [departments, setDepartments] = useState([]);
+    const [designations, setDesignations] = useState([]);
+    const [teamleads, setTeamleads] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchDropdowns = async () => {
+            try {
+                const [deptRes, desigRes, empRes] = await Promise.all([
+                    getAllDepartments(),
+                    getAllDesignations(),
+                    getAllEmployees()
+                ]);
+                if (deptRes.data.status) setDepartments(deptRes.data.data);
+                if (desigRes.data.status) setDesignations(desigRes.data.data);
+                if (empRes.data.status) setTeamleads(empRes.data.data);
+            } catch (err) {
+                console.error('Dropdown load error:', err);
+            }
+        };
+
+        fetchDropdowns();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -178,9 +200,35 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
                                     onChange={handleChange}
                                     required
                                 />
-                                <input name="teamlead" placeholder="Team Lead" onChange={handleChange} />
-                                <input name="department" placeholder="Department" onChange={handleChange} />
-                                <input name="designation" placeholder="Designation" onChange={handleChange} />
+
+                                {/* Replaced Inputs with Dynamic Dropdowns */}
+                                <select name="teamlead" onChange={handleChange}>
+                                    <option value="">Select Team Lead</option>
+                                    {teamleads.map((emp) => (
+                                        <option key={emp.id} value={emp.employee_no}>
+                                            {emp.name} ({emp.employee_no})
+                                        </option>
+                                    ))}
+                                </select>
+
+                                <select name="department" onChange={handleChange} required>
+                                    <option value="">Select Department</option>
+                                    {departments.map((dept) => (
+                                        <option key={dept.id} value={dept.name}>
+                                            {dept.name}
+                                        </option>
+                                    ))}
+                                </select>
+
+                                <select name="designation" onChange={handleChange} required>
+                                    <option value="">Select Designation</option>
+                                    {designations.map((desig) => (
+                                        <option key={desig.id} value={desig.name}>
+                                            {desig.name}
+                                        </option>
+                                    ))}
+                                </select>
+
                                 <select name="probation" onChange={handleChange}>
                                     <option value="">On Probation?</option>
                                     <option value="yes">Yes</option>

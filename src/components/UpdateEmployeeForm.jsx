@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import '../assets/styles/createEmployeeForm.css';
-import { getEmployeeById, updateEmployee } from '../api/employeeService';
+import {
+    getEmployeeById,
+    updateEmployee,
+    getAllEmployees,
+    getAllDepartments,
+    getAllDesignations
+} from '../api/employeeService';
 import { useParams } from 'react-router-dom';
 
 const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
@@ -8,8 +14,26 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
     const [form, setForm] = useState(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [departments, setDepartments] = useState([]);
+    const [designations, setDesignations] = useState([]);
+    const [teamleads, setTeamleads] = useState([]);
 
     useEffect(() => {
+        const fetchDropdowns = async () => {
+            try {
+                const [deptRes, desigRes, empRes] = await Promise.all([
+                    getAllDepartments(),
+                    getAllDesignations(),
+                    getAllEmployees()
+                ]);
+                if (deptRes.data.status) setDepartments(deptRes.data.data);
+                if (desigRes.data.status) setDesignations(desigRes.data.data);
+                if (empRes.data.status) setTeamleads(empRes.data.data);
+            } catch (err) {
+                console.error('Dropdown load error:', err);
+            }
+        };
+
         const fetchData = async () => {
             try {
                 const res = await getEmployeeById(id);
@@ -23,6 +47,8 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                 setError('Server error while fetching data.');
             }
         };
+
+        fetchDropdowns();
         fetchData();
     }, [id]);
 
@@ -152,6 +178,7 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                     placeholder="CTC Salary"
                                     onChange={handleChange}
                                 />
+
                                 <select
                                     name="nationality"
                                     value={form.nationality || ''}
@@ -162,12 +189,14 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                     <option>Indian</option>
                                     <option>Other</option>
                                 </select>
+
                                 <select name="gender" value={form.gender || ''} onChange={handleChange} required>
                                     <option value="">Select Gender</option>
                                     <option>Male</option>
                                     <option>Female</option>
                                     <option>Other</option>
                                 </select>
+
                                 <select
                                     name="marital_status"
                                     value={form.marital_status || ''}
@@ -180,6 +209,7 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                     <option>Divorced</option>
                                     <option>Widowed</option>
                                 </select>
+
                                 <select name="blood_group" value={form.blood_group || ''} onChange={handleChange}>
                                     <option value="">Select Blood Group</option>
                                     <option>A+</option>
@@ -191,6 +221,7 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                     <option>O+</option>
                                     <option>O-</option>
                                 </select>
+
                                 <input
                                     name="emergency_phone"
                                     value={form.emergency_phone || ''}
@@ -198,6 +229,7 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                     onChange={handleChange}
                                     required
                                 />
+
                                 <select name="relation" value={form.relation || ''} onChange={handleChange}>
                                     <option value="">Select Relation</option>
                                     <option>Father</option>
@@ -206,18 +238,21 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                     <option>Sibling</option>
                                     <option>Friend</option>
                                 </select>
+
                                 <select name="stay_in" value={form.stay_in || ''} onChange={handleChange}>
                                     <option value="">Select Stay In</option>
                                     <option>Hostel</option>
                                     <option>Home</option>
                                     <option>PG</option>
                                 </select>
+
                                 <input
                                     name="distance_from_office"
                                     value={form.distance_from_office || ''}
                                     placeholder="Distance From Office (KM)"
                                     onChange={handleChange}
                                 />
+
                                 <input
                                     name="doj"
                                     type="date"
@@ -225,24 +260,47 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                     onChange={handleChange}
                                     required
                                 />
-                                <input
-                                    name="teamlead"
-                                    value={form.teamlead || ''}
-                                    placeholder="Team Lead"
-                                    onChange={handleChange}
-                                />
-                                <input
+
+                                {/* Team Lead Dropdown */}
+                                <select name="teamlead" value={form.teamlead || ''} onChange={handleChange}>
+                                    <option value="">Select Team Lead</option>
+                                    {teamleads.map((tl) => (
+                                        <option key={tl.id} value={tl.employee_no}>
+                                            {tl.name} ({tl.employee_no})
+                                        </option>
+                                    ))}
+                                </select>
+
+                                {/* Department Dropdown */}
+                                <select
                                     name="department"
                                     value={form.department || ''}
-                                    placeholder="Department"
                                     onChange={handleChange}
-                                />
-                                <input
+                                    required
+                                >
+                                    <option value="">Select Department</option>
+                                    {departments.map((dept) => (
+                                        <option key={dept.id} value={dept.name}>
+                                            {dept.name}
+                                        </option>
+                                    ))}
+                                </select>
+
+                                {/* Designation Dropdown */}
+                                <select
                                     name="designation"
                                     value={form.designation || ''}
-                                    placeholder="Designation"
                                     onChange={handleChange}
-                                />
+                                    required
+                                >
+                                    <option value="">Select Designation</option>
+                                    {designations.map((desig) => (
+                                        <option key={desig.id} value={desig.name}>
+                                            {desig.name}
+                                        </option>
+                                    ))}
+                                </select>
+
                                 <select name="probation" value={form.probation || ''} onChange={handleChange}>
                                     <option value="">On Probation?</option>
                                     <option value="yes">Yes</option>
