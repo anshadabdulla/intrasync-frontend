@@ -3,13 +3,11 @@ import '../assets/styles/createTicketForm.css';
 import { createTicket } from '../api/ticketService';
 import { Listbox } from '@headlessui/react';
 import { ChevronDown } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
 
 const categories = ['Bug', 'Feature Request', 'Support', 'Other'];
 const priorities = ['Low', 'Medium', 'High'];
 
-const CreateTicketForm = ({ onClose }) => {
+const CreateTicketForm = ({ onClose, onSuccess }) => {
     const [form, setForm] = useState({
         title: '',
         category: '',
@@ -19,7 +17,6 @@ const CreateTicketForm = ({ onClose }) => {
 
     const [toast, setToast] = useState({ message: '', visible: false });
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
 
     const showToast = (message) => {
         setToast({ message, visible: true });
@@ -38,14 +35,7 @@ const CreateTicketForm = ({ onClose }) => {
         try {
             const res = await createTicket(form);
             if (res.data.status) {
-                const token = localStorage.getItem('token');
-                const userType = token ? jwtDecode(token).user_type?.toLowerCase() : '';
-
-                if (userType === 'hr') {
-                    navigate('/ticket-list');
-                } else {
-                    navigate('/home');
-                }
+                onSuccess?.();
             } else {
                 showToast(res.data.msg || res.data.errors?.[0] || 'Failed to create ticket.');
             }
@@ -66,7 +56,13 @@ const CreateTicketForm = ({ onClose }) => {
                         <fieldset>
                             <legend>Ticket Information</legend>
                             <div className="grid-container">
-                                <input name="title" placeholder="Title" onChange={handleChange} required />
+                                <input
+                                    name="title"
+                                    placeholder="Title"
+                                    onChange={handleChange}
+                                    value={form.title}
+                                    required
+                                />
 
                                 <Listbox
                                     value={form.category}
@@ -112,6 +108,7 @@ const CreateTicketForm = ({ onClose }) => {
                                         placeholder="Enter description"
                                         rows="4"
                                         onChange={handleChange}
+                                        value={form.description}
                                         required
                                     ></textarea>
                                 </div>
