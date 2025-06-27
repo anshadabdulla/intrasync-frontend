@@ -18,7 +18,7 @@ const PRIORITY_OPTIONS = ['Low', 'Medium', 'High'];
 
 const TicketList = () => {
     const [tickets, setTickets] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [toast, setToast] = useState({ message: '', visible: false });
     const [search, setSearch] = useState('');
     const [status, setStatus] = useState('');
@@ -45,20 +45,27 @@ const TicketList = () => {
     };
 
     useEffect(() => {
-        try {
-            const token = localStorage.getItem('token');
-            if (token) {
-                const decoded = jwtDecode(token);
-                setUserType(decoded.user_type?.toLowerCase());
+        setLoading(true);
+        setTimeout(() => {
+            try {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    const decoded = jwtDecode(token);
+                    setUserType(decoded.user_type?.toLowerCase());
+                } else {
+                    setLoading(false);
+                }
+            } catch (err) {
+                console.error('Invalid token:', err);
+                setLoading(false);
             }
-        } catch (err) {
-            console.error('Invalid token:', err);
-        }
+        }, 300);
     }, []);
 
     const fetchTickets = useCallback(async () => {
         setLoading(true);
         try {
+            await new Promise((resolve) => setTimeout(resolve, 300));
             let res;
             if (userType === 'hr') {
                 res = await getAllTicket({ search, status, category, priority });
@@ -117,6 +124,7 @@ const TicketList = () => {
     const handleConfirmDelete = async () => {
         setDeleting(true);
         try {
+            await new Promise((resolve) => setTimeout(resolve, 300));
             const res = await deleteTicketById(deletingId);
             if (res.data.status) {
                 setShowDeleteModal(false);
@@ -152,11 +160,9 @@ const TicketList = () => {
         <div className="employee-container">
             <div className="header">
                 <h2>Ticket List</h2>
-                {
-                    <button className="add-btn" onClick={handleCreateTicket}>
-                        + Add Ticket
-                    </button>
-                }
+                <button className="add-btn" onClick={handleCreateTicket}>
+                    + Add Ticket
+                </button>
             </div>
 
             {toast.visible && (
@@ -165,111 +171,112 @@ const TicketList = () => {
                 </div>
             )}
 
-            {
-                <div className="filters">
-                    <input
-                        type="text"
-                        placeholder="Search by ID or Title..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
+            {/* Filters & Excel Download */}
+            <div className="filters">
+                <input
+                    type="text"
+                    placeholder="Search by ID or Title..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
 
-                    <div className="dropdown" ref={statusDropdownRef}>
-                        <button className="dropdown-toggle" onClick={() => setStatusDropdownOpen((prev) => !prev)}>
-                            {STATUS_MAP[status] || 'All Status'}
-                            <span className="dropdown-arrow">▾</span>
-                        </button>
-                        {statusDropdownOpen && (
-                            <ul className="dropdown-menu show">
-                                {Object.entries(STATUS_MAP).map(([val, label]) => (
-                                    <li
-                                        key={val}
-                                        onClick={() => {
-                                            setStatus(val);
-                                            setStatusDropdownOpen(false);
-                                        }}
-                                    >
-                                        {label}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
-
-                    <div className="dropdown" ref={categoryDropdownRef}>
-                        <button className="dropdown-toggle" onClick={() => setCategoryDropdownOpen((prev) => !prev)}>
-                            {category || 'All Categories'}
-                            <span className="dropdown-arrow">▾</span>
-                        </button>
-                        {categoryDropdownOpen && (
-                            <ul className="dropdown-menu show">
-                                {CATEGORY_OPTIONS.map((cat) => (
-                                    <li
-                                        key={cat}
-                                        onClick={() => {
-                                            setCategory(cat);
-                                            setCategoryDropdownOpen(false);
-                                        }}
-                                    >
-                                        {cat}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
-
-                    <div className="dropdown" ref={priorityDropdownRef}>
-                        <button className="dropdown-toggle" onClick={() => setPriorityDropdownOpen((prev) => !prev)}>
-                            {priority || 'All Priorities'}
-                            <span className="dropdown-arrow">▾</span>
-                        </button>
-                        {priorityDropdownOpen && (
-                            <ul className="dropdown-menu show">
-                                {PRIORITY_OPTIONS.map((pri) => (
-                                    <li
-                                        key={pri}
-                                        onClick={() => {
-                                            setPriority(pri);
-                                            setPriorityDropdownOpen(false);
-                                        }}
-                                    >
-                                        {pri}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
-
-                    <button className="search-btn" onClick={fetchTickets}>
-                        Search
+                <div className="dropdown" ref={statusDropdownRef}>
+                    <button className="dropdown-toggle" onClick={() => setStatusDropdownOpen((prev) => !prev)}>
+                        {STATUS_MAP[status] || 'All Status'} <span className="dropdown-arrow">▾</span>
                     </button>
-                    <button className="reset-btn" onClick={handleResetFilters}>
-                        Reset
-                    </button>
-                    <button
-                        className="excel-download-btn"
-                        title="Download Excel"
-                        onClick={async () => {
-                            try {
-                                const response = await downloadTicketExcel({ search, status, category, priority });
-                                const url = window.URL.createObjectURL(new Blob([response.data]));
-                                const link = document.createElement('a');
-                                link.href = url;
-                                link.setAttribute('download', 'ticket_data.xlsx');
-                                document.body.appendChild(link);
-                                link.click();
-                                link.remove();
-                            } catch (err) {
-                                console.error('Excel download error:', err);
-                                alert('Failed to download Excel file');
-                            }
-                        }}
-                    >
-                        <img src={excel} alt="Download Excel" />
-                    </button>
+                    {statusDropdownOpen && (
+                        <ul className="dropdown-menu show">
+                            {Object.entries(STATUS_MAP).map(([val, label]) => (
+                                <li
+                                    key={val}
+                                    onClick={() => {
+                                        setStatus(val);
+                                        setStatusDropdownOpen(false);
+                                    }}
+                                >
+                                    {label}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 </div>
-            }
 
+                <div className="dropdown" ref={categoryDropdownRef}>
+                    <button className="dropdown-toggle" onClick={() => setCategoryDropdownOpen((prev) => !prev)}>
+                        {category || 'All Categories'} <span className="dropdown-arrow">▾</span>
+                    </button>
+                    {categoryDropdownOpen && (
+                        <ul className="dropdown-menu show">
+                            {CATEGORY_OPTIONS.map((cat) => (
+                                <li
+                                    key={cat}
+                                    onClick={() => {
+                                        setCategory(cat);
+                                        setCategoryDropdownOpen(false);
+                                    }}
+                                >
+                                    {cat}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
+                <div className="dropdown" ref={priorityDropdownRef}>
+                    <button className="dropdown-toggle" onClick={() => setPriorityDropdownOpen((prev) => !prev)}>
+                        {priority || 'All Priorities'} <span className="dropdown-arrow">▾</span>
+                    </button>
+                    {priorityDropdownOpen && (
+                        <ul className="dropdown-menu show">
+                            {PRIORITY_OPTIONS.map((pri) => (
+                                <li
+                                    key={pri}
+                                    onClick={() => {
+                                        setPriority(pri);
+                                        setPriorityDropdownOpen(false);
+                                    }}
+                                >
+                                    {pri}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
+                <button className="search-btn" onClick={fetchTickets}>
+                    Search
+                </button>
+                <button className="reset-btn" onClick={handleResetFilters}>
+                    Reset
+                </button>
+                <button
+                    className="excel-download-btn"
+                    title="Download Excel"
+                    onClick={async () => {
+                        setLoading(true);
+                        try {
+                            await new Promise((resolve) => setTimeout(resolve, 300));
+                            const response = await downloadTicketExcel({ search, status, category, priority });
+                            const url = window.URL.createObjectURL(new Blob([response.data]));
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.setAttribute('download', 'ticket_data.xlsx');
+                            document.body.appendChild(link);
+                            link.click();
+                            link.remove();
+                        } catch (err) {
+                            console.error('Excel download error:', err);
+                            alert('Failed to download Excel file');
+                        } finally {
+                            setLoading(false);
+                        }
+                    }}
+                >
+                    <img src={excel} alt="Download Excel" />
+                </button>
+            </div>
+
+            {/* Delete Confirmation Modal */}
             {showDeleteModal && (
                 <div className="modal-overlay">
                     <div className="delete-modal-box">
@@ -296,6 +303,7 @@ const TicketList = () => {
                 </div>
             )}
 
+            {/* Loader or Table */}
             {loading ? (
                 <div className="loader-wrapper">
                     <div className="loader-dots">
@@ -324,7 +332,7 @@ const TicketList = () => {
                             <th>Description</th>
                             <th>Status</th>
                             <th>Created By</th>
-                            {<th>Actions</th>}
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -345,31 +353,29 @@ const TicketList = () => {
                                 <td>{ticket.description}</td>
                                 <td>{STATUS_MAP[ticket.status]}</td>
                                 <td>{ticket.CreatedBy?.full_name || '-'}</td>
-                                {
-                                    <td className="actions-cell">
-                                        <button
-                                            className="action-icon-btn"
-                                            onClick={async () => {
-                                                setLoading(true);
-                                                await new Promise((resolve) => setTimeout(resolve, 300));
-                                                navigate(`/ticket-update/${ticket.id}`);
-                                            }}
-                                            title="Edit"
-                                        >
-                                            <img src="/icons/edit-icon.svg" alt="Edit" />
-                                        </button>
-                                        <button
-                                            className="action-icon-btn"
-                                            onClick={() => {
-                                                setDeletingId(ticket.id);
-                                                setShowDeleteModal(true);
-                                            }}
-                                            title="Delete"
-                                        >
-                                            <img src="/icons/delete-icon.svg" alt="Delete" />
-                                        </button>
-                                    </td>
-                                }
+                                <td className="actions-cell">
+                                    <button
+                                        className="action-icon-btn"
+                                        onClick={async () => {
+                                            setLoading(true);
+                                            await new Promise((resolve) => setTimeout(resolve, 300));
+                                            navigate(`/ticket-update/${ticket.id}`);
+                                        }}
+                                        title="Edit"
+                                    >
+                                        <img src="/icons/edit-icon.svg" alt="Edit" />
+                                    </button>
+                                    <button
+                                        className="action-icon-btn"
+                                        onClick={() => {
+                                            setDeletingId(ticket.id);
+                                            setShowDeleteModal(true);
+                                        }}
+                                        title="Delete"
+                                    >
+                                        <img src="/icons/delete-icon.svg" alt="Delete" />
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

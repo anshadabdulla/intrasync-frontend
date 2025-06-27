@@ -29,7 +29,7 @@ const UpdateTicketForm = ({ onClose, onSuccess }) => {
         if (token) {
             const decoded = jwtDecode(token);
             setUserType(decoded.user_type?.toLowerCase() || '');
-            setUserId(decoded.id); // Adjust if your token uses `userId` instead
+            setUserId(decoded.id);
         }
     }, []);
 
@@ -63,22 +63,26 @@ const UpdateTicketForm = ({ onClose, onSuccess }) => {
         e.preventDefault();
         setLoading(true);
         setError('');
+
         try {
             const updatedForm = {
                 ...form,
-                status: userType === 'hr' ? form.status : 0 // Set to 0 if not HR
+                status: userType === 'hr' ? form.status : 0
             };
 
             const res = await updateTicket(id, updatedForm);
+            await new Promise((resolve) => setTimeout(resolve, 800));
+
             if (res.data.status) {
                 showToast('Ticket updated successfully!');
                 setTimeout(() => {
-                    onSuccess(); // Refresh or navigate
+                    onSuccess();
                 }, 1000);
             } else {
                 showToast(res.data.errors?.[0] || res.data.msg || 'Update failed.');
             }
         } catch (err) {
+            await new Promise((resolve) => setTimeout(resolve, 800));
             showToast(err.response?.data?.errors?.[0] || err.response?.data?.msg || 'Server error.');
         } finally {
             setLoading(false);
@@ -174,7 +178,15 @@ const UpdateTicketForm = ({ onClose, onSuccess }) => {
                                 Save & Exit
                             </button>
                             <button className="btn primary" type="submit" disabled={loading || !isEditable}>
-                                {loading ? 'Saving...' : 'Update'}
+                                {loading ? (
+                                    <div className="spinner-button">
+                                        <span className="spinner-dot" />
+                                        <span className="spinner-dot" />
+                                        <span className="spinner-dot" />
+                                    </div>
+                                ) : (
+                                    'Update'
+                                )}
                             </button>
                         </div>
                     </form>
