@@ -307,73 +307,75 @@ const TicketList = () => {
             ) : tickets.length === 0 ? (
                 <p>No tickets found.</p>
             ) : (
-                <table className="employee-table">
-                    <thead>
-                        <tr>
-                            <th>
-                                <input
-                                    ref={selectAllRef}
-                                    type="checkbox"
-                                    onChange={handleSelectAll}
-                                    checked={tickets.length > 0 && selectedTickets.length === tickets.length}
-                                />
-                            </th>
-                            <th>SL.NO</th>
-                            <th>Ticket ID</th>
-                            <th>Title</th>
-                            <th>Category</th>
-                            <th>Priority</th>
-                            <th>Description</th>
-                            <th>Status</th>
-                            <th>Created By</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tickets.map((ticket, index) => (
-                            <tr key={ticket.id}>
-                                <td>
+                <div className="table-scroll-wrapper">
+                    <table className="employee-table">
+                        <thead>
+                            <tr>
+                                <th>
                                     <input
+                                        ref={selectAllRef}
                                         type="checkbox"
-                                        checked={selectedTickets.includes(ticket.id)}
-                                        onChange={(e) => handleSelectOne(ticket.id, e.target.checked)}
+                                        onChange={handleSelectAll}
+                                        checked={tickets.length > 0 && selectedTickets.length === tickets.length}
                                     />
-                                </td>
-                                <td>{index + 1}</td>
-                                <td>{ticket.ticket_id}</td>
-                                <td>{ticket.title}</td>
-                                <td>{ticket.category}</td>
-                                <td>{ticket.priority}</td>
-                                <td>{ticket.description}</td>
-                                <td>{STATUS_MAP[ticket.status]}</td>
-                                <td>{ticket.CreatedBy?.full_name || '-'}</td>
-                                <td className="actions-cell">
-                                    <button
-                                        className="action-icon-btn"
-                                        onClick={async () => {
-                                            setLoading(true);
-                                            await new Promise((resolve) => setTimeout(resolve, 300));
-                                            navigate(`/ticket-update/${ticket.id}`);
-                                        }}
-                                        title="Edit"
-                                    >
-                                        <img src="/icons/edit-icon.svg" alt="Edit" />
-                                    </button>
-                                    <button
-                                        className="action-icon-btn"
-                                        onClick={() => {
-                                            setDeletingId(ticket.id);
-                                            setShowDeleteModal(true);
-                                        }}
-                                        title="Delete"
-                                    >
-                                        <img src="/icons/delete-icon.svg" alt="Delete" />
-                                    </button>
-                                </td>
+                                </th>
+                                <th>SL.NO</th>
+                                <th>Ticket ID</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Priority</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Created By</th>
+                                <th>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {tickets.map((ticket, index) => (
+                                <tr key={ticket.id}>
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedTickets.includes(ticket.id)}
+                                            onChange={(e) => handleSelectOne(ticket.id, e.target.checked)}
+                                        />
+                                    </td>
+                                    <td>{index + 1}</td>
+                                    <td>{ticket.ticket_id}</td>
+                                    <td>{ticket.title}</td>
+                                    <td>{ticket.category}</td>
+                                    <td>{ticket.priority}</td>
+                                    <td>{ticket.description}</td>
+                                    <td>{STATUS_MAP[ticket.status]}</td>
+                                    <td>{ticket.CreatedBy?.full_name || '-'}</td>
+                                    <td className="actions-cell">
+                                        <button
+                                            className="action-icon-btn"
+                                            onClick={async () => {
+                                                setLoading(true);
+                                                await new Promise((resolve) => setTimeout(resolve, 300));
+                                                navigate(`/ticket-update/${ticket.id}`);
+                                            }}
+                                            title="Edit"
+                                        >
+                                            <img src="/icons/edit-icon.svg" alt="Edit" />
+                                        </button>
+                                        <button
+                                            className="action-icon-btn"
+                                            onClick={() => {
+                                                setDeletingId(ticket.id);
+                                                setShowDeleteModal(true);
+                                            }}
+                                            title="Delete"
+                                        >
+                                            <img src="/icons/delete-icon.svg" alt="Delete" />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
         </div>
     );
