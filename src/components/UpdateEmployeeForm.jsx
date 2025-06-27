@@ -61,8 +61,16 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
         e.preventDefault();
         setLoading(true);
         setError('');
+
         try {
-            const res = await updateEmployee(id, form);
+            const payload = {
+                ...form,
+                department: parseInt(form.department),
+                designation: parseInt(form.designation),
+                teamlead: form.teamlead ? parseInt(form.teamlead) : null
+            };
+
+            const res = await updateEmployee(id, payload);
             if (res.data.status) {
                 onSuccess();
             } else {
@@ -83,19 +91,12 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
         <div className="page-wrapper">
             <div className="form-section">
                 <h2 className="section-title">Update Employee</h2>
-
                 <div className="form-body">
                     <form className="grid-form" onSubmit={handleSubmit}>
                         <fieldset>
                             <legend>Employee Information</legend>
                             <div className="grid-container">
-                                <input
-                                    name="employee_no"
-                                    value={form.employee_no}
-                                    placeholder="Employee ID"
-                                    onChange={handleChange}
-                                    required
-                                />
+                                <input name="employee_no" value={form.employee_no} onChange={handleChange} required />
                                 <select name="prefix" value={form.prefix || ''} onChange={handleChange} required>
                                     <option value="">Select Prefix</option>
                                     <option>Mr</option>
@@ -103,48 +104,27 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                     <option>Ms</option>
                                     <option>Dr</option>
                                 </select>
-                                <input
-                                    name="name"
-                                    value={form.name}
-                                    placeholder="First Name"
-                                    onChange={handleChange}
-                                    required
-                                />
-                                <input
-                                    name="mname"
-                                    value={form.mname || ''}
-                                    placeholder="Middle Name"
-                                    onChange={handleChange}
-                                />
-                                <input
-                                    name="lname"
-                                    value={form.lname || ''}
-                                    placeholder="Last Name"
-                                    onChange={handleChange}
-                                    required
-                                />
+                                <input name="name" value={form.name} onChange={handleChange} required />
+                                <input name="mname" value={form.mname || ''} onChange={handleChange} />
+                                <input name="lname" value={form.lname || ''} onChange={handleChange} required />
 
                                 <div className="textarea-group">
-                                    <label htmlFor="residential_address">Residential Address</label>
+                                    <label>Residential Address</label>
                                     <textarea
                                         name="residential_address"
-                                        id="residential_address"
-                                        placeholder="Enter residential address"
-                                        rows="3"
                                         value={form.residential_address || ''}
+                                        rows="3"
                                         onChange={handleChange}
                                         required
                                     />
                                 </div>
 
                                 <div className="textarea-group">
-                                    <label htmlFor="permenent_address">Permanent Address</label>
+                                    <label>Permanent Address</label>
                                     <textarea
                                         name="permenent_address"
-                                        id="permenent_address"
-                                        placeholder="Enter permanent address"
-                                        rows="3"
                                         value={form.permenent_address || ''}
+                                        rows="3"
                                         onChange={handleChange}
                                         required
                                     />
@@ -153,31 +133,12 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                 <input
                                     name="father_name"
                                     value={form.father_name || ''}
-                                    placeholder="Father's Name"
                                     onChange={handleChange}
                                     required
                                 />
-                                <input
-                                    name="email"
-                                    type="email"
-                                    value={form.email}
-                                    placeholder="Email ID"
-                                    onChange={handleChange}
-                                    required
-                                />
-                                <input
-                                    name="mobile"
-                                    value={form.mobile || ''}
-                                    placeholder="Mobile Number"
-                                    onChange={handleChange}
-                                    required
-                                />
-                                <input
-                                    name="ctc_salary"
-                                    value={form.ctc_salary || ''}
-                                    placeholder="CTC Salary"
-                                    onChange={handleChange}
-                                />
+                                <input name="email" type="email" value={form.email} onChange={handleChange} required />
+                                <input name="mobile" value={form.mobile || ''} onChange={handleChange} required />
+                                <input name="ctc_salary" value={form.ctc_salary || ''} onChange={handleChange} />
 
                                 <select
                                     name="nationality"
@@ -225,11 +186,9 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                 <input
                                     name="emergency_phone"
                                     value={form.emergency_phone || ''}
-                                    placeholder="Emergency Contact"
                                     onChange={handleChange}
                                     required
                                 />
-
                                 <select name="relation" value={form.relation || ''} onChange={handleChange}>
                                     <option value="">Select Relation</option>
                                     <option>Father</option>
@@ -238,21 +197,17 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                     <option>Sibling</option>
                                     <option>Friend</option>
                                 </select>
-
                                 <select name="stay_in" value={form.stay_in || ''} onChange={handleChange}>
                                     <option value="">Select Stay In</option>
                                     <option>Hostel</option>
                                     <option>Home</option>
                                     <option>PG</option>
                                 </select>
-
                                 <input
                                     name="distance_from_office"
                                     value={form.distance_from_office || ''}
-                                    placeholder="Distance From Office (KM)"
                                     onChange={handleChange}
                                 />
-
                                 <input
                                     name="doj"
                                     type="date"
@@ -264,7 +219,7 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                 <select name="teamlead" value={form.teamlead || ''} onChange={handleChange}>
                                     <option value="">Select Team Lead</option>
                                     {teamleads.map((tl) => (
-                                        <option key={tl.id} value={tl.employee_no}>
+                                        <option key={tl.id} value={tl.id}>
                                             {tl.name} ({tl.employee_no})
                                         </option>
                                     ))}
@@ -278,7 +233,7 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                 >
                                     <option value="">Select Department</option>
                                     {departments.map((dept) => (
-                                        <option key={dept.id} value={dept.name}>
+                                        <option key={dept.id} value={dept.id}>
                                             {dept.name}
                                         </option>
                                     ))}
@@ -292,7 +247,7 @@ const UpdateEmployeeForm = ({ onClose, onSuccess }) => {
                                 >
                                     <option value="">Select Designation</option>
                                     {designations.map((desig) => (
-                                        <option key={desig.id} value={desig.name}>
+                                        <option key={desig.id} value={desig.id}>
                                             {desig.name}
                                         </option>
                                     ))}

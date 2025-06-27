@@ -64,8 +64,16 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
         e.preventDefault();
         setLoading(true);
         setError('');
+
         try {
-            const res = await createEmployee(form);
+            const payload = {
+                ...form,
+                department: parseInt(form.department),
+                designation: parseInt(form.designation),
+                teamlead: form.teamlead ? parseInt(form.teamlead) : null
+            };
+
+            const res = await createEmployee(payload);
             if (res.data.status) {
                 onSuccess();
             } else {
@@ -139,17 +147,20 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
                                 />
                                 <input name="mobile" placeholder="Mobile Number" onChange={handleChange} required />
                                 <input name="ctc_salary" placeholder="CTC Salary" onChange={handleChange} />
+
                                 <select name="nationality" onChange={handleChange} required>
                                     <option value="">Select Nationality</option>
                                     <option>Indian</option>
                                     <option>Other</option>
                                 </select>
+
                                 <select name="gender" onChange={handleChange} required>
                                     <option value="">Select Gender</option>
                                     <option>Male</option>
                                     <option>Female</option>
                                     <option>Other</option>
                                 </select>
+
                                 <select name="marital_status" onChange={handleChange} required>
                                     <option value="">Select Marital Status</option>
                                     <option>Single</option>
@@ -157,6 +168,7 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
                                     <option>Divorced</option>
                                     <option>Widowed</option>
                                 </select>
+
                                 <select name="blood_group" onChange={handleChange}>
                                     <option value="">Select Blood Group</option>
                                     <option>A+</option>
@@ -168,12 +180,14 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
                                     <option>O+</option>
                                     <option>O-</option>
                                 </select>
+
                                 <input
                                     name="emergency_phone"
                                     placeholder="Emergency Contact"
                                     onChange={handleChange}
                                     required
                                 />
+
                                 <select name="relation" onChange={handleChange}>
                                     <option value="">Select Relation</option>
                                     <option>Father</option>
@@ -182,17 +196,20 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
                                     <option>Sibling</option>
                                     <option>Friend</option>
                                 </select>
+
                                 <select name="stay_in" onChange={handleChange}>
                                     <option value="">Select Stay In</option>
                                     <option>Hostel</option>
                                     <option>Home</option>
                                     <option>PG</option>
                                 </select>
+
                                 <input
                                     name="distance_from_office"
                                     placeholder="Distance From Office (KM)"
                                     onChange={handleChange}
                                 />
+
                                 <input
                                     name="doj"
                                     type="date"
@@ -204,7 +221,7 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
                                 <select name="teamlead" onChange={handleChange}>
                                     <option value="">Select Team Lead</option>
                                     {teamleads.map((emp) => (
-                                        <option key={emp.id} value={emp.employee_no}>
+                                        <option key={emp.id} value={emp.id}>
                                             {emp.name} ({emp.employee_no})
                                         </option>
                                     ))}
@@ -213,7 +230,7 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
                                 <select name="department" onChange={handleChange} required>
                                     <option value="">Select Department</option>
                                     {departments.map((dept) => (
-                                        <option key={dept.id} value={dept.name}>
+                                        <option key={dept.id} value={dept.id}>
                                             {dept.name}
                                         </option>
                                     ))}
@@ -222,7 +239,7 @@ const CreateEmployeeForm = ({ onClose, onSuccess }) => {
                                 <select name="designation" onChange={handleChange} required>
                                     <option value="">Select Designation</option>
                                     {designations.map((desig) => (
-                                        <option key={desig.id} value={desig.name}>
+                                        <option key={desig.id} value={desig.id}>
                                             {desig.name}
                                         </option>
                                     ))}

@@ -39,6 +39,7 @@ const EmployeeList = () => {
     const departmentDropdownRef = useRef(null);
     const teamleadDropdownRef = useRef(null);
     const selectAllRef = useRef(null);
+    const tableScrollRef = useRef(null);
     const navigate = useNavigate();
 
     const handleCreateEmployee = async () => {
@@ -303,32 +304,6 @@ const EmployeeList = () => {
                     )}
                 </div>
 
-                {showDeleteModal && (
-                    <div className="modal-overlay">
-                        <div className="delete-modal-box">
-                            <div className="delete-icon-circle">
-                                <span className="delete-exclamation">!</span>
-                            </div>
-                            <h2 className="delete-modal-heading">Are you sure want to delete?</h2>
-                            {deleting ? (
-                                <div className="delete-modal-loading">
-                                    <div className="spinner"></div>
-                                    <p className="delete-loading-text">Deleting...</p>
-                                </div>
-                            ) : (
-                                <div className="delete-modal-actions">
-                                    <button className="delete-cancel-btn" onClick={() => setShowDeleteModal(false)}>
-                                        Cancel
-                                    </button>
-                                    <button className="delete-confirm-btn" onClick={handleConfirmDelete}>
-                                        Yes
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                )}
-
                 <button
                     className="excel-download-btn"
                     title="Download Excel"
@@ -367,6 +342,32 @@ const EmployeeList = () => {
                 </button>
             </div>
 
+            {showDeleteModal && (
+                <div className="modal-overlay">
+                    <div className="delete-modal-box">
+                        <div className="delete-icon-circle">
+                            <span className="delete-exclamation">!</span>
+                        </div>
+                        <h2 className="delete-modal-heading">Are you sure want to delete?</h2>
+                        {deleting ? (
+                            <div className="delete-modal-loading">
+                                <div className="spinner"></div>
+                                <p className="delete-loading-text">Deleting...</p>
+                            </div>
+                        ) : (
+                            <div className="delete-modal-actions">
+                                <button className="delete-cancel-btn" onClick={() => setShowDeleteModal(false)}>
+                                    Cancel
+                                </button>
+                                <button className="delete-confirm-btn" onClick={handleConfirmDelete}>
+                                    Yes
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
             {loading ? (
                 <div className="loader-wrapper">
                     <div className="loader-dots">
@@ -378,75 +379,77 @@ const EmployeeList = () => {
             ) : employees.length === 0 ? (
                 <p>No employees found.</p>
             ) : (
-                <table className="employee-table">
-                    <thead>
-                        <tr>
-                            <th>
-                                <input
-                                    ref={selectAllRef}
-                                    type="checkbox"
-                                    onChange={handleSelectAll}
-                                    checked={employees.length > 0 && selectedEmployees.length === employees.length}
-                                />
-                            </th>
-                            <th>SL.NO</th>
-                            <th>Employee ID</th>
-                            <th>Name</th>
-                            <th>Gender</th>
-                            <th>Designation</th>
-                            <th>Department</th>
-                            <th>Mobile</th>
-                            <th>Reporting To</th>
-                            {userType === 'hr' && <th>Actions</th>}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {employees.map((emp, index) => (
-                            <tr key={emp.id}>
-                                <td>
+                <div className="table-scroll-wrapper" ref={tableScrollRef}>
+                    <table className="employee-table">
+                        <thead>
+                            <tr>
+                                <th>
                                     <input
+                                        ref={selectAllRef}
                                         type="checkbox"
-                                        checked={selectedEmployees.includes(emp.id)}
-                                        onChange={(e) => handleSelectOne(emp.id, e.target.checked)}
+                                        onChange={handleSelectAll}
+                                        checked={employees.length > 0 && selectedEmployees.length === employees.length}
                                     />
-                                </td>
-                                <td>{index + 1}</td>
-                                <td>{emp.employee_no || '-'}</td>
-                                <td>{emp.full_name || '-'}</td>
-                                <td>{emp.gender || '-'}</td>
-                                <td>{emp.Designation?.name || '-'}</td>
-                                <td>{emp.Department?.name || '-'}</td>
-                                <td>{emp.mobile || '-'}</td>
-                                <td>{emp.TeamLead?.name || '-'}</td>
-                                {userType === 'hr' && (
-                                    <td className="actions-cell">
-                                        <button
-                                            className="action-icon-btn"
-                                            onClick={async () => {
-                                                setLoading(true);
-                                                await new Promise((resolve) => setTimeout(resolve, 300));
-                                                navigate(`/employe-update/${emp.id}`);
-                                            }}
-                                            title="Edit"
-                                        >
-                                            <img src="/icons/edit-icon.svg" alt="Edit" />
-                                        </button>
-                                        <button
-                                            className="action-icon-btn"
-                                            onClick={() => {
-                                                setDeletingId(emp.id);
-                                                setShowDeleteModal(true);
-                                            }}
-                                            title="Delete"
-                                        >
-                                            <img src="/icons/delete-icon.svg" alt="Delete" />
-                                        </button>
-                                    </td>
-                                )}
+                                </th>
+                                <th>SL.NO</th>
+                                <th>Employee ID</th>
+                                <th>Name</th>
+                                <th>Gender</th>
+                                <th>Designation</th>
+                                <th>Department</th>
+                                <th>Mobile</th>
+                                <th>Reporting To</th>
+                                {userType === 'hr' && <th>Actions</th>}
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {employees.map((emp, index) => (
+                                <tr key={emp.id}>
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedEmployees.includes(emp.id)}
+                                            onChange={(e) => handleSelectOne(emp.id, e.target.checked)}
+                                        />
+                                    </td>
+                                    <td>{index + 1}</td>
+                                    <td>{emp.employee_no || '-'}</td>
+                                    <td>{emp.full_name || '-'}</td>
+                                    <td>{emp.gender || '-'}</td>
+                                    <td>{emp.Designation?.name || '-'}</td>
+                                    <td>{emp.Department?.name || '-'}</td>
+                                    <td>{emp.mobile || '-'}</td>
+                                    <td>{emp.TeamLead?.name || '-'}</td>
+                                    {userType === 'hr' && (
+                                        <td className="actions-cell">
+                                            <button
+                                                className="action-icon-btn"
+                                                onClick={async () => {
+                                                    setLoading(true);
+                                                    await new Promise((resolve) => setTimeout(resolve, 300));
+                                                    navigate(`/employe-update/${emp.id}`);
+                                                }}
+                                                title="Edit"
+                                            >
+                                                <img src="/icons/edit-icon.svg" alt="Edit" />
+                                            </button>
+                                            <button
+                                                className="action-icon-btn"
+                                                onClick={() => {
+                                                    setDeletingId(emp.id);
+                                                    setShowDeleteModal(true);
+                                                }}
+                                                title="Delete"
+                                            >
+                                                <img src="/icons/delete-icon.svg" alt="Delete" />
+                                            </button>
+                                        </td>
+                                    )}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
         </div>
     );
