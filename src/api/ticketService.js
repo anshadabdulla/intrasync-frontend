@@ -50,3 +50,12 @@ export const downloadTicketExcel = async (params) => {
         }
     });
 };
+
+export const getMyTickets = async () => {
+    const token = localStorage.getItem('token');
+    return axios.get('/my-tickets', {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+};

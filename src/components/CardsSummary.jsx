@@ -1,21 +1,9 @@
 import React from 'react';
 import { Users, Ticket, HardDrive, UserCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
 
 const CardsSummary = () => {
     const navigate = useNavigate();
-
-    let userType = '';
-    try {
-        const token = localStorage.getItem('token');
-        if (token) {
-            const decoded = jwtDecode(token);
-            userType = decoded.user_type?.toLowerCase();
-        }
-    } catch (err) {
-        console.error('Token decode failed:', err);
-    }
 
     return (
         <div className="cards-summary">
@@ -34,11 +22,7 @@ const CardsSummary = () => {
             <div
                 className="card"
                 onClick={() => {
-                    if (userType === 'hr') {
-                        navigate('/ticket-list');
-                    } else {
-                        alert('Access denied: Only HR can view tickets.');
-                    }
+                    navigate('/ticket-list');
                 }}
                 style={{ cursor: 'pointer' }}
             >

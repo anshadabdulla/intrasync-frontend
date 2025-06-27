@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
 import '../assets/styles/homePage.css';
 
 const Sidebar = () => {
@@ -9,24 +8,13 @@ const Sidebar = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    let userType = '';
-    try {
-        const token = localStorage.getItem('token');
-        if (token) {
-            const decoded = jwtDecode(token);
-            userType = decoded.user_type?.toLowerCase();
-        }
-    } catch (error) {
-        console.error('Token decode failed:', error);
-    }
-
     const menuItems = [
         { icon: 'fa-chart-line', label: 'Dashboard', to: '/home' },
         { icon: 'fa-users', label: 'Employees', to: '/employe-list' },
         { icon: 'fa-calendar-check', label: 'Daily Updates', to: '/daily-updates' },
         { icon: 'fa-calendar-alt', label: 'Events', to: '/events' },
         { icon: 'fa-user-slash', label: 'Resignation', to: '/resignation' },
-        { icon: 'fa-headset', label: 'Tickets', to: userType === 'hr' ? '/ticket-list' : '/ticket-create' },
+        { icon: 'fa-headset', label: 'Tickets', to: '/ticket-list' },
         { icon: 'fa-gavel', label: 'Company Policy', to: '/company-policy' }
     ];
 

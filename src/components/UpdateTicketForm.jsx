@@ -2,9 +2,17 @@ import React, { useEffect, useState } from 'react';
 import '../assets/styles/createTicketForm.css';
 import { getTicketById, updateTicket } from '../api/ticketService';
 import { useParams } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const categories = ['Bug', 'Feature Request', 'Support', 'Other'];
 const priorities = ['Low', 'Medium', 'High'];
+const statuses = {
+    0: 'Pending',
+    1: 'Resolved',
+    2: 'Rejected',
+    3: 'On Hold',
+    4: 'Revoked'
+};
 
 const UpdateTicketForm = ({ onClose, onSuccess }) => {
     const { id } = useParams();
@@ -12,6 +20,18 @@ const UpdateTicketForm = ({ onClose, onSuccess }) => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [toast, setToast] = useState({ visible: false, message: '' });
+
+    const [userType, setUserType] = useState('');
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decoded = jwtDecode(token);
+            setUserType(decoded.user_type?.toLowerCase() || '');
+            setUserId(decoded.id); // Adjust if your token uses `userId` instead
+        }
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,9 +64,17 @@ const UpdateTicketForm = ({ onClose, onSuccess }) => {
         setLoading(true);
         setError('');
         try {
-            const res = await updateTicket(id, form);
+            const updatedForm = {
+                ...form,
+                status: userType === 'hr' ? form.status : 0 // Set to 0 if not HR
+            };
+
+            const res = await updateTicket(id, updatedForm);
             if (res.data.status) {
-                onSuccess();
+                showToast('Ticket updated successfully!');
+                setTimeout(() => {
+                    onSuccess(); // Refresh or navigate
+                }, 1000);
             } else {
                 showToast(res.data.errors?.[0] || res.data.msg || 'Update failed.');
             }
@@ -58,6 +86,8 @@ const UpdateTicketForm = ({ onClose, onSuccess }) => {
     };
 
     if (!form) return <div className="loading-message">Loading ticket data...</div>;
+
+    const isEditable = userType === 'hr' || (form.status === 0 && form.created_by_id === userId);
 
     return (
         <div className="page-wrapper">
@@ -74,19 +104,50 @@ const UpdateTicketForm = ({ onClose, onSuccess }) => {
                                     placeholder="Title"
                                     onChange={handleChange}
                                     required
+                                    disabled={!isEditable}
                                 />
-                                <select name="category" value={form.category || ''} onChange={handleChange} required>
+
+                                <select
+                                    name="category"
+                                    value={form.category || ''}
+                                    onChange={handleChange}
+                                    required
+                                    disabled={!isEditable}
+                                >
                                     <option value="">Select Category</option>
                                     {categories.map((cat) => (
-                                        <option key={cat}>{cat}</option>
+                                        <option key={cat} value={cat}>
+                                            {cat}
+                                        </option>
                                     ))}
                                 </select>
-                                <select name="priority" value={form.priority || ''} onChange={handleChange} required>
+
+                                <select
+                                    name="priority"
+                                    value={form.priority || ''}
+                                    onChange={handleChange}
+                                    required
+                                    disabled={!isEditable}
+                                >
                                     <option value="">Select Priority</option>
-                                    {priorities.map((p) => (
-                                        <option key={p}>{p}</option>
+                                    {priorities.map((pri) => (
+                                        <option key={pri} value={pri}>
+                                            {pri}
+                                        </option>
                                     ))}
                                 </select>
+
+                                {userType === 'hr' && (
+                                    <select name="status" value={form.status ?? 0} onChange={handleChange} required>
+                                        <option value="">Select Status</option>
+                                        {Object.entries(statuses).map(([key, label]) => (
+                                            <option key={key} value={key}>
+                                                {label}
+                                            </option>
+                                        ))}
+                                    </select>
+                                )}
+
                                 <div className="textarea-group">
                                     <label htmlFor="description">Description</label>
                                     <textarea
@@ -97,6 +158,7 @@ const UpdateTicketForm = ({ onClose, onSuccess }) => {
                                         rows="4"
                                         onChange={handleChange}
                                         required
+                                        disabled={!isEditable}
                                     />
                                 </div>
                             </div>
@@ -108,10 +170,10 @@ const UpdateTicketForm = ({ onClose, onSuccess }) => {
                             <button type="button" className="btn cancel" onClick={onClose}>
                                 Cancel
                             </button>
-                            <button className="btn secondary" disabled={loading}>
-                                {loading ? 'Saving...' : 'Save & Exit'}
+                            <button className="btn secondary" type="button" disabled>
+                                Save & Exit
                             </button>
-                            <button className="btn primary" type="submit" disabled={loading}>
+                            <button className="btn primary" type="submit" disabled={loading || !isEditable}>
                                 {loading ? 'Saving...' : 'Update'}
                             </button>
                         </div>

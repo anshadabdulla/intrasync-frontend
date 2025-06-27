@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import './../assets/styles/TicketListForm.css';
 import excel from '../assets/images/excel-download.png';
-import { getAllTicket, deleteTicketById, downloadTicketExcel } from '../api/ticketService';
+import { getAllTicket, getMyTickets, deleteTicketById, downloadTicketExcel } from '../api/ticketService';
 
 const STATUS_MAP = {
     0: 'Pending',
@@ -37,29 +37,34 @@ const TicketList = () => {
     const priorityDropdownRef = useRef(null);
     const navigate = useNavigate();
 
+    const [userType, setUserType] = useState('');
+
     const showToast = (message) => {
         setToast({ message, visible: true });
         setTimeout(() => setToast({ message: '', visible: false }), 4000);
     };
 
-    let userType = '';
-    try {
-        const token = localStorage.getItem('token');
-        if (token) {
-            const decoded = jwtDecode(token);
-            userType = decoded.user_type?.toLowerCase();
+    useEffect(() => {
+        try {
+            const token = localStorage.getItem('token');
+            if (token) {
+                const decoded = jwtDecode(token);
+                setUserType(decoded.user_type?.toLowerCase());
+            }
+        } catch (err) {
+            console.error('Invalid token:', err);
         }
-    } catch (err) {
-        console.error('Invalid token:', err);
-    }
+    }, []);
 
     const fetchTickets = useCallback(async () => {
         setLoading(true);
         try {
-            const [res] = await Promise.all([
-                getAllTicket({ search, status, category, priority }),
-                new Promise((resolve) => setTimeout(resolve, 400))
-            ]);
+            let res;
+            if (userType === 'hr') {
+                res = await getAllTicket({ search, status, category, priority });
+            } else {
+                res = await getMyTickets();
+            }
 
             if (res.data.status) {
                 setTickets(res.data.data);
@@ -73,11 +78,13 @@ const TicketList = () => {
         } finally {
             setLoading(false);
         }
-    }, [search, status, category, priority]);
+    }, [search, status, category, priority, userType]);
 
     useEffect(() => {
-        fetchTickets();
-    }, [fetchTickets]);
+        if (userType) {
+            fetchTickets();
+        }
+    }, [fetchTickets, userType]);
 
     useEffect(() => {
         if (selectAllRef.current) {
@@ -145,11 +152,11 @@ const TicketList = () => {
         <div className="employee-container">
             <div className="header">
                 <h2>Ticket List</h2>
-                {userType === 'hr' && (
+                {
                     <button className="add-btn" onClick={handleCreateTicket}>
                         + Add Ticket
                     </button>
-                )}
+                }
             </div>
 
             {toast.visible && (
@@ -158,108 +165,110 @@ const TicketList = () => {
                 </div>
             )}
 
-            <div className="filters">
-                <input
-                    type="text"
-                    placeholder="Search by ID or Title..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
+            {
+                <div className="filters">
+                    <input
+                        type="text"
+                        placeholder="Search by ID or Title..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
 
-                <div className="dropdown" ref={statusDropdownRef}>
-                    <button className="dropdown-toggle" onClick={() => setStatusDropdownOpen((prev) => !prev)}>
-                        {STATUS_MAP[status] || 'All Status'}
-                        <span className="dropdown-arrow">▾</span>
+                    <div className="dropdown" ref={statusDropdownRef}>
+                        <button className="dropdown-toggle" onClick={() => setStatusDropdownOpen((prev) => !prev)}>
+                            {STATUS_MAP[status] || 'All Status'}
+                            <span className="dropdown-arrow">▾</span>
+                        </button>
+                        {statusDropdownOpen && (
+                            <ul className="dropdown-menu show">
+                                {Object.entries(STATUS_MAP).map(([val, label]) => (
+                                    <li
+                                        key={val}
+                                        onClick={() => {
+                                            setStatus(val);
+                                            setStatusDropdownOpen(false);
+                                        }}
+                                    >
+                                        {label}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+
+                    <div className="dropdown" ref={categoryDropdownRef}>
+                        <button className="dropdown-toggle" onClick={() => setCategoryDropdownOpen((prev) => !prev)}>
+                            {category || 'All Categories'}
+                            <span className="dropdown-arrow">▾</span>
+                        </button>
+                        {categoryDropdownOpen && (
+                            <ul className="dropdown-menu show">
+                                {CATEGORY_OPTIONS.map((cat) => (
+                                    <li
+                                        key={cat}
+                                        onClick={() => {
+                                            setCategory(cat);
+                                            setCategoryDropdownOpen(false);
+                                        }}
+                                    >
+                                        {cat}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+
+                    <div className="dropdown" ref={priorityDropdownRef}>
+                        <button className="dropdown-toggle" onClick={() => setPriorityDropdownOpen((prev) => !prev)}>
+                            {priority || 'All Priorities'}
+                            <span className="dropdown-arrow">▾</span>
+                        </button>
+                        {priorityDropdownOpen && (
+                            <ul className="dropdown-menu show">
+                                {PRIORITY_OPTIONS.map((pri) => (
+                                    <li
+                                        key={pri}
+                                        onClick={() => {
+                                            setPriority(pri);
+                                            setPriorityDropdownOpen(false);
+                                        }}
+                                    >
+                                        {pri}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+
+                    <button className="search-btn" onClick={fetchTickets}>
+                        Search
                     </button>
-                    {statusDropdownOpen && (
-                        <ul className="dropdown-menu show">
-                            {Object.entries(STATUS_MAP).map(([val, label]) => (
-                                <li
-                                    key={val}
-                                    onClick={() => {
-                                        setStatus(val);
-                                        setStatusDropdownOpen(false);
-                                    }}
-                                >
-                                    {label}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
-
-                <div className="dropdown" ref={categoryDropdownRef}>
-                    <button className="dropdown-toggle" onClick={() => setCategoryDropdownOpen((prev) => !prev)}>
-                        {category || 'All Categories'}
-                        <span className="dropdown-arrow">▾</span>
+                    <button className="reset-btn" onClick={handleResetFilters}>
+                        Reset
                     </button>
-                    {categoryDropdownOpen && (
-                        <ul className="dropdown-menu show">
-                            {CATEGORY_OPTIONS.map((cat) => (
-                                <li
-                                    key={cat}
-                                    onClick={() => {
-                                        setCategory(cat);
-                                        setCategoryDropdownOpen(false);
-                                    }}
-                                >
-                                    {cat}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
-
-                <div className="dropdown" ref={priorityDropdownRef}>
-                    <button className="dropdown-toggle" onClick={() => setPriorityDropdownOpen((prev) => !prev)}>
-                        {priority || 'All Priorities'}
-                        <span className="dropdown-arrow">▾</span>
+                    <button
+                        className="excel-download-btn"
+                        title="Download Excel"
+                        onClick={async () => {
+                            try {
+                                const response = await downloadTicketExcel({ search, status, category, priority });
+                                const url = window.URL.createObjectURL(new Blob([response.data]));
+                                const link = document.createElement('a');
+                                link.href = url;
+                                link.setAttribute('download', 'ticket_data.xlsx');
+                                document.body.appendChild(link);
+                                link.click();
+                                link.remove();
+                            } catch (err) {
+                                console.error('Excel download error:', err);
+                                alert('Failed to download Excel file');
+                            }
+                        }}
+                    >
+                        <img src={excel} alt="Download Excel" />
                     </button>
-                    {priorityDropdownOpen && (
-                        <ul className="dropdown-menu show">
-                            {PRIORITY_OPTIONS.map((pri) => (
-                                <li
-                                    key={pri}
-                                    onClick={() => {
-                                        setPriority(pri);
-                                        setPriorityDropdownOpen(false);
-                                    }}
-                                >
-                                    {pri}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
                 </div>
-
-                <button className="search-btn" onClick={fetchTickets}>
-                    Search
-                </button>
-                <button className="reset-btn" onClick={handleResetFilters}>
-                    Reset
-                </button>
-                <button
-                    className="excel-download-btn"
-                    title="Download Excel"
-                    onClick={async () => {
-                        try {
-                            const response = await downloadTicketExcel({ search, status, category, priority });
-                            const url = window.URL.createObjectURL(new Blob([response.data]));
-                            const link = document.createElement('a');
-                            link.href = url;
-                            link.setAttribute('download', 'ticket_data.xlsx');
-                            document.body.appendChild(link);
-                            link.click();
-                            link.remove();
-                        } catch (err) {
-                            console.error('Excel download error:', err);
-                            alert('Failed to download Excel file');
-                        }
-                    }}
-                >
-                    <img src={excel} alt="Download Excel" />
-                </button>
-            </div>
+            }
 
             {showDeleteModal && (
                 <div className="modal-overlay">
@@ -315,7 +324,7 @@ const TicketList = () => {
                             <th>Description</th>
                             <th>Status</th>
                             <th>Created By</th>
-                            {userType === 'hr' && <th>Actions</th>}
+                            {<th>Actions</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -336,7 +345,7 @@ const TicketList = () => {
                                 <td>{ticket.description}</td>
                                 <td>{STATUS_MAP[ticket.status]}</td>
                                 <td>{ticket.CreatedBy?.full_name || '-'}</td>
-                                {userType === 'hr' && (
+                                {
                                     <td className="actions-cell">
                                         <button
                                             className="action-icon-btn"
@@ -360,7 +369,7 @@ const TicketList = () => {
                                             <img src="/icons/delete-icon.svg" alt="Delete" />
                                         </button>
                                     </td>
-                                )}
+                                }
                             </tr>
                         ))}
                     </tbody>
