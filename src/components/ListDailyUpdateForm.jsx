@@ -4,7 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import { getAllDailyUpdates, deleteDailyUpdateById, downloadDailyUpdateExcel } from '../api/dailyUpdateService';
 import { getAllEmployees } from '../api/employeeService';
 import excel from '../assets/images/excel-download.png';
-import '../assets/styles/TicketListForm.css';
+import '../assets/styles/ListDailyUpdateForm.css';
 
 const ListDailyUpdateForm = () => {
     const [updates, setUpdates] = useState([]);
