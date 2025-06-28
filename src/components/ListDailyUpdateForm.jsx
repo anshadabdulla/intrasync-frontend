@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { getAllDailyUpdates, deleteDailyUpdateById, downloadDailyUpdateExcel } from '../api/dailyUpdateService';
+import { getAllEmployees } from '../api/employeeService';
 import excel from '../assets/images/excel-download.png';
 import '../assets/styles/TicketListForm.css';
 
@@ -10,6 +11,10 @@ const ListDailyUpdateForm = () => {
     const [loading, setLoading] = useState(true);
     const [toast, setToast] = useState({ message: '', visible: false });
     const [search, setSearch] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [createdBy, setCreatedBy] = useState('');
+    const [employees, setEmployees] = useState([]);
     const [selectedUpdates, setSelectedUpdates] = useState([]);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deletingId, setDeletingId] = useState(null);
@@ -35,10 +40,33 @@ const ListDailyUpdateForm = () => {
         }
     }, []);
 
+    useEffect(() => {
+        const fetchEmployees = async () => {
+            try {
+                const res = await getAllEmployees({ page: 1, pageSize: 1000 });
+                if (res.data && Array.isArray(res.data.data)) {
+                    setEmployees(res.data.data);
+                } else if (Array.isArray(res.data)) {
+                    setEmployees(res.data);
+                } else {
+                    console.error('Unexpected employee response:', res.data);
+                }
+            } catch (err) {
+                console.error('Failed to fetch employees:', err);
+            }
+        };
+        fetchEmployees();
+    }, []);
+
     const fetchUpdates = useCallback(async () => {
         setLoading(true);
         try {
-            const res = await getAllDailyUpdates({ search, created_by: userId });
+            const params = { search, created_by: createdBy || userId };
+            if (startDate && endDate) {
+                params.start_date = startDate;
+                params.end_date = endDate;
+            }
+            const res = await getAllDailyUpdates(params);
             if (res.data.status) {
                 setUpdates(res.data.data);
                 setSelectedUpdates([]);
@@ -51,7 +79,7 @@ const ListDailyUpdateForm = () => {
         } finally {
             setLoading(false);
         }
-    }, [search, userId]);
+    }, [search, createdBy, userId, startDate, endDate]);
 
     useEffect(() => {
         if (userId) fetchUpdates();
@@ -92,7 +120,12 @@ const ListDailyUpdateForm = () => {
     const handleExcelDownload = async () => {
         setLoading(true);
         try {
-            const response = await downloadDailyUpdateExcel({ search, created_by: userId });
+            const response = await downloadDailyUpdateExcel({
+                search,
+                created_by: createdBy || userId,
+                start_date: startDate,
+                end_date: endDate
+            });
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
@@ -111,7 +144,7 @@ const ListDailyUpdateForm = () => {
         <div className="employee-container">
             <div className="header">
                 <h2>Daily Updates</h2>
-                <button className="add-btn" onClick={() => navigate('/daily-updates')}>
+                <button className="add-btn" onClick={() => navigate('/daily-update-create')}>
                     + Add Update
                 </button>
             </div>
@@ -129,6 +162,17 @@ const ListDailyUpdateForm = () => {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
+                <select value={createdBy} onChange={(e) => setCreatedBy(e.target.value)}>
+                    <option value="">Created By </option>
+                    {employees.map((emp) => (
+                        <option key={emp.id} value={emp.id}>
+                            {emp.name}
+                        </option>
+                    ))}
+                </select>
+                <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+                <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+
                 <button className="search-btn" onClick={fetchUpdates}>
                     Search
                 </button>
@@ -136,6 +180,9 @@ const ListDailyUpdateForm = () => {
                     className="reset-btn"
                     onClick={() => {
                         setSearch('');
+                        setCreatedBy('');
+                        setStartDate('');
+                        setEndDate('');
                         fetchUpdates();
                     }}
                 >
@@ -216,7 +263,7 @@ const ListDailyUpdateForm = () => {
                                     <td className="actions-cell">
                                         <button
                                             className="action-icon-btn"
-                                            onClick={() => navigate(`/daily-updates/${item.id}`)}
+                                            onClick={() => navigate(`/daily-update-edit/${item.id}`)}
                                             title="Edit"
                                         >
                                             <img src="/icons/edit-icon.svg" alt="Edit" />
