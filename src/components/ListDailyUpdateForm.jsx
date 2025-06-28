@@ -144,7 +144,7 @@ const ListDailyUpdateForm = () => {
         <div className="employee-container">
             <div className="header">
                 <h2>Daily Updates</h2>
-                <button className="add-btn" onClick={() => navigate('/daily-update-create')}>
+                <button className="add-btn" onClick={() => navigate('/daily-updates')}>
                     + Add Update
                 </button>
             </div>
@@ -263,7 +263,7 @@ const ListDailyUpdateForm = () => {
                                     <td className="actions-cell">
                                         <button
                                             className="action-icon-btn"
-                                            onClick={() => navigate(`/daily-update-edit/${item.id}`)}
+                                            onClick={() => navigate(`/daily-updates/${item.id}`)}
                                             title="Edit"
                                         >
                                             <img src="/icons/edit-icon.svg" alt="Edit" />
