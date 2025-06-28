@@ -9,6 +9,9 @@ import UpdateEmployeePage from '../pages/UpdateEmployeePage';
 import TicketListPage from '../pages/TicketListPage';
 import CreateTicketPage from '../pages/CreateTicketPage';
 import UpdateTicketPage from '../pages/UpdateTicketPage';
+import CreateDailyUpdatePage from '../pages/CreateDailyUpdatePage';
+import ListDailyUpdateListPage from '../pages/ListDailyUpdateListPage';
+import UpdateDailyUpdatePage from '../pages/UpdateDailyUpdatePage';
 
 const AppRoutes = () => {
     return (
@@ -23,6 +26,9 @@ const AppRoutes = () => {
                 <Route path="/ticket-list" element={<TicketListPage />} />
                 <Route path="/ticket-create" element={<CreateTicketPage />} />
                 <Route path="/ticket-update/:id" element={<UpdateTicketPage />} />
+                <Route path="/daily-updates" element={<CreateDailyUpdatePage />} />
+                <Route path="/daily-updates-list" element={<ListDailyUpdateListPage />} />
+                <Route path="/daily-updates/:id" element={<UpdateDailyUpdatePage />} />
             </Routes>
         </Router>
     );

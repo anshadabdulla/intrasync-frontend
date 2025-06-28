@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+:root {
+    --primary-color: #2563eb;
+    --accent-color: #facc15;
+    --accent-hover: #eab308;
+    --text-color: #1f2937;
+    --bg-light: #f4f6fc;
+    --bg-white: #ffffff;
+    --border-color: #d1d5db;
+    --gray-light: #f9fafb;
+    --gray-hover: #f3f4f6;
+    --font-family: 'Inter', sans-serif;
+    --error-color: #dc2626;
+    --input-height: 44px;
+    --input-radius: 8px;
+    --label-font-size: 1rem;
+}
+
+.page-wrapper {
+    padding: 2rem;
+    background-color: var(--bg-light);
+    min-height: 100vh;
+    box-sizing: border-box;
+    font-family: var(--font-family);
+    color: var(--text-color);
+}
+
+.form-section {
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.section-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.grid-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.grid-container input,
+.grid-container textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--input-radius);
+    font-size: 1rem;
+    color: var(--text-color);
+    background-color: var(--bg-white);
+    height: var(--input-height);
+    box-sizing: border-box;
+}
+
+.grid-container input::placeholder {
+    font-size: var(--label-font-size);
+    color: #6b7280;
+    opacity: 1;
+}
+
+.grid-container input,
+.grid-container .input-icon input {
+    font-size: var(--label-font-size);
+}
+
+.textarea-group {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.textarea-group label {
+    font-size: var(--label-font-size);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: var(--text-color);
+}
+
+.textarea-group textarea {
+    resize: vertical;
+    height: auto;
+    min-height: 120px;
+    font-size: var(--label-font-size);
+}
+
+.input-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: var(--input-height);
+}
+
+.input-icon input {
+    flex: 1;
+    height: 100%;
+    padding-left: 2.5rem;
+}
+
+.input-icon svg {
+    position: absolute;
+    left: 0.75rem;
+    color: var(--text-color);
+    pointer-events: none;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+fieldset {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+legend {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--primary-color);
+    padding: 0 0.5rem;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--input-radius);
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    min-width: 140px;
+    border: none;
+}
+
+.btn.cancel {
+    background-color: #e5e7eb;
+    color: #111827;
+}
+
+.btn.cancel:hover {
+    background-color: #d1d5db;
+}
+
+.btn.secondary {
+    background-color: #cbd5e1;
+    color: #1f2937;
+}
+
+.btn.secondary:hover {
+    background-color: #94a3b8;
+}
+
+.btn.primary {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+
+.btn.primary:hover {
+    background-color: #1d4ed8;
+}
+
+.toast-popup {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #111827;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
