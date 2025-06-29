@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../api/authService';
 import '../assets/styles/loginForm.css';
-import illustration from '../assets/images/illustrations.png';
 import logo from '../assets/images/logo.png';
 
 const LoginForm = () => {
@@ -43,9 +42,6 @@ const LoginForm = () => {
     return (
         <div className="login-wrapper">
             <div className="login-box">
-                <div className="login-illustration">
-                    <img src={illustration} alt="Illustration" />
-                </div>
                 <div className="login-container">
                     <form onSubmit={handleSubmit} className="login-form">
                         <div className="login-header">
