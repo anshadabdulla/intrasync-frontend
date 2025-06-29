@@ -1,15 +1,36 @@
 # 🏢 Intrasync - Internal Company Portal for HR & Team Operations
 
-**Intrasync** is an internal enterprise platform built with React.js to centralize and streamline core HR and employee operations.  
+**Intrasync** is a full-stack internal enterprise platform built with **React.js**, **Node.js**, **Express**, and **PostgreSQL**, designed to centralize and streamline HR and employee operations.
+
 It supports essential workflows like:
 
--   Employee management
--   Daily work updates
--   Resignations
--   Event announcements
--   Ticket tracking
+-   👤 Employee Management
+-   📅 Daily Work Updates
+-   🎫 Ticket Tracking
+-   📤 Resignation Handling
+-   📣 Event Announcements
 
-Helping teams collaborate efficiently and enabling HR to manage operations digitally.
+This platform helps teams collaborate efficiently while enabling HR/Admin to manage core operations digitally.
+
+---
+
+## 🛠️ Tech Stack
+
+### 🔧 Backend
+
+-   **Node.js** – JavaScript runtime
+-   **Express.js** – Web application framework
+-   **PostgreSQL** – Relational database
+-   **Sequelize** – ORM for data modeling and queries
+-   **Handlebars (HBS)** – Templating engine for emails
+-   **JWT** – Authentication using JSON Web Tokens
+
+### 🎨 Frontend
+
+-   **React.js** – Component-based UI library
+-   **React Router** – Client-side routing
+-   **Axios** – API communication
+-   **CSS** – Styling for UI components
 
 ---
 
@@ -75,15 +96,16 @@ Helping teams collaborate efficiently and enabling HR to manage operations digit
 
 ## 🤝 Contributing
 
-This is a **private, internal project**. If you're a team member contributing to this platform:
+This is a **private, internal project**. If you're a team member contributing:
 
--   Follow the existing code style and folder structure
--   Create a feature branch for your updates
--   Submit a clear and descriptive pull request
+-   Follow existing code style and naming conventions
+-   Use feature branches for development
+-   Write clean, documented code
+-   Submit pull requests with a clear description and testing steps
 
 ---
 
 ## 📜 License
 
-This project is **for internal use only** and is **not open-source**.  
+This project is **not open-source** and is intended for internal use only.  
 All rights reserved by the organization.
